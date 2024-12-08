@@ -1,8 +1,8 @@
 import { TuiRoot } from '@taiga-ui/core';
 import { Component } from '@angular/core';
 import { TuiNavigation } from '@taiga-ui/layout';
-import { HeaderComponent } from './common/header/header.component';
-import { SidebarComponent } from './common/sidebar/sidebar.component';
+import { HeaderComponent } from './navigation/components/header/header.component';
+import { SidebarComponent } from './navigation/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,4 @@ import { SidebarComponent } from './common/sidebar/sidebar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  expanded = false;
-}
+export class AppComponent {}

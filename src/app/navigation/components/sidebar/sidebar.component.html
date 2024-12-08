@@ -1,0 +1,9 @@
+@if(breakpointsService.isDesktop$ | async) {
+<aside
+  [tuiNavigationAside]="sidebarService.expanded()"
+  class="!h-[calc(100vh-3rem)]"
+>
+  SIDE
+  <button (click)="sidebarService.toggle()">E</button>
+</aside>
+}
