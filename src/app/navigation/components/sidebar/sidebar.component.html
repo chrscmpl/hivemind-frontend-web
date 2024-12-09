@@ -4,17 +4,68 @@
   class="!h-[calc(100vh-3rem)]"
 >
   <header>
-    @for(item of headerItems; track $index){
-    <button [iconStart]="item.icon" tuiAsideItem type="button">
-      <span>{{ item.label }}</span>
+    <button
+      iconStart="@tui.flame"
+      tuiAsideItem
+      type="button"
+      routerLink="/home/controversial"
+      class="controversial !font-bold"
+    >
+      <span>Controversial</span>
     </button>
-    }
+    <button
+      iconStart="@tui.trophy"
+      tuiAsideItem
+      type="button"
+      routerLink="/home/popular"
+      class="popular !font-bold"
+    >
+      <span>Popular</span>
+    </button>
+    <button
+      iconStart="@tui.frown"
+      tuiAsideItem
+      type="button"
+      routerLink="/home/unpopular"
+      class="unpopular !font-bold"
+    >
+      <span>Unpopular</span>
+    </button>
   </header>
-  @for(item of middleItems; track $index){
-  <button [iconStart]="item.icon" tuiAsideItem type="button">
-    <span>{{ item.label }}</span>
+
+  <button iconStart="@tui.plus" tuiAsideItem type="button">
+    <span>Post an idea</span>
   </button>
-  }
+
+  <tui-aside-group>
+    <button
+      automation-id="setting"
+      iconStart="@tui.settings"
+      tuiAsideItem
+      tuiChevron
+      type="button"
+    >
+      Settings
+      <ng-template>
+        <button tuiAsideItem type="button">Theme</button>
+      </ng-template>
+    </button>
+  </tui-aside-group>
+  <tui-aside-group>
+    <button
+      automation-id="more"
+      iconStart="@tui.ellipsis"
+      tuiAsideItem
+      tuiChevron
+      type="button"
+    >
+      More
+      <ng-template>
+        <button tuiAsideItem type="button">Privacy Policy</button>
+        <button tuiAsideItem type="button">Credits</button>
+      </ng-template>
+    </button>
+  </tui-aside-group>
   <footer>
     <button
       [iconStart]="

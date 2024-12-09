@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --controversial-text: #ef4444;
+  --controversial-bg: #ef444444;
+
+  --popular-text: #f59e0b;
+  --popular-bg: #f59e0b44;
+
+  --unpopular-text: #3b82f6;
+  --unpopular-bg: #3b82f644;
+}

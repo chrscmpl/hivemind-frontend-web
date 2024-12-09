@@ -1,0 +1,14 @@
+.controversial {
+  --tui-text-primary: var(--controversial-text);
+  --tui-background-neutral-1-hover: var(--controversial-bg);
+}
+
+.popular {
+  --tui-text-primary: var(--popular-text);
+  --tui-background-neutral-1-hover: var(--popular-bg);
+}
+
+.unpopular {
+  --tui-text-primary: var(--unpopular-text);
+  --tui-background-neutral-1-hover: var(--unpopular-bg);
+}
