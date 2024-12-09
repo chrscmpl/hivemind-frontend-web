@@ -1,5 +1,10 @@
+@let isMobile = breakpoints.isMobile();
+
 <tui-root tuiTheme="dark">
-  <div class="h-screen w-screen overflow-x-hidden">
+  <tui-scrollbar
+    [hidden]="isMobile"
+    class="h-screen w-screen overflow-x-hidden"
+  >
     <app-header />
     <div class="flex-1 flex">
       <app-sidebar />
@@ -7,5 +12,5 @@
         <router-outlet class="hidden" />
       </main>
     </div>
-  </div>
+  </tui-scrollbar>
 </tui-root>
