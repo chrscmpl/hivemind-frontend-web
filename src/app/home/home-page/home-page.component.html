@@ -1,1 +1,14 @@
-<p class="h-[200vh]">home-page works!</p>
+@let isMobile = breakpoints.isMobile();
+
+<div class="flex flex-col py-4 gap-4" [class.items-center]="isMobile">
+  <tui-segmented [(activeItemIndex)]="index" class="w-min mx-5" size="l">
+    <button class="font-semibold">Controversial</button>
+    <button class="font-semibold">Popular</button>
+    <button class="font-semibold">Unpopular</button>
+  </tui-segmented>
+  <tui-carousel [(index)]="index" [draggable]="isMobile" class="w-full">
+    <div *tuiItem>Controversial</div>
+    <div *tuiItem>Popular</div>
+    <div *tuiItem>Unpopular</div>
+  </tui-carousel>
+</div>

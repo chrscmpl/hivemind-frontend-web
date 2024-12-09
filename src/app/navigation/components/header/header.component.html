@@ -1,16 +1,15 @@
-@let user = auth.authenticatedUser();
+@let user = auth.authenticatedUser(); @let isMobile = breakpoints.isMobile();
 <header tuiNavigationHeader class="max-md:overflow-hidden">
-  @if(breakpoints.isMobile()){
+  @if(isMobile){
   <app-drawer />
   }
-  <app-logo
-    minimal
-    [styleClass]="breakpoints.isMobile() ? 'h-12 m-1' : 'h-12 m-4'"
-  />
+  <app-logo minimal [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
   <hr />
   @if(!!user){
-  <span>
-    {{ user.username }}
+  <span class="flex items-center gap-2">
+    <span [class]="isMobile ? 'w-20 truncate' : ''">
+      {{ user.username }}
+    </span>
     <tui-avatar src="user.svg" />
   </span>
   } @else {
