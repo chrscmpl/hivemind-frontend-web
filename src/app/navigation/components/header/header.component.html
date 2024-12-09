@@ -1,3 +1,20 @@
-<header tuiNavigationHeader class="!h-[3rem] max-md:overflow-hidden">
-  HEADER
+@let user = auth.authenticatedUser();
+<header tuiNavigationHeader class="max-md:overflow-hidden">
+  @if(breakpoints.isMobile()){
+  <app-drawer />
+  }
+  <app-logo
+    minimal
+    [styleClass]="breakpoints.isMobile() ? 'h-12 m-1' : 'h-12 m-4'"
+  />
+  <hr />
+  @if(!!user){
+  <span>
+    {{ user.username }}
+    <tui-avatar src="user.svg" />
+  </span>
+  } @else {
+  <button tuiButton appearance="secondary">Log in</button>
+  <button tuiButton appearance="primary">Sign up</button>
+  }
 </header>

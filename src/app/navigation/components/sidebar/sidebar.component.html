@@ -8,7 +8,8 @@
       iconStart="@tui.flame"
       tuiAsideItem
       type="button"
-      routerLink="/home/controversial"
+      routerLink="/home"
+      [queryParams]="{ sort: 'controversial' }"
       class="controversial !font-bold"
     >
       <span>Controversial</span>
@@ -17,7 +18,8 @@
       iconStart="@tui.trophy"
       tuiAsideItem
       type="button"
-      routerLink="/home/popular"
+      routerLink="/home"
+      [queryParams]="{ sort: 'popular' }"
       class="popular !font-bold"
     >
       <span>Popular</span>
@@ -26,7 +28,8 @@
       iconStart="@tui.frown"
       tuiAsideItem
       type="button"
-      routerLink="/home/unpopular"
+      routerLink="/home"
+      [queryParams]="{ sort: 'unpopular' }"
       class="unpopular !font-bold"
     >
       <span>Unpopular</span>
@@ -59,7 +62,6 @@
       tuiChevron
       type="button"
     >
-      More
       <ng-template>
         <button tuiAsideItem type="button">Privacy Policy</button>
         <button tuiAsideItem type="button">Credits</button>
