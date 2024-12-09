@@ -1,9 +1,31 @@
-@if(breakpointsService.isDesktop$ | async) {
+@if(!breakpointsService.isMobile()) {
 <aside
   [tuiNavigationAside]="sidebarService.expanded()"
   class="!h-[calc(100vh-3rem)]"
 >
-  SIDE
-  <button (click)="sidebarService.toggle()">E</button>
+  <header>
+    @for(item of headerItems; track $index){
+    <button [iconStart]="item.icon" tuiAsideItem type="button">
+      <span>{{ item.label }}</span>
+    </button>
+    }
+  </header>
+  @for(item of middleItems; track $index){
+  <button [iconStart]="item.icon" tuiAsideItem type="button">
+    <span>{{ item.label }}</span>
+  </button>
+  }
+  <footer>
+    <button
+      [iconStart]="
+        sidebarService.expanded() ? '@tui.arrow-left' : '@tui.arrow-right'
+      "
+      tuiAsideItem
+      type="button"
+      (click)="sidebarService.toggle()"
+    >
+      <span>{{ sidebarService.expanded() ? "Collapse" : "Expand" }}</span>
+    </button>
+  </footer>
 </aside>
 }
