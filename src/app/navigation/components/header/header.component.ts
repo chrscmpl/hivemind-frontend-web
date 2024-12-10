@@ -6,10 +6,12 @@ import { LogoComponent } from '../logo/logo.component';
 import { TuiAvatar } from '@taiga-ui/kit';
 import { AuthService } from '@app/common/services/auth.service';
 import { TuiButton } from '@taiga-ui/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   imports: [
+    RouterLink,
     TuiNavigation,
     TuiAvatar,
     TuiButton,

@@ -13,7 +13,11 @@
     <tui-avatar src="user.svg" />
   </span>
   } @else {
-  <button tuiButton appearance="secondary">Log in</button>
-  <button tuiButton appearance="primary">Sign up</button>
+  <button tuiButton appearance="secondary" routerLink="/auth/login">
+    Log in
+  </button>
+  <button tuiButton appearance="primary" routerLink="/auth/signup">
+    Sign up
+  </button>
   }
 </header>
