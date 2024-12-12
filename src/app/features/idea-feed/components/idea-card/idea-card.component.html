@@ -1,0 +1,58 @@
+<div tuiCardLarge class="!bg-transparent !rounded-none">
+  <header tuiHeader>
+    <h2 tuiTitle class="text-xl">{{ idea.title }}</h2>
+  </header>
+
+  <section>
+    <tui-line-clamp [content]="idea.content" [linesLimit]="2" />
+  </section>
+
+  <footer class="flex items-center gap-2">
+    <div class="flex">
+      <button
+        tuiButton
+        appearance="outline-grayscale"
+        class="!flex !items-center !w-min !rounded-s-full !px-2 !gap-0 !h-10"
+      >
+        <input
+          tuiLike
+          type="checkbox"
+          checkedIcon="@tui.arrow-big-up"
+          uncheckedIcon="@tui.arrow-big-up"
+          class="!border-4 !h-8 !w-8 !bg-transparent"
+          appearance="neutral"
+        />
+        @if(idea.upvoteCount && idea.downvoteCount){
+        <span>{{ idea.upvoteCount - idea.downvoteCount }}</span>
+        }
+      </button>
+      <button
+        tuiButton
+        appearance="outline-grayscale"
+        class="!flex !items-center !rounded-e-full !border-l-0 !h-10 !px-2"
+      >
+        <input
+          tuiLike
+          type="checkbox"
+          checkedIcon="@tui.arrow-big-down"
+          uncheckedIcon="@tui.arrow-big-down"
+          class="!border-4 !h-8 !w-8 !bg-transparent"
+          appearance="neutral"
+        />
+      </button>
+    </div>
+
+    <button
+      tuiButton
+      appearance="outline-grayscale"
+      class="!rounded-full !flex !items-center !w-min !h-10 !gap-3 !px-4"
+    >
+      <tui-icon
+        icon="@tui.message-square-text"
+        tuiAppearance="neutral"
+        class="!bg-transparent"
+      />
+      {{ idea.commentCount }}
+    </button>
+  </footer>
+</div>

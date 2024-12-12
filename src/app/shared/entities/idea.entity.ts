@@ -1,4 +1,5 @@
-import { UserEntity } from '@app/users/entities/user.entity';
+import { UserEntity } from '@app/shared/entities/user.entity';
+import { IdeaDto } from '../dto/idea.dto';
 
 export class IdeaEntity {
   private readonly _id: number;
@@ -12,22 +13,16 @@ export class IdeaEntity {
   private readonly _user?: UserEntity;
   private readonly _myVote?: boolean;
 
-  public constructor(
-    data: Partial<IdeaEntity> & {
-      id: number;
-      createdAt: string;
-      updatedAt: string;
-    }
-  ) {
+  public constructor(data: IdeaDto) {
     this._id = data.id;
     this._title = data.title;
     this._content = data.content;
     this._upvoteCount = data.upvoteCount;
     this._downvoteCount = data.downvoteCount;
     this._commentCount = data.commentCount;
-    this._createdAt = new Date(data.createdAt);
-    this._updatedAt = new Date(data.updatedAt);
-    this._user = data.user;
+    if (data.createdAt) this._createdAt = new Date(data.createdAt);
+    if (data.updatedAt) this._updatedAt = new Date(data.updatedAt);
+    if (data.user) this._user = new UserEntity(data.user);
     this._myVote = data.myVote;
   }
 

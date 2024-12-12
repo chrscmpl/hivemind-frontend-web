@@ -1,18 +1,22 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
+import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { TuiCarousel, TuiSegmented } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
+import { IdeaCardComponent } from '../idea-feed/components/idea-card/idea-card.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [TuiSegmented, TuiCarousel],
+  imports: [TuiSegmented, TuiCarousel, TitleCasePipe, IdeaCardComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription[] = [];
-  public static readonly DEFAULT_SORT = 'controversial';
+  public readonly IdeaSortEnum = IdeaSortEnum;
+  public static readonly DEFAULT_SORT = IdeaSortEnum.CONTROVERSIAL;
   public sort!: string;
   private _index = 1;
 
@@ -22,7 +26,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
     this._index = value;
     this.sort =
-      value === 2 ? 'unpopular' : value === 1 ? 'popular' : 'controversial';
+      value === 2
+        ? IdeaSortEnum.UNPOPULAR
+        : value === 1
+        ? IdeaSortEnum.POPULAR
+        : IdeaSortEnum.CONTROVERSIAL;
     this.setQuery(this.sort);
   }
 
@@ -46,7 +54,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
         }
         this.sort = sort;
         this.index =
-          this.sort === 'unpopular' ? 2 : this.sort === 'popular' ? 1 : 0;
+          this.sort === IdeaSortEnum.UNPOPULAR
+            ? 2
+            : this.sort === IdeaSortEnum.POPULAR
+            ? 1
+            : 0;
       })
     );
   }
@@ -55,10 +67,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  private setQuery(sort: string) {
+  private setQuery(sort: string): void {
     this.router.navigate([], {
       queryParams: { sort },
       queryParamsHandling: 'merge',
+      onSameUrlNavigation: 'reload',
     });
   }
 }

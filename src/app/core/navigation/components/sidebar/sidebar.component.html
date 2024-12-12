@@ -9,7 +9,7 @@
       tuiAsideItem
       type="button"
       routerLink="/home"
-      [queryParams]="{ sort: 'controversial' }"
+      [queryParams]="{ sort: IdeaSortEnum.CONTROVERSIAL }"
       class="controversial !font-bold"
     >
       <span>Controversial</span>
@@ -19,7 +19,7 @@
       tuiAsideItem
       type="button"
       routerLink="/home"
-      [queryParams]="{ sort: 'popular' }"
+      [queryParams]="{ sort: IdeaSortEnum.POPULAR }"
       class="popular !font-bold"
     >
       <span>Popular</span>
@@ -29,7 +29,7 @@
       tuiAsideItem
       type="button"
       routerLink="/home"
-      [queryParams]="{ sort: 'unpopular' }"
+      [queryParams]="{ sort: IdeaSortEnum.UNPOPULAR }"
       class="unpopular !font-bold"
     >
       <span>Unpopular</span>

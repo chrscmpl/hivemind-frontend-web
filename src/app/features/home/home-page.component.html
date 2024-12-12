@@ -2,9 +2,15 @@
 
 <div class="flex flex-col py-4 gap-4" [class.items-center]="isMobile">
   <tui-segmented [(activeItemIndex)]="index" class="w-min mx-5" size="l">
-    <button class="font-semibold">Controversial</button>
-    <button class="font-semibold">Popular</button>
-    <button class="font-semibold">Unpopular</button>
+    <button class="font-semibold">
+      {{ IdeaSortEnum.CONTROVERSIAL | titlecase }}
+    </button>
+    <button class="font-semibold">
+      {{ IdeaSortEnum.POPULAR | titlecase }}
+    </button>
+    <button class="font-semibold">
+      {{ IdeaSortEnum.UNPOPULAR | titlecase }}
+    </button>
   </tui-segmented>
   <tui-carousel [(index)]="index" [draggable]="isMobile" class="w-full">
     <div *tuiItem>Controversial</div>
