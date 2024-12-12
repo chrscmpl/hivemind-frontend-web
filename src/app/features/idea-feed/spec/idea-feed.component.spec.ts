@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IdeaFeedComponent } from '../components/idea-feed/idea-feed.component';
+import { IdeaFeedComponent } from '../idea-feed.component';
 
 describe('IdeaFeedComponent', () => {
   let component: IdeaFeedComponent;

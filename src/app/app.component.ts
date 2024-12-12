@@ -1,11 +1,11 @@
 import { TuiRoot, TuiScrollbar } from '@taiga-ui/core';
 import { Component } from '@angular/core';
 import { TuiNavigation } from '@taiga-ui/layout';
-import { HeaderComponent } from './navigation/components/header/header.component';
-import { SidebarComponent } from './navigation/components/sidebar/sidebar.component';
+import { HeaderComponent } from './core/navigation/components/header/header.component';
+import { SidebarComponent } from './core/navigation/components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
-import { BreakpointService } from './common/services/breakpoint.service';
-import { ThemeService } from './common/services/theme.service';
+import { BreakpointService } from './core/misc/services/breakpoint.service';
+import { ThemeService } from './core/misc/services/theme.service';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

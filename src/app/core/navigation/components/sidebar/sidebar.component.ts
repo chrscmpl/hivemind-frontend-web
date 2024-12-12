@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TuiAsideItemDirective, TuiNavigation } from '@taiga-ui/layout';
-import { BreakpointService } from '@app/common/services/breakpoint.service';
-import { SidebarService } from '@app/navigation/services/sidebar.service';
+import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
+import { SidebarService } from '@app/core/navigation/services/sidebar.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({

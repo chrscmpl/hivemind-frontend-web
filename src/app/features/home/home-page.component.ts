@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreakpointService } from '@app/common/services/breakpoint.service';
+import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { TuiCarousel, TuiSegmented } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 
