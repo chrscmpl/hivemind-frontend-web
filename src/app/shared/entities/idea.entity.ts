@@ -13,6 +13,9 @@ export class IdeaEntity {
   private readonly _user?: UserEntity;
   private readonly _myVote?: boolean;
 
+  private readonly _age?: number;
+  private readonly _updated: boolean;
+
   public constructor(data: IdeaDto) {
     this._id = data.id;
     this._title = data.title;
@@ -20,9 +23,16 @@ export class IdeaEntity {
     this._upvoteCount = data.upvoteCount;
     this._downvoteCount = data.downvoteCount;
     this._commentCount = data.commentCount;
-    if (data.createdAt) this._createdAt = new Date(data.createdAt);
+    if (data.createdAt) {
+      this._createdAt = new Date(data.createdAt);
+      this._age = Date.now() - this._createdAt.getTime();
+    }
     if (data.updatedAt) this._updatedAt = new Date(data.updatedAt);
     if (data.user) this._user = new UserEntity(data.user);
+
+    this._updated =
+      !!this.createdAt && !!this.updatedAt && this.updatedAt > this.createdAt;
+
     this._myVote = data.myVote;
   }
 
@@ -64,5 +74,13 @@ export class IdeaEntity {
 
   public get myVote(): boolean | undefined {
     return this._myVote;
+  }
+
+  public get age(): number | undefined {
+    return this._age;
+  }
+
+  public get updated(): boolean {
+    return this._updated;
   }
 }

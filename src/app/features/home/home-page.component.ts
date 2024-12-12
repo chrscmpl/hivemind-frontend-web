@@ -5,11 +5,10 @@ import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { TuiCarousel, TuiSegmented } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
-import { IdeaCardComponent } from '../idea-feed/components/idea-card/idea-card.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [TuiSegmented, TuiCarousel, TitleCasePipe, IdeaCardComponent],
+  imports: [TuiSegmented, TuiCarousel, TitleCasePipe],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })

@@ -1,6 +1,15 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
-import { TuiAppearance, TuiButton, TuiIcon } from '@taiga-ui/core';
+import { HumanizeDurationPipe } from '@app/shared/pipes/humanize-duration.pipe';
+import {
+  TuiAppearance,
+  TuiButton,
+  TuiDataList,
+  TuiDropdown,
+  TuiHint,
+  TuiIcon,
+} from '@taiga-ui/core';
 import { TuiLike, TuiLineClamp } from '@taiga-ui/kit';
 import { TuiCardLarge } from '@taiga-ui/layout';
 
@@ -13,6 +22,11 @@ import { TuiCardLarge } from '@taiga-ui/layout';
     TuiLike,
     TuiIcon,
     TuiAppearance,
+    TuiDropdown,
+    TuiDataList,
+    TuiHint,
+    HumanizeDurationPipe,
+    DatePipe,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',

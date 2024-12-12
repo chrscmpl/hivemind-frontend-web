@@ -1,7 +1,45 @@
+@let ageString = idea.age? (idea.age | humanizeDuration : 1) : '';
+
 <div tuiCardLarge class="!bg-transparent !rounded-none">
-  <header tuiHeader>
-    <h2 tuiTitle class="text-xl">{{ idea.title }}</h2>
+  <header tuiHeader class="flex !justify-between items-center">
+    <span tuiAppearance="flat">
+      @if(ageString.startsWith('1 day')){Yesterday}
+      <!---->
+      @else{
+      {{ ageString }} ago}
+      <!---->
+      @if(idea.updated){
+      <span>
+        <tui-icon
+          icon="@tui.pencil"
+          tuiAppearance="flat-grayscale"
+          [tuiHint]="'Updated ' + (idea.updatedAt | date : 'medium')"
+          tuiHintAppearance="primary"
+          tuiHintDirection="right"
+          class="mx-4 h-4"
+        />
+      </span>
+      }
+    </span>
+    <button
+      appearance="outline-grayscale"
+      iconStart="@tui.ellipsis-vertical"
+      tuiDropdownHover
+      tuiDropdownMobile="Contact Us"
+      tuiIconButton
+      type="button"
+      [tuiDropdown]="dropdown"
+      size="s"
+      appearance="flat-grayscale"
+      class="!rounded-full"
+    >
+      More
+    </button>
   </header>
+
+  <section>
+    <h2 tuiTitle class="text-xl">{{ idea.title }}</h2>
+  </section>
 
   <section>
     <tui-line-clamp [content]="idea.content" [linesLimit]="2" />
@@ -12,7 +50,7 @@
       <button
         tuiButton
         appearance="outline-grayscale"
-        class="!flex !items-center !w-min !rounded-s-full !px-2 !gap-0 !h-10"
+        class="!flex !items-center !w-min !rounded-s-full !px-2 !gap-0 !h-10 !cursor-default"
       >
         <input
           tuiLike
@@ -29,7 +67,7 @@
       <button
         tuiButton
         appearance="outline-grayscale"
-        class="!flex !items-center !rounded-e-full !border-l-0 !h-10 !px-2"
+        class="!flex !items-center !rounded-e-full !border-l-0 !h-10 !px-2 !cursor-default"
       >
         <input
           tuiLike
@@ -56,3 +94,9 @@
     </button>
   </footer>
 </div>
+
+<ng-template #dropdown>
+  <tui-data-list size="s">
+    <button iconStart="@tui.share-2" tuiOption>Share</button>
+  </tui-data-list>
+</ng-template>
