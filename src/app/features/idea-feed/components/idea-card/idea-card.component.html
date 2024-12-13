@@ -5,8 +5,7 @@
     <span tuiAppearance="flat">
       @if(ageString.startsWith('1 day')){Yesterday}
       <!---->
-      @else{
-      {{ ageString }} ago}
+      @else { {{ ageString }} ago }
       <!---->
       @if(idea.updated){
       <span>
@@ -60,7 +59,7 @@
           class="!border-4 !h-8 !w-8 !bg-transparent"
           appearance="neutral"
         />
-        @if(idea.upvoteCount && idea.downvoteCount){
+        @if(idea.upvoteCount != null && idea.downvoteCount != null){
         <span>{{ idea.upvoteCount - idea.downvoteCount }}</span>
         }
       </button>

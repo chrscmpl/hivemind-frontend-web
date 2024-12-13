@@ -4,7 +4,7 @@ import { Observable, ReplaySubject, map, take } from 'rxjs';
 
 type DeserializerFn<Entity> = (input: any) => Entity[];
 
-interface PaginatedRequestParams<Entity> {
+export interface PaginatedRequestParams<Entity> {
   http: HttpClient;
   url: string;
   deserializer?: DeserializerFn<Entity>;
@@ -106,5 +106,10 @@ export class PaginatedRequestManager<Entity> {
 
   public get limit(): number {
     return this._limit;
+  }
+
+  public getPage(page: number): readonly Entity[] {
+    if (page < 1) throw new Error('Page number must be greater than 0');
+    return this._data.slice((page - 1) * this._limit, page * this._limit);
   }
 }

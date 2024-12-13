@@ -30,6 +30,12 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      "@angular-eslint/template/eqeqeq": [
+        "error",
+        {
+          allowNullOrUndefined: true,
+        },
+      ],
       "@typescript-eslint/no-inferrable-types": ["off"],
     },
   },

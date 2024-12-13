@@ -13,8 +13,32 @@
     </button>
   </tui-segmented>
   <tui-carousel [(index)]="index" [draggable]="isMobile" class="w-full">
-    <div *tuiItem class="md:w-[50%]">Controversial</div>
-    <div *tuiItem class="md:w-[50%]">Popular</div>
-    <div *tuiItem class="md:w-[50%]">Unpopular</div>
+    <div *tuiItem class="md:w-[50%]">
+      <app-idea-feed
+        [sort]="IdeaSortEnum.CONTROVERSIAL"
+        [key]="IdeaSortEnum.CONTROVERSIAL"
+        age="7d"
+        [page]="1"
+        [limit]="10"
+      />
+    </div>
+    <div *tuiItem class="md:w-[50%]">
+      <app-idea-feed
+        [sort]="IdeaSortEnum.POPULAR"
+        [key]="IdeaSortEnum.POPULAR"
+        age="7d"
+        [page]="1"
+        [limit]="10"
+      />
+    </div>
+    <div *tuiItem class="md:w-[50%]">
+      <app-idea-feed
+        [sort]="IdeaSortEnum.UNPOPULAR"
+        [key]="IdeaSortEnum.UNPOPULAR"
+        age="7d"
+        [page]="1"
+        [limit]="10"
+      />
+    </div>
   </tui-carousel>
 </div>
