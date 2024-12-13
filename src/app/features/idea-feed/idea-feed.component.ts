@@ -4,10 +4,11 @@ import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@app/shared/helpers/paginated-request-manager.helper';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { IdeaCardComponent } from './components/idea-card/idea-card.component';
+import { TuiLoader } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-idea-feed',
-  imports: [IdeaCardComponent],
+  imports: [IdeaCardComponent, TuiLoader],
   templateUrl: './idea-feed.component.html',
   styleUrl: './idea-feed.component.scss',
 })

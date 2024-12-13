@@ -10,6 +10,7 @@ module.exports = {
         text_primary: "var(--tui-text-primary)",
         text_secondary: "var(--tui-text-secondary)",
         text_tertiary: "var(--tui-text-tertiary)",
+        background_neutral_1: "var(--tui-background-neutral-1)",
       },
     },
   },
