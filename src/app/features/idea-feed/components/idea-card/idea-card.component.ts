@@ -10,14 +10,13 @@ import {
   TuiHint,
   TuiIcon,
 } from '@taiga-ui/core';
-import { TuiLike, TuiLineClamp } from '@taiga-ui/kit';
+import { TuiLike } from '@taiga-ui/kit';
 import { TuiCardLarge } from '@taiga-ui/layout';
 
 @Component({
   selector: 'app-idea-card',
   imports: [
     TuiCardLarge,
-    TuiLineClamp,
     TuiButton,
     TuiLike,
     TuiIcon,

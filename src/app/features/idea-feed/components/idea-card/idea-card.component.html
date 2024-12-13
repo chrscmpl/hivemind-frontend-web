@@ -1,7 +1,14 @@
 @let ageString = idea.age? (idea.age | humanizeDuration : 1) : '';
 
 <div tuiCardLarge class="!bg-transparent !rounded-none">
-  <header tuiHeader class="flex !justify-between items-center">
+  <section tuiHeader class="flex items-center gap-4">
+    @if(idea.user?.handle && idea.user?.displayName){
+    <span tuiAppearance="flat-grayscale" class="!text-text_secondary"
+      >{{ idea.user!.displayName }}
+      <span class="text-border_normal">|</span>
+      <span class="text-text_tertiary"> &commat;{{ idea.user!.handle }} </span>
+    </span>
+    }
     <span tuiAppearance="flat">
       @if(ageString.startsWith('1 day')){Yesterday}
       <!---->
@@ -20,6 +27,7 @@
       </span>
       }
     </span>
+    <div class="flex-1"></div>
     <button
       appearance="outline-grayscale"
       iconStart="@tui.ellipsis-vertical"
@@ -34,17 +42,19 @@
     >
       More
     </button>
-  </header>
-
-  <section>
-    <h2 tuiTitle class="text-xl">{{ idea.title }}</h2>
   </section>
 
   <section>
-    <tui-line-clamp [content]="idea.content" [linesLimit]="2" />
+    <h2 tuiTitle class="text-2xl">{{ idea.title }}</h2>
   </section>
 
-  <footer class="flex items-center gap-2">
+  <section
+    tuiAppearance="flat-grayscale"
+    [innerHTML]="idea.content"
+    class="line-clamp-2 break-words"
+  ></section>
+
+  <section class="flex items-center gap-2">
     <div class="flex">
       <button
         tuiButton
@@ -59,7 +69,8 @@
           class="!border-4 !h-8 !w-8 !bg-transparent"
           appearance="neutral"
         />
-        @if(idea.upvoteCount != null && idea.downvoteCount != null){
+        @if(idea.upvoteCount !== undefined && idea.downvoteCount !== undefined
+        && idea.upvoteCount !== null && idea.downvoteCount !== null){
         <span>{{ idea.upvoteCount - idea.downvoteCount }}</span>
         }
       </button>
@@ -91,7 +102,7 @@
       />
       {{ idea.commentCount }}
     </button>
-  </footer>
+  </section>
 </div>
 
 <ng-template #dropdown>

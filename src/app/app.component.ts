@@ -6,12 +6,10 @@ import { SidebarComponent } from './core/navigation/components/sidebar/sidebar.c
 import { RouterOutlet } from '@angular/router';
 import { BreakpointService } from './core/misc/services/breakpoint.service';
 import { ThemeService } from './core/misc/services/theme.service';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   imports: [
-    AsyncPipe,
     RouterOutlet,
     TuiRoot,
     TuiNavigation,

@@ -1,8 +1,6 @@
 @let isMobile = breakpoints.isMobile();
 
-<tui-root
-  [attr.tuiTheme]="(themeService.themeStatus$ | async)?.theme ?? 'light'"
->
+<tui-root>
   <tui-scrollbar
     [hidden]="isMobile"
     class="h-screen w-screen overflow-x-hidden"

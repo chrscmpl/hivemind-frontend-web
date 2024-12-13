@@ -17,8 +17,8 @@ export class IdeaFeedComponent implements OnInit {
   @Input({ required: true }) public age!: string;
   @Input({ required: true }) public page!: number;
   @Input({ required: true }) public limit!: number;
-  @Input() includeOwnVotes: boolean = false;
-  @Input() includeUsers: boolean = false;
+  @Input() includeOwnVotes: boolean | '' = false;
+  @Input() includeUsers: boolean | '' = false;
 
   public requestManager!: PaginatedRequestManager<IdeaEntity>;
 
@@ -53,10 +53,10 @@ export class IdeaFeedComponent implements OnInit {
 
   private buildIncludeParameter(): string {
     const include = [];
-    if (this.includeOwnVotes) {
+    if (this.includeOwnVotes !== false) {
       include.push('myVote');
     }
-    if (this.includeUsers) {
+    if (this.includeUsers !== false) {
       include.push('user');
     }
     return include.join(',');
