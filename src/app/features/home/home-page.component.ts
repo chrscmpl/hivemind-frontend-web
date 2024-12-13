@@ -6,6 +6,7 @@ import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { TuiCarousel, TuiSegmented } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 import { IdeaFeedComponent } from '../idea-feed/idea-feed.component';
+import { IdeaPaginationService } from '../idea-feed/services/idea-pagination.service';
 
 @Component({
   selector: 'app-home-page',
@@ -20,17 +21,21 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public sort!: string;
   private _index = 1;
 
+  public readonly doFetchFeeds = [false, false, false];
+
   public set index(value: number) {
     if (this._index === value) {
       return;
     }
     this._index = value;
+    this.doFetchFeeds[this._index] = true;
     this.sort =
       value === 2
         ? IdeaSortEnum.UNPOPULAR
         : value === 1
         ? IdeaSortEnum.POPULAR
         : IdeaSortEnum.CONTROVERSIAL;
+
     this.setQuery(this.sort);
   }
 
@@ -41,10 +46,19 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    public readonly breakpoints: BreakpointService
+    public readonly breakpoints: BreakpointService,
+    public readonly ideaPaginationService: IdeaPaginationService
   ) {}
 
   public ngOnInit(): void {
+    this.doFetchFeeds[0] = this.ideaPaginationService.has(
+      IdeaSortEnum.CONTROVERSIAL
+    );
+    this.doFetchFeeds[1] = this.ideaPaginationService.has(IdeaSortEnum.POPULAR);
+    this.doFetchFeeds[2] = this.ideaPaginationService.has(
+      IdeaSortEnum.UNPOPULAR
+    );
+
     this.subscriptions.push(
       this.route.queryParamMap.subscribe((params) => {
         const sort = params.get('sort');

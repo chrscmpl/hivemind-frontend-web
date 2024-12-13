@@ -37,6 +37,10 @@ export class IdeaPaginationService {
     return manager;
   }
 
+  public has(key: string): boolean {
+    return this.requestsMap.has(key);
+  }
+
   public createRequestManager(
     params: IdeaPaginatedRequestParams
   ): PaginatedRequestManager<IdeaEntity> {

@@ -12,6 +12,8 @@ import { IdeaCardComponent } from './components/idea-card/idea-card.component';
   styleUrl: './idea-feed.component.scss',
 })
 export class IdeaFeedComponent implements OnInit {
+  private _fetch: boolean = false;
+
   @Input({ required: true }) public key!: string;
   @Input({ required: true }) public sort!: IdeaSortEnum;
   @Input({ required: true }) public age!: string;
@@ -19,6 +21,18 @@ export class IdeaFeedComponent implements OnInit {
   @Input({ required: true }) public limit!: number;
   @Input() includeOwnVotes: boolean | '' = false;
   @Input() includeUsers: boolean | '' = false;
+
+  @Input() public set fetch(value: boolean) {
+    if (value === true) {
+      this._fetch = value;
+      if (this.requestManager) {
+        this.requestManager.next();
+        this.loading = false;
+      }
+    }
+  }
+
+  public loading: boolean = true;
 
   public requestManager!: PaginatedRequestManager<IdeaEntity>;
 
@@ -33,7 +47,10 @@ export class IdeaFeedComponent implements OnInit {
       queryParameters: this.buildQueryParameters(),
     });
 
-    this.requestManager.next();
+    if (this._fetch) {
+      this.requestManager.next();
+      this.loading = false;
+    }
   }
 
   private buildQueryParameters(): Record<string, string | number | boolean> {

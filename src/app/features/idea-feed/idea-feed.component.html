@@ -1,4 +1,6 @@
+@if(loading){ loading } @else{
+<!---->
 @for(idea of requestManager.data; track idea.id){
 <app-idea-card [idea]="idea" />
 <div class="w-full border-border_normal border-[1px]"></div>
-}
+} }
