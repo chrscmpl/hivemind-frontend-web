@@ -1,6 +1,5 @@
 import { TuiRoot, TuiScrollbar } from '@taiga-ui/core';
 import { Component } from '@angular/core';
-import { TuiNavigation } from '@taiga-ui/layout';
 import { HeaderComponent } from './core/navigation/components/header/header.component';
 import { SidebarComponent } from './core/navigation/components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
@@ -12,7 +11,6 @@ import { ThemeService } from './core/misc/services/theme.service';
   imports: [
     RouterOutlet,
     TuiRoot,
-    TuiNavigation,
     TuiScrollbar,
     HeaderComponent,
     SidebarComponent,

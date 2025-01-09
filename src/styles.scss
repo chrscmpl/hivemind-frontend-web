@@ -3,12 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --controversial-text: #ef4444;
-  --controversial-bg: #ef444444;
+  --controversial: #ef4444;
+  --controversial-transparent: #ef444444;
 
-  --popular-text: #f59e0b;
-  --popular-bg: #f59e0b44;
+  --popular: #f59e0b;
+  --popular-transparent: #f59e0b44;
 
-  --unpopular-text: #3b82f6;
-  --unpopular-bg: #3b82f644;
+  --unpopular: #3b82f6;
+  --unpopular-transparent: #3b82f644;
+}
+
+.app-scrollbar > .t-bars > .t-bar {
+  top: 10px !important;
+}
+
+.app-scrollbar > .t-content {
+  min-height: 100% !important;
 }

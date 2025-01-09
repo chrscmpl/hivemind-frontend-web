@@ -1,16 +1,17 @@
 @let isMobile = breakpoints.isMobile();
 
 <tui-root>
-  <tui-scrollbar
-    [hidden]="isMobile"
-    class="h-screen w-screen overflow-x-hidden"
-  >
+  <div class="h-screen w-screen overflow-hidden flex flex-col justify-stretch">
     <app-header />
-    <div class="flex-1 flex">
+    <div class="flex-1 flex h-full w-full">
       <app-sidebar />
-      <main tuiNavigationMain class="!border-0">
-        <router-outlet class="hidden" />
-      </main>
+      <tui-scrollbar [hidden]="isMobile" class="app-scrollbar w-full">
+        <main
+          class="flex-1 w-full min-h-[calc(100vh-3rem)] !border-0 grid items-stretch justify-stretch content-stretch justify-items-stretch"
+        >
+          <router-outlet class="hidden" />
+        </main>
+      </tui-scrollbar>
     </div>
-  </tui-scrollbar>
+  </div>
 </tui-root>

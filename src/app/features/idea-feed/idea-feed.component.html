@@ -2,10 +2,10 @@
   [showLoader]="loading"
   size="xxl"
   [inheritColor]="true"
-  class="text-background_neutral_1"
+  class="text-background-neutral-1"
 />
 
 @for(idea of requestManager.data; track idea.id){
 <app-idea-card [idea]="idea" />
-<div class="w-full border-border_normal border-[1px]"></div>
+<div class="w-full border-border-normal border-[1px]"></div>
 }

@@ -8,16 +8,16 @@
     @if(idea.user?.handle && idea.user?.displayName){
     <span
       tuiAppearance="flat-grayscale"
-      class="!text-text_secondary line-clamp-1 break-all"
+      class="!text-text-secondary line-clamp-1 break-all"
       >{{ idea.user!.displayName }}
-      <span class="text-border_normal">|</span>
-      <span class="text-text_tertiary"> &commat;{{ idea.user!.handle }} </span>
+      <span class="text-border-normal">|</span>
+      <span class="text-text-tertiary"> &commat;{{ idea.user!.handle }} </span>
     </span>
     }
     <span tuiAppearance="flat">
       @if(ageString.startsWith('1 day')){Yesterday}
       <!---->
-      @else { {{ ageString }} ago }
+      @else { {{ ageString }} ago}
       <!---->
       @if(idea.updated){
       <span>

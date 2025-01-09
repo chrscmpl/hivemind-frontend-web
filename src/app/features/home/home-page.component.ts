@@ -7,10 +7,18 @@ import { TuiCarousel, TuiSegmented } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 import { IdeaFeedComponent } from '../idea-feed/idea-feed.component';
 import { IdeaPaginationService } from '../idea-feed/services/idea-pagination.service';
+import { ScrollerService } from '@app/core/misc/services/scroller.service';
+import { TuiScrollbar } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-home-page',
-  imports: [TuiSegmented, TuiCarousel, TitleCasePipe, IdeaFeedComponent],
+  imports: [
+    TuiSegmented,
+    TuiCarousel,
+    TitleCasePipe,
+    TuiScrollbar,
+    IdeaFeedComponent,
+  ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
@@ -37,6 +45,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         : IdeaSortEnum.CONTROVERSIAL;
 
     this.setQuery(this.sort);
+    this.scroller.scroll({ coordinates: { x: 0, y: 0 } });
   }
 
   public get index(): number {
@@ -47,7 +56,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     public readonly breakpoints: BreakpointService,
-    public readonly ideaPaginationService: IdeaPaginationService
+    public readonly ideaPaginationService: IdeaPaginationService,
+    public readonly scroller: ScrollerService
   ) {}
 
   public ngOnInit(): void {

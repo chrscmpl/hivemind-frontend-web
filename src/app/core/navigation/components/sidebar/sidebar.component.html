@@ -10,7 +10,7 @@
       type="button"
       routerLink="/home"
       [queryParams]="{ sort: IdeaSortEnum.CONTROVERSIAL }"
-      class="controversial !font-bold"
+      class="!font-bold [--tui-text-primary:theme(colors.controversial)] [--tui-background-neutral-1-hover:theme(colors.controversial-transparent)]"
     >
       <span>Controversial</span>
     </button>
@@ -20,7 +20,7 @@
       type="button"
       routerLink="/home"
       [queryParams]="{ sort: IdeaSortEnum.POPULAR }"
-      class="popular !font-bold"
+      class="!font-bold [--tui-text-primary:theme(colors.popular)] [--tui-background-neutral-1-hover:theme(colors.popular-transparent)]"
     >
       <span>Popular</span>
     </button>
@@ -30,7 +30,7 @@
       type="button"
       routerLink="/home"
       [queryParams]="{ sort: IdeaSortEnum.UNPOPULAR }"
-      class="unpopular !font-bold"
+      class="!font-bold [--tui-text-primary:theme(colors.unpopular)] [--tui-background-neutral-1-hover:theme(colors.unpopular-transparent)]"
     >
       <span>Unpopular</span>
     </button>

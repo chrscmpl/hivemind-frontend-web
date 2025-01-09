@@ -1,53 +1,72 @@
 @let isMobile = breakpoints.isMobile();
 
-<div class="flex flex-col py-4 gap-4" [class.items-center]="isMobile">
-  <tui-segmented [(activeItemIndex)]="index" class="w-min mx-5" size="l">
-    <button class="font-semibold">
-      {{ IdeaSortEnum.CONTROVERSIAL | titlecase }}
-    </button>
-    <button class="font-semibold">
-      {{ IdeaSortEnum.POPULAR | titlecase }}
-    </button>
-    <button class="font-semibold">
-      {{ IdeaSortEnum.UNPOPULAR | titlecase }}
-    </button>
-  </tui-segmented>
-  <tui-carousel [(index)]="index" [draggable]="isMobile" class="w-full">
-    <div *tuiItem class="md:w-[50vw]">
-      <app-idea-feed
-        [sort]="IdeaSortEnum.CONTROVERSIAL"
-        [key]="IdeaSortEnum.CONTROVERSIAL"
-        age="7d"
-        [page]="1"
-        [limit]="10"
-        includeOwnVotes
-        includeUsers
-        [fetch]="doFetchFeeds[0]"
-      />
-    </div>
-    <div *tuiItem class="md:w-[50vw]">
-      <app-idea-feed
-        [sort]="IdeaSortEnum.POPULAR"
-        [key]="IdeaSortEnum.POPULAR"
-        age="7d"
-        [page]="1"
-        [limit]="10"
-        includeOwnVotes
-        includeUsers
-        [fetch]="doFetchFeeds[1]"
-      />
-    </div>
-    <div *tuiItem class="md:w-[50vw]">
-      <app-idea-feed
-        [sort]="IdeaSortEnum.UNPOPULAR"
-        [key]="IdeaSortEnum.UNPOPULAR"
-        age="7d"
-        [page]="1"
-        [limit]="10"
-        includeOwnVotes
-        includeUsers
-        [fetch]="doFetchFeeds[2]"
-      />
-    </div>
-  </tui-carousel>
+<div class="h-full pb-4 relative">
+  <div
+    class="sticky top-0 left-0 bg-background-neutral-1 h-16 flex items-center"
+  >
+    <tui-segmented [(activeItemIndex)]="index" class="w-min mx-5" size="l">
+      <button class="font-semibold">
+        {{ IdeaSortEnum.CONTROVERSIAL | titlecase }}
+      </button>
+      <button class="font-semibold">
+        {{ IdeaSortEnum.POPULAR | titlecase }}
+      </button>
+      <button class="font-semibold">
+        {{ IdeaSortEnum.UNPOPULAR | titlecase }}
+      </button>
+    </tui-segmented>
+  </div>
+  <div class="overflow-hidden min-h-0">
+    <tui-carousel
+      [(index)]="index"
+      [draggable]="isMobile"
+      class="!min-h-0 w-full top-0 left-0"
+    >
+      <tui-scrollbar
+        *tuiItem
+        class="min-h-0 overflow-scroll h-[calc(100vh-7rem)]"
+      >
+        <app-idea-feed
+          [sort]="IdeaSortEnum.CONTROVERSIAL"
+          [key]="IdeaSortEnum.CONTROVERSIAL"
+          age="7d"
+          [page]="1"
+          [limit]="10"
+          includeOwnVotes
+          includeUsers
+          [fetch]="doFetchFeeds[0]"
+        />
+      </tui-scrollbar>
+      <tui-scrollbar
+        *tuiItem
+        class="min-h-0 overflow-scroll h-[calc(100vh-7rem)]"
+      >
+        <app-idea-feed
+          [sort]="IdeaSortEnum.POPULAR"
+          [key]="IdeaSortEnum.POPULAR"
+          age="7d"
+          [page]="1"
+          [limit]="10"
+          includeOwnVotes
+          includeUsers
+          [fetch]="doFetchFeeds[1]"
+        />
+      </tui-scrollbar>
+      <tui-scrollbar
+        *tuiItem
+        class="min-h-0 overflow-scroll h-[calc(100vh-7rem)]"
+      >
+        <app-idea-feed
+          [sort]="IdeaSortEnum.UNPOPULAR"
+          [key]="IdeaSortEnum.UNPOPULAR"
+          age="7d"
+          [page]="1"
+          [limit]="10"
+          includeOwnVotes
+          includeUsers
+          [fetch]="doFetchFeeds[2]"
+        />
+      </tui-scrollbar>
+    </tui-carousel>
+  </div>
 </div>
