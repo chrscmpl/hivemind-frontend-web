@@ -30,6 +30,7 @@ export class PaginatedRequestManager<Entity> {
   private _completed: boolean = false;
 
   private _data: Entity[] = [];
+  private _fetching: boolean = false;
 
   public get data$(): Observable<Entity[]> {
     return this._data$;
@@ -41,7 +42,7 @@ export class PaginatedRequestManager<Entity> {
     this.deserializer = params.deserializer;
     this.queryParameters = params.queryParameters;
     this._limit = params.limit ?? 10;
-    this._page = params.page ?? 1;
+    this._page = params.page !== undefined ? params.page - 1 : 0;
     this.pageParamName = params.pageParamName ?? 'page';
     this.limitParamName = params.limitParamName ?? 'limit';
   }
@@ -56,14 +57,13 @@ export class PaginatedRequestManager<Entity> {
         },
       })
       .pipe(
-        map((data) => (this.deserializer ? this.deserializer(data) : data))
+        map((data) => (this.deserializer ? this.deserializer(data) : data)),
       );
   }
 
   private emitData(data: Entity[]): void {
     this._data$.next(data);
     this._data = this._data.concat(data);
-    this._page++;
   }
 
   private emitError(err: any): void {
@@ -73,6 +73,7 @@ export class PaginatedRequestManager<Entity> {
 
   public next(): void {
     if (this.completed) return;
+    this._page++;
     this.newRequest()
       .pipe(take(1))
       .subscribe({

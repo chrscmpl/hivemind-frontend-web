@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { HumanizeDurationPipe } from '@app/shared/pipes/humanize-duration.pipe';
 import {
@@ -30,6 +30,11 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
 })
-export class IdeaCardComponent {
+export class IdeaCardComponent implements OnInit {
+  @Output() public readonly init = new EventEmitter<void>();
   @Input({ required: true }) public idea!: IdeaEntity;
+
+  public ngOnInit(): void {
+    this.init.emit();
+  }
 }

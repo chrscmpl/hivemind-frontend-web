@@ -1,35 +1,38 @@
-@let ageString = idea.age? (idea.age | humanizeDuration : 1) : '';
+@let ageString = idea.age ? (idea.age | humanizeDuration: 1) : "";
 
 <div tuiCardLarge class="!bg-transparent !rounded-none">
   <section
     tuiHeader
     class="grid grid-cols-[auto_auto_1fr] items-center content-center max-md:grid-cols-[auto_1fr] max-md:grid-rows-2 gap-x-4"
   >
-    @if(idea.user?.handle && idea.user?.displayName){
-    <span
-      tuiAppearance="flat-grayscale"
-      class="!text-text-secondary line-clamp-1 break-all"
-      >{{ idea.user!.displayName }}
-      <span class="text-border-normal">|</span>
-      <span class="text-text-tertiary"> &commat;{{ idea.user!.handle }} </span>
-    </span>
+    @if (idea.user?.handle && idea.user?.displayName) {
+      <span
+        tuiAppearance="flat-grayscale"
+        class="!text-text-secondary line-clamp-1 break-all"
+        >{{ idea.user!.displayName }}
+        <span class="text-border-normal">|</span>
+        <span class="text-text-tertiary">
+          &commat;{{ idea.user!.handle }}
+        </span>
+      </span>
     }
     <span tuiAppearance="flat">
-      @if(ageString.startsWith('1 day')){Yesterday}
-      <!---->
-      @else { {{ ageString }} ago}
-      <!---->
-      @if(idea.updated){
-      <span>
-        <tui-icon
-          icon="@tui.pencil"
-          tuiAppearance="flat-grayscale"
-          [tuiHint]="'Updated ' + (idea.updatedAt | date : 'medium')"
-          tuiHintAppearance="primary"
-          tuiHintDirection="right"
-          class="mx-4 h-4"
-        />
-      </span>
+      @if (ageString.startsWith("1 day")) {
+        Yesterday
+      } @else {
+        {{ ageString }} ago
+      }
+      @if (idea.updated) {
+        <span>
+          <tui-icon
+            icon="@tui.pencil"
+            tuiAppearance="flat-grayscale"
+            [tuiHint]="'Updated ' + (idea.updatedAt | date: 'medium')"
+            tuiHintAppearance="primary"
+            tuiHintDirection="right"
+            class="mx-4 h-4"
+          />
+        </span>
       }
     </span>
     <button
@@ -73,9 +76,13 @@
           class="!border-4 !h-8 !w-8 !bg-transparent"
           appearance="neutral"
         />
-        @if(idea.upvoteCount !== undefined && idea.downvoteCount !== undefined
-        && idea.upvoteCount !== null && idea.downvoteCount !== null){
-        <span>{{ idea.upvoteCount - idea.downvoteCount }}</span>
+        @if (
+          idea.upvoteCount !== undefined &&
+          idea.downvoteCount !== undefined &&
+          idea.upvoteCount !== null &&
+          idea.downvoteCount !== null
+        ) {
+          <span>{{ idea.upvoteCount - idea.downvoteCount }}</span>
         }
       </button>
       <button

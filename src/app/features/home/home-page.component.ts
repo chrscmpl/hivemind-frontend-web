@@ -1,4 +1,4 @@
-import { TitleCasePipe } from '@angular/common';
+import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
@@ -8,15 +8,17 @@ import { Subscription } from 'rxjs';
 import { IdeaFeedComponent } from '../idea-feed/idea-feed.component';
 import { IdeaPaginationService } from '../idea-feed/services/idea-pagination.service';
 import { ScrollerService } from '@app/core/misc/services/scroller.service';
-import { TuiScrollbar } from '@taiga-ui/core';
+import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-home-page',
   imports: [
+    NgTemplateOutlet,
     TuiSegmented,
     TuiCarousel,
     TitleCasePipe,
     TuiScrollbar,
+    TuiLoader,
     IdeaFeedComponent,
   ],
   templateUrl: './home-page.component.html',
@@ -41,8 +43,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
       value === 2
         ? IdeaSortEnum.UNPOPULAR
         : value === 1
-        ? IdeaSortEnum.POPULAR
-        : IdeaSortEnum.CONTROVERSIAL;
+          ? IdeaSortEnum.POPULAR
+          : IdeaSortEnum.CONTROVERSIAL;
 
     this.setQuery(this.sort);
     this.scroller.scroll({ coordinates: { x: 0, y: 0 } });
@@ -57,16 +59,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     public readonly breakpoints: BreakpointService,
     public readonly ideaPaginationService: IdeaPaginationService,
-    public readonly scroller: ScrollerService
+    public readonly scroller: ScrollerService,
   ) {}
 
   public ngOnInit(): void {
     this.doFetchFeeds[0] = this.ideaPaginationService.has(
-      IdeaSortEnum.CONTROVERSIAL
+      IdeaSortEnum.CONTROVERSIAL,
     );
     this.doFetchFeeds[1] = this.ideaPaginationService.has(IdeaSortEnum.POPULAR);
     this.doFetchFeeds[2] = this.ideaPaginationService.has(
-      IdeaSortEnum.UNPOPULAR
+      IdeaSortEnum.UNPOPULAR,
     );
 
     this.subscriptions.push(
@@ -81,9 +83,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
           this.sort === IdeaSortEnum.UNPOPULAR
             ? 2
             : this.sort === IdeaSortEnum.POPULAR
-            ? 1
-            : 0;
-      })
+              ? 1
+              : 0;
+      }),
     );
   }
 

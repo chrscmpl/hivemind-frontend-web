@@ -4,17 +4,14 @@ import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@app/shared/helpers/paginated-request-manager.helper';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { IdeaCardComponent } from './components/idea-card/idea-card.component';
-import { TuiLoader } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-idea-feed',
-  imports: [IdeaCardComponent, TuiLoader],
+  imports: [IdeaCardComponent],
   templateUrl: './idea-feed.component.html',
   styleUrl: './idea-feed.component.scss',
 })
 export class IdeaFeedComponent implements OnInit {
-  private _fetch: boolean = false;
-
   @Input({ required: true }) public key!: string;
   @Input({ required: true }) public sort!: IdeaSortEnum;
   @Input({ required: true }) public age!: string;
@@ -22,36 +19,40 @@ export class IdeaFeedComponent implements OnInit {
   @Input({ required: true }) public limit!: number;
   @Input() includeOwnVotes: boolean | '' = false;
   @Input() includeUsers: boolean | '' = false;
+  private lastLoadedPage!: number;
 
-  @Input() public set fetch(value: boolean) {
-    if (value === true) {
-      this._fetch = value;
-      if (this.requestManager) {
-        this.requestManager.next();
-        this.loading = false;
-      }
-    }
-  }
-
-  public loading: boolean = true;
+  public loading: boolean = false;
 
   public requestManager!: PaginatedRequestManager<IdeaEntity>;
 
   public constructor(
-    private readonly ideaPaginationService: IdeaPaginationService
+    private readonly ideaPaginationService: IdeaPaginationService,
   ) {}
 
   public ngOnInit(): void {
+    this.lastLoadedPage = this.page;
     this.requestManager = this.ideaPaginationService.set(this.key, {
       page: this.page,
       limit: this.limit,
       queryParameters: this.buildQueryParameters(),
     });
 
-    if (this._fetch) {
+    this.requestManager.next();
+  }
+
+  public onScrolled(index: number): void {
+    if (this.shouldLoadMore(index)) {
       this.requestManager.next();
-      this.loading = false;
+      this.lastLoadedPage = this.requestManager.page;
+      console.log(index);
     }
+  }
+
+  private shouldLoadMore(index: number) {
+    return (
+      index >= this.requestManager.page * this.requestManager.limit - 3 &&
+      this.requestManager.page < this.lastLoadedPage + 1
+    );
   }
 
   private buildQueryParameters(): Record<string, string | number | boolean> {

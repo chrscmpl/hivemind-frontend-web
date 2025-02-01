@@ -1,11 +1,10 @@
-<tui-loader
-  [showLoader]="loading"
-  size="xxl"
-  [inheritColor]="true"
-  class="text-background-neutral-1"
-/>
-
-@for(idea of requestManager.data; track idea.id){
-<app-idea-card [idea]="idea" />
-<div class="w-full border-border-normal border-[1px]"></div>
+@for (idea of requestManager.data; track idea.id) {
+  @defer (on viewport) {
+    <app-idea-card [idea]="idea" (init)="onScrolled($index)" />
+    @if ($index < requestManager.data.length - 1) {
+      <div class="w-full border-border-normal border-[1px]"></div>
+    }
+  } @placeholder {
+    <div class="h-64"></div>
+  }
 }
