@@ -6,11 +6,19 @@ import {
   PaginatedRequestManager,
   PaginatedRequestParams,
 } from '@app/shared/helpers/paginated-request-manager.helper';
+import { defaults } from 'lodash-es';
 
-export type IdeaPaginatedRequestParams = Omit<
+export interface IdeaPaginationQuery {
+  sort?: string;
+  age?: string;
+  includeOwnVotes?: boolean;
+  includeUsers?: boolean;
+}
+
+export type IdeaPaginationParams = Omit<
   PaginatedRequestParams<IdeaEntity>,
-  'deserializer' | 'http' | 'url'
->;
+  'deserializer' | 'http' | 'url' | 'query'
+> & { query: IdeaPaginationQuery };
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +30,7 @@ export class IdeaPaginationService {
 
   public set(
     key: string,
-    params: IdeaPaginatedRequestParams
+    params: IdeaPaginationParams,
   ): PaginatedRequestManager<IdeaEntity> {
     const manager = this.createRequestManager(params);
     this.requestsMap.set(key, manager);
@@ -42,14 +50,54 @@ export class IdeaPaginationService {
   }
 
   public createRequestManager(
-    params: IdeaPaginatedRequestParams
+    params: IdeaPaginationParams,
   ): PaginatedRequestManager<IdeaEntity> {
-    return new PaginatedRequestManager<IdeaEntity>({
-      http: this.http,
-      url: `http://localhost/posts`,
-      deserializer: (data) =>
-        data.items.map((item: IdeaDto) => new IdeaEntity(item)),
-      ...params,
-    });
+    return new PaginatedRequestManager<IdeaEntity>(
+      defaults(
+        {
+          query: this.buildQuery(params.query),
+        },
+        {
+          http: this.http,
+          url: `http://localhost/posts`,
+          deserializer: (data: { items: IdeaDto[] }) =>
+            data.items.map((item: IdeaDto) => new IdeaEntity(item)),
+          ...params,
+        },
+      ),
+    );
+  }
+
+  private buildQuery(
+    query: IdeaPaginationQuery,
+  ): Record<string, string | number | boolean | undefined> {
+    const params: Record<string, string | number | boolean | undefined> = {};
+
+    if (query.sort) {
+      params['sort'] = query.sort;
+    }
+
+    if (query.age) {
+      params['age'] = query.age;
+    }
+
+    const include = this.buildIncludeParameter(query);
+
+    if (include) {
+      params['include'] = include;
+    }
+
+    return params;
+  }
+
+  private buildIncludeParameter(query: IdeaPaginationQuery): string {
+    const include = [];
+    if (query.includeOwnVotes === true) {
+      include.push('myVote');
+    }
+    if (query.includeUsers === true) {
+      include.push('user');
+    }
+    return include.join(',');
   }
 }

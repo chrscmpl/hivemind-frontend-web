@@ -34,7 +34,12 @@ export class IdeaFeedComponent implements OnInit {
     this.requestManager = this.ideaPaginationService.set(this.key, {
       page: this.page,
       limit: this.limit,
-      queryParameters: this.buildQueryParameters(),
+      query: {
+        sort: this.sort,
+        age: this.age,
+        includeOwnVotes: this.includeOwnVotes !== false,
+        includeUsers: this.includeUsers !== false,
+      },
     });
 
     this.requestManager.next();
@@ -53,31 +58,5 @@ export class IdeaFeedComponent implements OnInit {
       index >= this.requestManager.page * this.requestManager.limit - 3 &&
       this.requestManager.page < this.lastLoadedPage + 1
     );
-  }
-
-  private buildQueryParameters(): Record<string, string | number | boolean> {
-    const params: Record<string, string | number | boolean> = {
-      sort: this.sort,
-      age: this.age,
-    };
-
-    const include = this.buildIncludeParameter();
-
-    if (include) {
-      params['include'] = include;
-    }
-
-    return params;
-  }
-
-  private buildIncludeParameter(): string {
-    const include = [];
-    if (this.includeOwnVotes !== false) {
-      include.push('myVote');
-    }
-    if (this.includeUsers !== false) {
-      include.push('user');
-    }
-    return include.join(',');
   }
 }

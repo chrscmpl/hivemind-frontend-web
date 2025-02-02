@@ -8,7 +8,7 @@ export interface PaginatedRequestParams<Entity> {
   http: HttpClient;
   url: string;
   deserializer?: DeserializerFn<Entity>;
-  queryParameters?: Record<string, any>;
+  query?: Record<string, any>;
   page?: number;
   limit?: number;
   pageParamName?: string;
@@ -40,7 +40,7 @@ export class PaginatedRequestManager<Entity> {
     this.http = params.http;
     this.url = params.url;
     this.deserializer = params.deserializer;
-    this.queryParameters = params.queryParameters;
+    this.queryParameters = params.query;
     this._limit = params.limit ?? 10;
     this._page = params.page !== undefined ? params.page - 1 : 0;
     this.pageParamName = params.pageParamName ?? 'page';
