@@ -113,7 +113,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
     this.shareService.share({
       title: 'Share this idea',
       text: 'Check this out: ' + this.idea.title,
-      url: environment.origin + this.idea.id,
+      url: `${environment.origin}/${this.idea.id}`,
       urlCopiedToClipboardMessage: 'Idea link copied to clipboard',
     });
   }

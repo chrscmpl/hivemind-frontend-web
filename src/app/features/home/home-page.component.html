@@ -1,7 +1,11 @@
 @let isMobile = breakpoints.isMobile();
 
 <ng-template #feed let-sort="sort" let-fetch="fetch">
-  <tui-scrollbar class="min-h-0 overflow-scroll h-[calc(100vh-7rem)] pb-4">
+  <tui-scrollbar
+    class="min-h-0 overflow-scroll h-[calc(100vh-7rem)] pb-4"
+    [hidden]="isMobile"
+    [class.w-screen]="isMobile"
+  >
     <div class="flex justify-center" [class.pr-8]="!isMobile">
       <div class="w-full" [class.max-w-3xl]="!isMobile">
         @if (fetch) {
@@ -32,7 +36,7 @@
     <tui-carousel
       [(index)]="index"
       [draggable]="isMobile"
-      class="!min-h-0 w-full top-0 left-0"
+      class="!min-h-0 top-0 left-0 max-w-[100vw]"
     >
       <div *tuiItem>
         <ng-container

@@ -1,3 +1,3 @@
 export const environment = {
-  origin: 'http://localhost:4200/',
+  origin: 'http://localhost:4200',
 };
