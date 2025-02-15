@@ -25,6 +25,8 @@ import {
 import { TuiLike } from '@taiga-ui/kit';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { Subscription } from 'rxjs';
+import { ShareService } from '@app/core/misc/services/share.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-idea-card',
@@ -54,15 +56,22 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
   public readonly upvoteControl = new FormControl<boolean | null>(null);
   public readonly downvoteControl = new FormControl<boolean | null>(null);
 
+  private _isAuthor: boolean = false;
   private eventStarted: boolean = false;
   private isAuthenticated: boolean = false;
 
   public constructor(
     public readonly breakpoints: BreakpointService,
+    private readonly shareService: ShareService,
     auth: AuthService,
   ) {
     effect(() => {
       this.isAuthenticated = auth.isAuthenticated();
+    });
+    effect(() => {
+      this._isAuthor =
+        this.idea.user?.id !== undefined &&
+        this.idea.user?.id === auth.authenticatedUser()?.id;
     });
   }
 
@@ -94,6 +103,19 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
+  }
+
+  public get isAuthor(): boolean {
+    return this._isAuthor;
+  }
+
+  public share(): void {
+    this.shareService.share({
+      title: 'Share this idea',
+      text: 'Check this out: ' + this.idea.title,
+      url: environment.origin + this.idea.id,
+      urlCopiedToClipboardMessage: 'Idea link copied to clipboard',
+    });
   }
 
   private onUpvoteChangeEvent(value: boolean | null): void {

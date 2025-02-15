@@ -120,6 +120,10 @@
 
 <ng-template #dropdown>
   <tui-data-list size="s">
-    <button iconStart="@tui.share-2" tuiOption>Share</button>
+    <button iconStart="@tui.share-2" tuiOption (click)="share()">Share</button>
+    @if (isAuthor) {
+      <button iconStart="@tui.pencil" tuiOption>Edit</button>
+      <button iconStart="@tui.trash" tuiOption>Delete</button>
+    }
   </tui-data-list>
 </ng-template>

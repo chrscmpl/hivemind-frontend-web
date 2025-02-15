@@ -14,6 +14,12 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["src/environments/*", "!src/environments/environment"],
+        },
+      ],
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -40,5 +46,5 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {},
-  }
+  },
 );
