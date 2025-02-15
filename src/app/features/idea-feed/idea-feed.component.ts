@@ -49,7 +49,6 @@ export class IdeaFeedComponent implements OnInit {
     if (this.shouldLoadMore(index)) {
       this.requestManager.next();
       this.lastLoadedPage = this.requestManager.page;
-      console.log(index);
     }
   }
 

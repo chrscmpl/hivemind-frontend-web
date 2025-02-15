@@ -1,38 +1,32 @@
-@let ageString = idea.age ? (idea.age | humanizeDuration: 1) : "";
+@let ageString =
+  idea.age ? (idea.age | humanizeDuration: "short" : 1 : "") : "";
+@let isMobile = breakpoints.isMobile();
 
 <div tuiCardLarge class="!bg-transparent !rounded-none">
   <section
     tuiHeader
-    class="grid grid-cols-[auto_auto_1fr] items-center content-center max-md:grid-cols-[auto_1fr] max-md:grid-rows-2 gap-x-4"
+    class="grid grid-cols-[auto_auto_auto_1fr] items-center content-center gap-x-2 text-text-tertiary"
   >
     @if (idea.user?.handle && idea.user?.displayName) {
       <span
         tuiAppearance="flat-grayscale"
         class="!text-text-secondary line-clamp-1 break-all"
-        >{{ idea.user!.displayName }}
-        <span class="text-border-normal">|</span>
-        <span class="text-text-tertiary">
-          &commat;{{ idea.user!.handle }}
-        </span>
+      >
+        <span class="text-text-secondary"> {{ idea.user!.displayName }}</span>
+        &nbsp; &commat;{{ idea.user!.handle }}
       </span>
+      <span>•</span>
     }
-    <span tuiAppearance="flat">
-      @if (ageString.startsWith("1 day")) {
-        Yesterday
-      } @else {
-        {{ ageString }} ago
-      }
+    <span class="flex items-center">
+      {{ ageString }}
       @if (idea.updated) {
-        <span>
-          <tui-icon
-            icon="@tui.pencil"
-            tuiAppearance="flat-grayscale"
-            [tuiHint]="'Updated ' + (idea.updatedAt | date: 'medium')"
-            tuiHintAppearance="primary"
-            tuiHintDirection="right"
-            class="mx-4 h-4"
-          />
-        </span>
+        <tui-icon
+          icon="@tui.pencil"
+          [tuiHint]="'Updated ' + (idea.updatedAt | date: 'medium')"
+          tuiHintAppearance=""
+          [tuiHintDirection]="isMobile ? 'top-left' : 'right'"
+          class="h-4 text-text-tertiary"
+        />
       }
     </span>
     <button
@@ -45,7 +39,7 @@
       [tuiDropdown]="dropdown"
       size="s"
       appearance="flat-grayscale"
-      class="!rounded-full justify-self-end max-md:col-start-2 max-md:row-start-1"
+      class="!rounded-full justify-self-end col-start-[-1]"
     >
       More
     </button>

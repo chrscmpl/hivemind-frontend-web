@@ -1,0 +1,20 @@
+<div
+  class="sticky top-0 left-0 bg-background-neutral-1 h-16 flex items-center max-w-[100vw] overflow-hidden"
+>
+  <tui-segmented
+    [activeItemIndex]="activeIndex"
+    (activeItemIndexChange)="activeIndexChange.emit($event)"
+    class="w-min mx-5"
+    size="l"
+  >
+    <button class="font-semibold">
+      {{ IdeaSortEnum.CONTROVERSIAL | titlecase }}
+    </button>
+    <button class="font-semibold">
+      {{ IdeaSortEnum.POPULAR | titlecase }}
+    </button>
+    <button class="font-semibold">
+      {{ IdeaSortEnum.UNPOPULAR | titlecase }}
+    </button>
+  </tui-segmented>
+</div>

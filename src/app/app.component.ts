@@ -1,5 +1,5 @@
-import { TuiRoot, TuiScrollbar } from '@taiga-ui/core';
-import { Component } from '@angular/core';
+import { TuiButton, TuiRoot, TuiScrollbar } from '@taiga-ui/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from './core/navigation/components/header/header.component';
 import { SidebarComponent } from './core/navigation/components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
@@ -14,13 +14,20 @@ import { ThemeService } from './core/misc/services/theme.service';
     TuiScrollbar,
     HeaderComponent,
     SidebarComponent,
+    TuiButton,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public constructor(
     public readonly breakpoints: BreakpointService,
-    public readonly themeService: ThemeService
+    public readonly themeService: ThemeService,
   ) {}
+
+  public ngOnInit(): void {
+    this.themeService.themeStatus$.subscribe(({ theme }) => {
+      document.body.setAttribute('tuiTheme', theme);
+    });
+  }
 }

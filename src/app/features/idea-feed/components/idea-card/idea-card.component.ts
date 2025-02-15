@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { HumanizeDurationPipe } from '@app/shared/pipes/humanize-duration.pipe';
 import {
@@ -33,6 +34,8 @@ import { TuiCardLarge } from '@taiga-ui/layout';
 export class IdeaCardComponent implements OnInit {
   @Output() public readonly init = new EventEmitter<void>();
   @Input({ required: true }) public idea!: IdeaEntity;
+
+  public constructor(public readonly breakpoints: BreakpointService) {}
 
   public ngOnInit(): void {
     this.init.emit();

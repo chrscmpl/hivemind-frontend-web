@@ -2,44 +2,32 @@
 
 <ng-template #feed let-sort="sort" let-fetch="fetch">
   <tui-scrollbar class="min-h-0 overflow-scroll h-[calc(100vh-7rem)] pb-4">
-    <div>
-      @if (fetch) {
-        <app-idea-feed
-          [sort]="sort"
-          [key]="sort"
-          age="7d"
-          [page]="1"
-          [limit]="10"
-          includeOwnVotes
-          includeUsers
+    <div class="flex justify-center" [class.pr-8]="!isMobile">
+      <div class="w-full" [class.max-w-3xl]="!isMobile">
+        @if (fetch) {
+          <app-idea-feed
+            [sort]="sort"
+            [key]="sort"
+            age="7d"
+            [page]="1"
+            [limit]="10"
+            includeOwnVotes
+            includeUsers
+          />
+        }
+        <tui-loader
+          [showLoader]="true"
+          size="xxl"
+          [inheritColor]="true"
+          class="text-background-neutral-1"
         />
-      }
-      <tui-loader
-        [showLoader]="true"
-        size="xxl"
-        [inheritColor]="true"
-        class="text-background-neutral-1"
-      />
+      </div>
     </div>
   </tui-scrollbar>
 </ng-template>
 
 <div class="h-full relative">
-  <div
-    class="sticky top-0 left-0 bg-background-neutral-1 h-16 flex items-center"
-  >
-    <tui-segmented [(activeItemIndex)]="index" class="w-min mx-5" size="l">
-      <button class="font-semibold">
-        {{ IdeaSortEnum.CONTROVERSIAL | titlecase }}
-      </button>
-      <button class="font-semibold">
-        {{ IdeaSortEnum.POPULAR | titlecase }}
-      </button>
-      <button class="font-semibold">
-        {{ IdeaSortEnum.UNPOPULAR | titlecase }}
-      </button>
-    </tui-segmented>
-  </div>
+  <app-feed-selector [(activeIndex)]="index" />
   <div class="overflow-hidden min-h-0">
     <tui-carousel
       [(index)]="index"

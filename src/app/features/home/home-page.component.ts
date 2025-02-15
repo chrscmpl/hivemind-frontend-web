@@ -1,25 +1,25 @@
-import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
-import { TuiCarousel, TuiSegmented } from '@taiga-ui/kit';
+import { TuiCarousel } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 import { IdeaFeedComponent } from '../idea-feed/idea-feed.component';
 import { IdeaPaginationService } from '../idea-feed/services/idea-pagination.service';
 import { ScrollerService } from '@app/core/misc/services/scroller.service';
 import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
+import { FeedSelectorComponent } from './components/feed-selector/feed-selector.component';
 
 @Component({
   selector: 'app-home-page',
   imports: [
     NgTemplateOutlet,
-    TuiSegmented,
     TuiCarousel,
-    TitleCasePipe,
     TuiScrollbar,
     TuiLoader,
     IdeaFeedComponent,
+    FeedSelectorComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
