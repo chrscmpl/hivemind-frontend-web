@@ -5,6 +5,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import numbro from 'numbro';
+
+numbro.setLanguage('en-US');
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -29,6 +29,7 @@
     "@taiga-ui/layout": "^4.17.0",
     "humanize-duration": "^3.32.1",
     "lodash-es": "^4.17.21",
+    "numbro": "^2.5.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

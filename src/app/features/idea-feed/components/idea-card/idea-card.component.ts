@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import {
   Component,
   effect,
@@ -13,6 +13,7 @@ import { AuthService } from '@app/core/auth/services/auth.service';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { HumanizeDurationPipe } from '@app/shared/pipes/humanize-duration.pipe';
+import { AveragePipe } from '@app/shared/pipes/average.pipe';
 import {
   TuiAppearance,
   TuiButton,
@@ -39,6 +40,8 @@ import { Subscription } from 'rxjs';
     TuiHint,
     HumanizeDurationPipe,
     DatePipe,
+    AveragePipe,
+    UpperCasePipe,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
