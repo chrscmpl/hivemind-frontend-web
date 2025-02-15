@@ -2,7 +2,11 @@
   idea.age ? (idea.age | humanizeDuration: "short" : 1 : "") : "";
 @let isMobile = breakpoints.isMobile();
 
-<div tuiCardLarge class="!bg-transparent !rounded-none">
+<div
+  tuiCardLarge
+  class="!bg-background-neutral-1 hover:!bg-background-neutral-1-hover active:!bg-background-neutral-1-pressed transition-colors duration-300 hover:cursor-pointer"
+  [class.!rounded-none]="isMobile"
+>
   <section
     tuiHeader
     class="grid grid-cols-[auto_auto_auto_1fr] items-center content-center gap-x-2 text-text-tertiary"

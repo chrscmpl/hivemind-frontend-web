@@ -4,6 +4,7 @@ import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@app/shared/helpers/paginated-request-manager.helper';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { IdeaCardComponent } from './components/idea-card/idea-card.component';
+import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 
 @Component({
   selector: 'app-idea-feed',
@@ -26,6 +27,7 @@ export class IdeaFeedComponent implements OnInit {
   public requestManager!: PaginatedRequestManager<IdeaEntity>;
 
   public constructor(
+    public readonly breakpoints: BreakpointService,
     private readonly ideaPaginationService: IdeaPaginationService,
   ) {}
 
