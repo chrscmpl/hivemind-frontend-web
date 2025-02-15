@@ -5,13 +5,13 @@ export class IdeaEntity {
   private readonly _id: number;
   private readonly _title?: string;
   private readonly _content?: string;
-  private readonly _upvoteCount?: number;
-  private readonly _downvoteCount?: number;
+  private _upvoteCount?: number;
+  private _downvoteCount?: number;
   private readonly _commentCount?: number;
   private readonly _createdAt?: Date;
   private readonly _updatedAt?: Date;
   private readonly _user?: UserEntity;
-  private readonly _myVote?: boolean;
+  private _myVote?: boolean | null;
 
   private readonly _age?: number;
   private readonly _updated: boolean;
@@ -52,8 +52,16 @@ export class IdeaEntity {
     return this._upvoteCount;
   }
 
+  public set upvoteCount(value: number | undefined) {
+    this._upvoteCount = value;
+  }
+
   public get downvoteCount(): number | undefined {
     return this._downvoteCount;
+  }
+
+  public set downvoteCount(value: number | undefined) {
+    this._downvoteCount = value;
   }
 
   public get commentCount(): number | undefined {
@@ -72,8 +80,12 @@ export class IdeaEntity {
     return this._user;
   }
 
-  public get myVote(): boolean | undefined {
+  public get myVote(): boolean | null | undefined {
     return this._myVote;
+  }
+
+  public set myVote(value: boolean | null | undefined) {
+    this._myVote = value;
   }
 
   public get age(): number | undefined {

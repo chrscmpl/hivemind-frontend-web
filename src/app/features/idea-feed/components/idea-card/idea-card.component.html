@@ -64,10 +64,11 @@
       >
         <input
           tuiLike
+          [formControl]="upvoteControl"
           type="checkbox"
           checkedIcon="@tui.arrow-big-up"
           uncheckedIcon="@tui.arrow-big-up"
-          class="!border-4 !h-8 !w-8 !bg-transparent"
+          class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote"
           appearance="neutral"
         />
         @if (
@@ -86,10 +87,11 @@
       >
         <input
           tuiLike
+          [formControl]="downvoteControl"
           type="checkbox"
           checkedIcon="@tui.arrow-big-down"
           uncheckedIcon="@tui.arrow-big-down"
-          class="!border-4 !h-8 !w-8 !bg-transparent"
+          class="!border-4 !h-8 !w-8 !bg-transparent after:!text-downvote"
           appearance="neutral"
         />
       </button>
