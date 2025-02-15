@@ -15,11 +15,11 @@ module.exports = {
         "border-normal": "var(--tui-border-normal)",
         "background-base": "var(--tui-background-base)",
         "background-base-alt": "var(--tui-background-base-alt)",
-        "background-neutral-1": "(var(--tui-background-neutral-1)",
+        "background-neutral-1": "var(--tui-background-neutral-1)",
         "background-neutral-1-hover": "var(--tui-background-neutral-1-hover)",
         "background-neutral-1-pressed":
           "var(--tui-background-neutral-1-pressed)",
-        "background-neutral-2": "(var(--tui-background-neutral-2)",
+        "background-neutral-2": "var(--tui-background-neutral-2)",
         "background-neutral-2-hover": "var(--tui-background-neutral-2-hover)",
         "background-neutral-2-pressed":
           "var(--tui-background-neutral-2-pressed)",

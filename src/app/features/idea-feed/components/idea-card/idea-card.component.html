@@ -4,7 +4,7 @@
 
 <div
   tuiCardLarge
-  class="!bg-background-neutral-1 hover:!bg-background-neutral-1-hover active:!bg-background-neutral-1-pressed transition-colors duration-300 hover:cursor-pointer"
+  class="!bg-background-base hover:!bg-background-base-alt active:!bg-background-neutral-1-hover transition-colors duration-300 hover:cursor-pointer"
   [class.!rounded-none]="isMobile"
 >
   <section
@@ -37,7 +37,6 @@
       appearance="outline-grayscale"
       iconStart="@tui.ellipsis-vertical"
       tuiDropdownHover
-      tuiDropdownMobile="Contact Us"
       tuiIconButton
       type="button"
       [tuiDropdown]="dropdown"
@@ -64,7 +63,7 @@
       <button
         tuiButton
         appearance="outline-grayscale"
-        class="!flex !items-center !w-min !rounded-s-full !px-2 !gap-0 !h-10 !cursor-default"
+        class="!bg-background-base !flex !items-center !w-min !rounded-s-full !px-2 !gap-0 !h-10 !cursor-default"
       >
         <input
           tuiLike
@@ -89,7 +88,7 @@
       <button
         tuiButton
         appearance="outline-grayscale"
-        class="!flex !items-center !rounded-e-full !border-l-0 !h-10 !px-2 !cursor-default"
+        class="!bg-background-base !flex !items-center !rounded-e-full !border-l-0 !h-10 !px-2 !cursor-default"
       >
         <input
           tuiLike
@@ -106,7 +105,7 @@
     <button
       tuiButton
       appearance="outline-grayscale"
-      class="!rounded-full !flex !items-center !w-min !h-10 !gap-3 !px-4"
+      class="!bg-background-base !rounded-full !flex !items-center !w-min !h-10 !gap-3 !px-4"
     >
       <tui-icon
         icon="@tui.message-square-text"
