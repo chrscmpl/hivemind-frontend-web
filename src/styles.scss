@@ -16,6 +16,17 @@
   --downvote-color: #6800e0;
 }
 
+[tuiTheme="dark"] {
+  --tui-background-base: #121212;
+  --tui-background-base-alt: #181818;
+  --tui-theme-color: #09090b;
+}
+
+[tuiTheme="light"] {
+  --tui-background-base: #fffefb;
+  --tui-background-base-alt: #f5f4f1;
+}
+
 .app-scrollbar > .t-bars > .t-bar {
   top: 10px !important;
 }

@@ -7,7 +7,7 @@ try {
 } catch {
   theme = "light";
 }
-document.body.setAttribute("tuiTheme", theme);
+document.body.setAttribute("data-theme", theme);
 // const variation = localStorage.getItem(`${theme}-theme-variation`);
 // const link = document.createElement("link");
 // link.rel = "stylesheet";

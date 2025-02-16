@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import {
   Observable,
   ReplaySubject,
@@ -14,6 +14,7 @@ import {
 } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { isEqual } from 'lodash-es';
+import { WA_LOCAL_STORAGE } from '@ng-web-apis/common';
 
 export type theme = 'light' | 'dark';
 
@@ -56,8 +57,9 @@ export class ThemeService {
   }
 
   public constructor(
+    @Inject(WA_LOCAL_STORAGE) private readonly storage: Storage,
     mediaMatcher: MediaMatcher,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
 
@@ -67,25 +69,25 @@ export class ThemeService {
 
     this.manuallySetTheme$.next(this.getSavedThemeFromStorage());
     this.lightThemeVariation$.next(
-      this.getThemeVariationFromStorage('light') ?? 'default'
+      this.getThemeVariationFromStorage('light') ?? 'default',
     );
     this.darkThemeVariation$.next(
-      this.getThemeVariationFromStorage('dark') ?? 'default'
+      this.getThemeVariationFromStorage('dark') ?? 'default',
     );
   }
 
   private initObservables(mediaMatcher: MediaMatcher): void {
     const matchDarkTheme = mediaMatcher.matchMedia(
-      '(prefers-color-scheme: dark)'
+      '(prefers-color-scheme: dark)',
     );
 
     this.systemPreference$ = fromEvent<MediaQueryListEvent>(
       matchDarkTheme,
-      'change'
+      'change',
     ).pipe(
       startWith(matchDarkTheme),
       map((e) => (e.matches ? 'dark' : 'light')),
-      shareReplay(1)
+      shareReplay(1),
     );
 
     this.themeStatus$ = combineLatest([
@@ -112,10 +114,10 @@ export class ThemeService {
             },
             isSystemPreference: !manuallySetTheme,
           };
-        }
+        },
       ),
       distinctUntilChanged(isEqual),
-      shareReplay(1)
+      shareReplay(1),
     );
 
     this.theme$ = this.themeStatus$.pipe(
@@ -129,7 +131,7 @@ export class ThemeService {
         }`;
       }),
       distinctUntilChanged(isEqual),
-      shareReplay(1)
+      shareReplay(1),
     );
   }
 
@@ -156,20 +158,20 @@ export class ThemeService {
   }
 
   private getSavedThemeFromStorage(): theme | null {
-    return localStorage.getItem('theme') as theme | null;
+    return this.storage.getItem('theme') as theme | null;
   }
 
   private saveThemeToStorage(theme: theme | null): void {
-    if (theme) localStorage.setItem('theme', theme);
-    else localStorage.removeItem('theme');
+    if (theme) this.storage.setItem('theme', theme);
+    else this.storage.removeItem('theme');
   }
 
   private getThemeVariationFromStorage(theme: theme): string | null {
-    return localStorage.getItem(`${theme}-theme-variation`);
+    return this.storage.getItem(`${theme}-theme-variation`);
   }
 
   private saveThemeVariationToStorage(theme: theme, variation: string): void {
-    localStorage.setItem(`${theme}-theme-variation`, variation);
+    this.storage.setItem(`${theme}-theme-variation`, variation);
   }
 
   private createStyleSheetLink(): HTMLLinkElement {
@@ -209,7 +211,7 @@ export class ThemeService {
 
   private updateThemeColor(): void {
     const themeColor = getComputedStyle(
-      document.documentElement
+      document.documentElement,
     ).getPropertyValue('--component-color');
 
     if (themeColor)

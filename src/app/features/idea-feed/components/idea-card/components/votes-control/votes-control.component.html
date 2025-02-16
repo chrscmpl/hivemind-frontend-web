@@ -1,0 +1,42 @@
+<div class="flex">
+  <button
+    tuiButton
+    appearance="outline-grayscale"
+    class="!bg-background-base !flex !items-center !w-min !rounded-s-full !px-2 !gap-0 !h-10 !cursor-default"
+  >
+    <input
+      tuiLike
+      [formControl]="upvoteControl"
+      type="checkbox"
+      checkedIcon="@tui.arrow-big-up"
+      uncheckedIcon="@tui.arrow-big-up"
+      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote"
+      appearance="neutral"
+    />
+    @if (
+      idea.upvoteCount !== undefined &&
+      idea.downvoteCount !== undefined &&
+      idea.upvoteCount !== null &&
+      idea.downvoteCount !== null
+    ) {
+      <span>{{
+        idea.upvoteCount - idea.downvoteCount | average | uppercase
+      }}</span>
+    }
+  </button>
+  <button
+    tuiButton
+    appearance="outline-grayscale"
+    class="!bg-background-base !flex !items-center !rounded-e-full !border-l-0 !h-10 !px-2 !cursor-default"
+  >
+    <input
+      tuiLike
+      [formControl]="downvoteControl"
+      type="checkbox"
+      checkedIcon="@tui.arrow-big-down"
+      uncheckedIcon="@tui.arrow-big-down"
+      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-downvote"
+      appearance="neutral"
+    />
+  </button>
+</div>

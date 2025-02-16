@@ -1,6 +1,11 @@
 @let isMobile = breakpoints.isMobile();
 
-<tui-root>
+<tui-root
+  [attr.tuiTheme]="
+    (themeService.themeStatus$ | async)?.theme ??
+    document.body.getAttribute('data-theme')
+  "
+>
   <div
     class="bg-background-base h-screen w-screen overflow-hidden flex flex-col justify-stretch"
   >
