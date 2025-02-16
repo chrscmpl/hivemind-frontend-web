@@ -1,0 +1,17 @@
+<nav
+  tuiTabBar
+  [(activeItemIndex)]="activeItemIndex"
+  class="!absolute bottom-0 right-0 w-screen"
+>
+  @for (tab of tabs; track $index) {
+    <button
+      type="button"
+      tuiTabBarItem
+      routerLinkActive
+      [routerLink]="tab.routerLink"
+      [icon]="tab.icon"
+    >
+      {{ tab.label }}
+    </button>
+  }
+</nav>
