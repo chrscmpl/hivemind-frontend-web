@@ -15,7 +15,7 @@ export class BreakpointService {
   private readonly _isDesktopSmall: WritableSignal<boolean> = signal(false);
   private readonly _isDesktopLarge: WritableSignal<boolean> = signal(false);
   private readonly _isDesktop: Signal<boolean> = computed(
-    () => this._isDesktopSmall() || this._isDesktopLarge()
+    () => this._isDesktopSmall() || this._isDesktopLarge(),
   );
 
   public get isMobile(): Signal<boolean> {

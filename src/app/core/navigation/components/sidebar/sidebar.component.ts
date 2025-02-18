@@ -4,10 +4,17 @@ import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { SidebarService } from '@app/core/navigation/services/sidebar.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
+import { TuiChevron } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [TuiNavigation, TuiAsideItemDirective, RouterLink, RouterLinkActive],
+  imports: [
+    TuiNavigation,
+    TuiAsideItemDirective,
+    TuiChevron,
+    RouterLink,
+    RouterLinkActive,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
@@ -16,6 +23,6 @@ export class SidebarComponent {
 
   public constructor(
     public readonly breakpointsService: BreakpointService,
-    public readonly sidebarService: SidebarService
+    public readonly sidebarService: SidebarService,
   ) {}
 }

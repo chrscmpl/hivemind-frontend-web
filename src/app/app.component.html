@@ -20,10 +20,11 @@
         </main>
       </tui-scrollbar>
     </div>
-    @if (isMobile) {
-      <app-app-bar />
-    } @else {
-      <app-create-button />
-    }
   </div>
+  @if (isMobile) {
+    <app-app-bar />
+  } @else {
+    <app-create-button />
+  }
+  <router-outlet class="hidden" name="modal" />
 </tui-root>

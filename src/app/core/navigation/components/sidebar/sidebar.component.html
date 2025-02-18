@@ -1,84 +1,90 @@
-@if(!breakpointsService.isMobile()) {
-<aside
-  [tuiNavigationAside]="sidebarService.expanded()"
-  class="!h-[calc(100vh-3rem)]"
->
-  <header>
-    <button
-      iconStart="@tui.flame"
-      tuiAsideItem
-      type="button"
-      routerLink="/home"
-      [queryParams]="{ sort: IdeaSortEnum.CONTROVERSIAL }"
-      class="!font-bold [--tui-text-primary:theme(colors.controversial)] [--tui-background-neutral-1-hover:theme(colors.controversial-transparent)]"
-    >
-      <span>Controversial</span>
-    </button>
-    <button
-      iconStart="@tui.trophy"
-      tuiAsideItem
-      type="button"
-      routerLink="/home"
-      [queryParams]="{ sort: IdeaSortEnum.POPULAR }"
-      class="!font-bold [--tui-text-primary:theme(colors.popular)] [--tui-background-neutral-1-hover:theme(colors.popular-transparent)]"
-    >
-      <span>Popular</span>
-    </button>
-    <button
-      iconStart="@tui.frown"
-      tuiAsideItem
-      type="button"
-      routerLink="/home"
-      [queryParams]="{ sort: IdeaSortEnum.UNPOPULAR }"
-      class="!font-bold [--tui-text-primary:theme(colors.unpopular)] [--tui-background-neutral-1-hover:theme(colors.unpopular-transparent)]"
-    >
-      <span>Unpopular</span>
-    </button>
-  </header>
+@if (!breakpointsService.isMobile()) {
+  <aside
+    [tuiNavigationAside]="sidebarService.expanded()"
+    class="!h-[calc(100vh-3rem)]"
+  >
+    <header>
+      <button
+        iconStart="@tui.flame"
+        tuiAsideItem
+        type="button"
+        routerLink="/home"
+        [queryParams]="{ sort: IdeaSortEnum.CONTROVERSIAL }"
+        class="!font-bold [--tui-text-primary:theme(colors.controversial)] [--tui-background-neutral-1-hover:theme(colors.controversial-transparent)]"
+      >
+        <span>Controversial</span>
+      </button>
+      <button
+        iconStart="@tui.trophy"
+        tuiAsideItem
+        type="button"
+        routerLink="/home"
+        [queryParams]="{ sort: IdeaSortEnum.POPULAR }"
+        class="!font-bold [--tui-text-primary:theme(colors.popular)] [--tui-background-neutral-1-hover:theme(colors.popular-transparent)]"
+      >
+        <span>Popular</span>
+      </button>
+      <button
+        iconStart="@tui.frown"
+        tuiAsideItem
+        type="button"
+        routerLink="/home"
+        [queryParams]="{ sort: IdeaSortEnum.UNPOPULAR }"
+        class="!font-bold [--tui-text-primary:theme(colors.unpopular)] [--tui-background-neutral-1-hover:theme(colors.unpopular-transparent)]"
+      >
+        <span>Unpopular</span>
+      </button>
+    </header>
 
-  <button iconStart="@tui.plus" tuiAsideItem type="button">
-    <span>Post an idea</span>
-  </button>
+    <button iconStart="@tui.plus" tuiAsideItem type="button">
+      <span>Post an idea</span>
+    </button>
 
-  <tui-aside-group>
-    <button
-      automation-id="setting"
-      iconStart="@tui.settings"
-      tuiAsideItem
-      tuiChevron
-      type="button"
-    >
-      Settings
-      <ng-template>
-        <button tuiAsideItem type="button">Theme</button>
-      </ng-template>
-    </button>
-  </tui-aside-group>
-  <tui-aside-group>
-    <button
-      automation-id="more"
-      iconStart="@tui.ellipsis"
-      tuiAsideItem
-      tuiChevron
-      type="button"
-    >
-      <ng-template>
-        <button tuiAsideItem type="button">Privacy Policy</button>
-        <button tuiAsideItem type="button">Credits</button>
-      </ng-template>
-    </button>
-  </tui-aside-group>
-  <footer>
-    <button
-      [iconStart]="
-        sidebarService.expanded() ? '@tui.arrow-left' : '@tui.arrow-right'
-      "
-      tuiAsideItem
-      type="button"
-      (click)="sidebarService.toggle()"
-    >
-      <span>{{ sidebarService.expanded() ? "Collapse" : "" }}</span>
-    </button>
-  </footer>
-</aside>
+    <tui-aside-group>
+      <button
+        automation-id="setting"
+        iconStart="@tui.settings"
+        tuiAsideItem
+        tuiChevron
+        type="button"
+      >
+        Settings
+        <ng-template>
+          <button tuiAsideItem type="button">Theme</button>
+        </ng-template>
+      </button>
+    </tui-aside-group>
+    <tui-aside-group>
+      <button
+        automation-id="more"
+        iconStart="@tui.ellipsis"
+        tuiAsideItem
+        tuiChevron
+        type="button"
+      >
+        More
+        <ng-template>
+          <button tuiAsideItem type="button">Privacy Policy</button>
+          <button tuiAsideItem type="button">Credits</button>
+        </ng-template>
+      </button>
+    </tui-aside-group>
+    <footer>
+      <button
+        [iconStart]="
+          sidebarService.expanded() ? '@tui.arrow-left' : '@tui.arrow-right'
+        "
+        tuiAsideItem
+        type="button"
+        tuiHintDirection="right"
+        (click)="sidebarService.toggle()"
+      >
+        @if (sidebarService.expanded()) {
+          Collapse
+        } @else {
+          Expand
+        }
+      </button>
+    </footer>
+  </aside>
 }

@@ -13,10 +13,32 @@
       <tui-avatar src="user.svg" />
     </span>
   } @else {
-    <button tuiButton appearance="secondary" routerLink="/auth/login">
+    <button
+      tuiButton
+      appearance="secondary"
+      [routerLink]="[
+        '',
+        {
+          outlets: {
+            modal: ['auth', 'login'],
+          },
+        },
+      ]"
+    >
       Log in
     </button>
-    <button tuiButton appearance="primary" routerLink="/auth/signup">
+    <button
+      tuiButton
+      appearance="primary"
+      [routerLink]="[
+        '',
+        {
+          outlets: {
+            modal: ['auth', 'signup'],
+          },
+        },
+      ]"
+    >
       Sign up
     </button>
   }
