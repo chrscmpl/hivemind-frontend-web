@@ -29,8 +29,8 @@ export class DialogComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     let label: string | undefined = undefined;
     let route = this.route;
-    while (route && !label) {
-      label = route.snapshot?.data?.['dialogLabel'];
+    while (route) {
+      label = route.snapshot?.data?.['dialogLabel'] ?? label;
       route = route.children[0];
     }
 

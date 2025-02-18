@@ -120,6 +120,18 @@ export class VotesControlComponent implements OnInit, OnDestroy {
   }
 
   private remindToLogin(): void {
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(
+      [
+        '',
+        {
+          outlets: {
+            modal: ['auth', 'login'],
+          },
+        },
+      ],
+      {
+        queryParamsHandling: 'merge',
+      },
+    );
   }
 }
