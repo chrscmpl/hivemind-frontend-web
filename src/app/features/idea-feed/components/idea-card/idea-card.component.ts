@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import {
   Component,
   effect,
@@ -25,6 +25,7 @@ import { Subscription } from 'rxjs';
 import { ShareService } from '@app/core/misc/services/share.service';
 import { environment } from 'src/environments/environment';
 import { VotesControlComponent } from './components/votes-control/votes-control.component';
+import { AveragePipe } from '@app/shared/pipes/average.pipe';
 
 @Component({
   selector: 'app-idea-card',
@@ -39,6 +40,8 @@ import { VotesControlComponent } from './components/votes-control/votes-control.
     HumanizeDurationPipe,
     DatePipe,
     VotesControlComponent,
+    AveragePipe,
+    UpperCasePipe,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
@@ -71,7 +74,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
   }
 
   public onVoteChange(vote: boolean | null): void {
-    console.log('Vote changed', vote);
+    this.idea.setMyVoteAndUpdateCounts(vote);
   }
 
   public get isAuthor(): boolean {

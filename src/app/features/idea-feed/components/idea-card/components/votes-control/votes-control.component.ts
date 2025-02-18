@@ -9,8 +9,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '@app/core/auth/services/auth.service';
-import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { AveragePipe } from '@app/shared/pipes/average.pipe';
 import { TuiButton } from '@taiga-ui/core';
 import { TuiLike } from '@taiga-ui/kit';
@@ -30,46 +30,53 @@ import { Subscription } from 'rxjs';
 })
 export class VotesControlComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription[] = [];
-  @Input({ required: true }) public idea!: IdeaEntity;
-  @Output() public readonly vote = new EventEmitter<boolean | null>();
+  @Input() public voteTotal: number | null = null;
+  @Input() public vote: boolean | null = null;
+  @Output() public readonly voteChange = new EventEmitter<boolean | null>();
 
   private isAuthenticated: boolean = false;
-  private eventStarted: boolean = false;
+  private cbRunning: boolean = false;
   public readonly upvoteControl = new FormControl<boolean | null>(null);
   public readonly downvoteControl = new FormControl<boolean | null>(null);
 
-  public constructor(auth: AuthService) {
+  public constructor(
+    private readonly router: Router,
+    auth: AuthService,
+  ) {
     effect(() => {
       this.isAuthenticated = auth.isAuthenticated();
     });
   }
 
   public ngOnInit(): void {
-    this.upvoteControl.setValue(this.idea.myVote === true);
-    this.downvoteControl.setValue(this.idea.myVote === false);
+    this.upvoteControl.setValue(this.vote === true);
+    this.downvoteControl.setValue(this.vote === false);
 
     this.subscriptions.push(
-      this.upvoteControl.valueChanges.subscribe((value) => {
-        if (this.eventStarted) {
-          return;
-        }
-        this.eventStarted = true;
-        this.onUpvoteChangeEvent(value);
-        this.eventStarted = false;
-      }),
-      this.downvoteControl.valueChanges.subscribe((value) => {
-        if (this.eventStarted) {
-          return;
-        }
-        this.eventStarted = true;
-        this.onDownvoteChangeEvent(value);
-        this.eventStarted = false;
-      }),
+      this.upvoteControl.valueChanges.subscribe(
+        this.exclusiveCb((value) => this.onUpvoteChangeEvent(value)),
+      ),
+      this.downvoteControl.valueChanges.subscribe(
+        this.exclusiveCb((value) => this.onDownvoteChangeEvent(value)),
+      ),
     );
   }
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+
+  private exclusiveCb(
+    event: (value: boolean | null) => void,
+  ): (value: boolean | null) => void {
+    return (value: boolean | null) => {
+      if (this.cbRunning) {
+        return;
+      }
+      this.cbRunning = true;
+      event(value);
+      this.cbRunning = false;
+    };
   }
 
   private onUpvoteChangeEvent(value: boolean | null): void {
@@ -82,7 +89,7 @@ export class VotesControlComponent implements OnInit, OnDestroy {
       this.onUpvote();
       return;
     }
-    this.onUpvoteCancel();
+    this.onNullVote();
   }
 
   private onDownvoteChangeEvent(value: boolean | null): void {
@@ -95,42 +102,24 @@ export class VotesControlComponent implements OnInit, OnDestroy {
       this.onDownvote();
       return;
     }
-    this.onDownvoteCancel();
+    this.onNullVote();
   }
 
   private onUpvote(): void {
-    if (this.idea.myVote === false) {
-      this.idea.downvoteCount = (this.idea.downvoteCount ?? 0) - 1;
-    }
-    this.idea.myVote = true;
-    this.idea.upvoteCount = (this.idea.upvoteCount ?? 0) + 1;
     this.downvoteControl.setValue(false);
-    this.vote.emit(true);
+    this.voteChange.emit(true);
   }
 
   private onDownvote(): void {
-    if (this.idea.myVote === true) {
-      this.idea.upvoteCount = (this.idea.upvoteCount ?? 0) - 1;
-    }
-    this.idea.myVote = false;
-    this.idea.downvoteCount = (this.idea.downvoteCount ?? 0) + 1;
     this.upvoteControl.setValue(false);
-    this.vote.emit(false);
+    this.voteChange.emit(false);
   }
 
-  private onUpvoteCancel(): void {
-    this.idea.myVote = null;
-    this.idea.upvoteCount = (this.idea.upvoteCount ?? 0) - 1;
-    this.vote.emit(null);
-  }
-
-  private onDownvoteCancel(): void {
-    this.idea.myVote = null;
-    this.idea.downvoteCount = (this.idea.downvoteCount ?? 0) - 1;
-    this.vote.emit(null);
+  private onNullVote(): void {
+    this.voteChange.emit(null);
   }
 
   private remindToLogin(): void {
-    alert('Please login to vote');
+    this.router.navigate(['/auth/login']);
   }
 }

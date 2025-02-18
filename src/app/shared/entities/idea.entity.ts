@@ -95,4 +95,37 @@ export class IdeaEntity {
   public get updated(): boolean {
     return this._updated;
   }
+
+  public setMyVoteAndUpdateCounts(value: boolean | null): void {
+    if (
+      this.myVote === value ||
+      this.upvoteCount == undefined ||
+      this.downvoteCount == undefined
+    ) {
+      return;
+    }
+    if (value === true) {
+      this.upvoteCount++;
+      this.removeDownvoteIfPresent();
+    } else if (value === false) {
+      this.downvoteCount++;
+      this.removeUpvoteIfPresent();
+    } else if (value === null) {
+      this.removeUpvoteIfPresent();
+      this.removeDownvoteIfPresent();
+    }
+    this.myVote = value;
+  }
+
+  private removeUpvoteIfPresent(): void {
+    if (this.myVote === true && this.upvoteCount) {
+      this.upvoteCount--;
+    }
+  }
+
+  private removeDownvoteIfPresent(): void {
+    if (this.myVote === false && this.downvoteCount) {
+      this.downvoteCount--;
+    }
+  }
 }

@@ -13,15 +13,13 @@
       class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote"
       appearance="neutral"
     />
-    @if (
-      idea.upvoteCount !== undefined &&
-      idea.downvoteCount !== undefined &&
-      idea.upvoteCount !== null &&
-      idea.downvoteCount !== null
-    ) {
-      <span>{{
-        idea.upvoteCount - idea.downvoteCount | average | uppercase
-      }}</span>
+    @if (voteTotal !== null) {
+      <span
+        class="transition-colors duration-300"
+        [class.!text-upvote]="upvoteControl.value"
+        [class.!text-downvote]="downvoteControl.value"
+        >{{ voteTotal | average | uppercase }}</span
+      >
     }
   </button>
   <button

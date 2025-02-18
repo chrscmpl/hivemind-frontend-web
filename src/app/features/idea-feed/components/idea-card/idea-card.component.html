@@ -49,7 +49,9 @@
   </section>
 
   <section>
-    <h2 tuiTitle class="text-2xl font-bold">{{ idea.title }}</h2>
+    <h2 tuiTitle class="text-2xl font-bold line-clamp-3 break-words">
+      {{ idea.title }}
+    </h2>
   </section>
 
   <section
@@ -59,7 +61,18 @@
   ></section>
 
   <section class="flex items-center gap-2">
-    <app-votes-control [idea]="idea" (vote)="onVoteChange($event)" />
+    <app-votes-control
+      [voteTotal]="
+        idea.upvoteCount !== undefined &&
+        idea.downvoteCount !== undefined &&
+        idea.upvoteCount !== null &&
+        idea.downvoteCount !== null
+          ? idea.upvoteCount - idea.downvoteCount
+          : null
+      "
+      [vote]="idea.myVote ?? null"
+      (voteChange)="onVoteChange($event)"
+    />
 
     <button
       tuiButton
@@ -71,7 +84,9 @@
         tuiAppearance="neutral"
         class="!bg-transparent"
       />
-      {{ idea.commentCount }}
+      @if (idea.commentCount !== undefined) {
+        {{ idea.commentCount | average | uppercase }}
+      }
     </button>
   </section>
 </div>
