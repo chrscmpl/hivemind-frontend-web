@@ -16,30 +16,14 @@
     <button
       tuiButton
       appearance="secondary"
-      [routerLink]="[
-        '',
-        {
-          outlets: {
-            modal: ['auth', 'login'],
-          },
-        },
-      ]"
-      queryParamsHandling="merge"
+      (click)="dialogs.open(DialogEnum.LOGIN)"
     >
       Log in
     </button>
     <button
       tuiButton
       appearance="primary"
-      [routerLink]="[
-        '',
-        {
-          outlets: {
-            modal: ['auth', 'signup'],
-          },
-        },
-      ]"
-      queryParamsHandling="merge"
+      (click)="dialogs.open(DialogEnum.SIGNUP)"
     >
       Sign up
     </button>

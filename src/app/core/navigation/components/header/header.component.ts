@@ -6,12 +6,12 @@ import { LogoComponent } from '../logo/logo.component';
 import { TuiAvatar } from '@taiga-ui/kit';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { TuiButton } from '@taiga-ui/core';
-import { RouterLink } from '@angular/router';
+import { DialogsService } from '@app/core/dialogs/dialogs.service';
+import { DialogEnum } from '@app/core/dialogs/dialog.enum';
 
 @Component({
   selector: 'app-header',
   imports: [
-    RouterLink,
     TuiNavigation,
     TuiAvatar,
     TuiButton,
@@ -22,8 +22,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  public readonly DialogEnum = DialogEnum;
+
   public constructor(
     public readonly breakpoints: BreakpointService,
-    public readonly auth: AuthService
+    public readonly auth: AuthService,
+    public readonly dialogs: DialogsService,
   ) {}
 }

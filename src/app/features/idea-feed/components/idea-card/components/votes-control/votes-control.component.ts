@@ -9,8 +9,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '@app/core/auth/services/auth.service';
+import { DialogEnum } from '@app/core/dialogs/dialog.enum';
+import { DialogsService } from '@app/core/dialogs/dialogs.service';
 import { AveragePipe } from '@app/shared/pipes/average.pipe';
 import { TuiButton } from '@taiga-ui/core';
 import { TuiLike } from '@taiga-ui/kit';
@@ -40,7 +41,7 @@ export class VotesControlComponent implements OnInit, OnDestroy {
   public readonly downvoteControl = new FormControl<boolean | null>(null);
 
   public constructor(
-    private readonly router: Router,
+    private readonly dialogs: DialogsService,
     auth: AuthService,
   ) {
     effect(() => {
@@ -120,18 +121,6 @@ export class VotesControlComponent implements OnInit, OnDestroy {
   }
 
   private remindToLogin(): void {
-    this.router.navigate(
-      [
-        '',
-        {
-          outlets: {
-            modal: ['auth', 'login'],
-          },
-        },
-      ],
-      {
-        queryParamsHandling: 'merge',
-      },
-    );
+    this.dialogs.open(DialogEnum.LOGIN);
   }
 }
