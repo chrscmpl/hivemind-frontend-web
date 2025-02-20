@@ -18,12 +18,12 @@ export class DialogsService {
     [DialogEnum.LOGIN]: {
       component: LoginFormComponent,
       label: 'Log In',
-      dismissible: false,
+      size: 's',
     },
     [DialogEnum.SIGNUP]: {
       component: SignupFormComponent,
       label: 'Sign Up',
-      dismissible: false,
+      size: 's',
     },
   };
 

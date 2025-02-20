@@ -10,8 +10,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { LoginCredentialsEntity } from '../entities/login-credentials.entity';
 import { AuthTokenDto } from '../dto/auth-token.dto';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { catchError, map, Observable, switchMap, tap } from 'rxjs';
 import { LocalStorageService } from '@app/core/misc/services/local-storage.service';
+import { ACCESS_TOKEN_KEY } from '../const/access-token-key.const';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class AuthService {
     private readonly storage: LocalStorageService,
     private readonly http: HttpClient,
   ) {
-    if (this.storage.getItem('accessToken')) {
+    if (this.accessToken) {
       this.getUserData().subscribe();
     }
   }
@@ -47,7 +48,7 @@ export class AuthService {
       })
       .pipe(
         switchMap((token: AuthTokenDto) => {
-          this.storage.setItem('accessToken', token.accessToken);
+          this.accessToken = token.accessToken;
           return this.getUserData();
         }),
       );
@@ -63,5 +64,17 @@ export class AuthService {
       map((user) => new AuthenticatedUser(user)),
       tap((user) => this._authenticatedUser.set(user)),
     );
+  }
+
+  private get accessToken(): string | null {
+    return this.storage.getItem(ACCESS_TOKEN_KEY);
+  }
+
+  private set accessToken(token: string | null) {
+    if (token === null) {
+      this.storage.removeItem(ACCESS_TOKEN_KEY);
+    } else {
+      this.storage.setItem(ACCESS_TOKEN_KEY, token);
+    }
   }
 }

@@ -27,6 +27,15 @@
   --tui-background-base-alt: #f5f4f1;
 }
 
+// override default textfield behavior (error on change)
+[tuiAppearance][data-appearance="textfield"]:focus-visible:not(
+    [data-focus="false"]
+  ):not(.ng-touched) {
+  box-shadow: none !important;
+  outline: 0.125rem solid var(--tui-background-accent-1) !important;
+  outline-offset: -0.125rem !important;
+}
+
 .app-scrollbar > .t-bars > .t-bar {
   top: 10px !important;
 }
