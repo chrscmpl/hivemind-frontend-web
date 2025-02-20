@@ -1,1 +1,16 @@
-<button (click)="close()">Exit</button>
+<form tuiForm="l">
+  <a
+    tuiLink
+    class="w-fit"
+    (click)="goToSignup()"
+    (keydown.enter)="goToSignup()"
+    tabindex="0"
+    >Sign up instead</a
+  ><tui-textfield>
+    <label for="email">Email</label>
+    <input type="email" tuiTextfield />
+  </tui-textfield>
+  <footer>
+    <button tuiButton type="submit">Submit</button>
+  </footer>
+</form>

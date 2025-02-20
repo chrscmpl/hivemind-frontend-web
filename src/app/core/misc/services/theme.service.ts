@@ -1,4 +1,4 @@
-import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import {
   Observable,
   ReplaySubject,
@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { isEqual } from 'lodash-es';
-import { WA_LOCAL_STORAGE } from '@ng-web-apis/common';
+import { LocalStorageService } from './local-storage.service';
 
 export type theme = 'light' | 'dark';
 
@@ -57,7 +57,7 @@ export class ThemeService {
   }
 
   public constructor(
-    @Inject(WA_LOCAL_STORAGE) private readonly storage: Storage,
+    private readonly storage: LocalStorageService,
     mediaMatcher: MediaMatcher,
     rendererFactory: RendererFactory2,
   ) {

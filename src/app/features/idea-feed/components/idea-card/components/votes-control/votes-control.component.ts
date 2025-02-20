@@ -121,6 +121,6 @@ export class VotesControlComponent implements OnInit, OnDestroy {
   }
 
   private remindToLogin(): void {
-    this.dialogs.open(DialogEnum.LOGIN);
+    this.dialogs.open(DialogEnum.LOGIN).subscribe();
   }
 }

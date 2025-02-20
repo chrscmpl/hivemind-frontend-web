@@ -8,24 +8,43 @@
   @if (!!user) {
     <span class="flex items-center gap-2">
       <span [class]="isMobile ? 'w-20 truncate' : ''">
-        {{ user.username }}
+        {{ user.displayName }}
       </span>
-      <tui-avatar src="user.svg" />
+      <tui-avatar
+        src="user.svg"
+        class="cursor-pointer"
+        tuiDropdownOpen
+        [tuiDropdown]="content"
+      />
     </span>
   } @else {
     <button
       tuiButton
       appearance="secondary"
-      (click)="dialogs.open(DialogEnum.LOGIN)"
+      (click)="dialogs.open(DialogEnum.LOGIN).subscribe()"
     >
-      Log in
+      Log In
     </button>
     <button
       tuiButton
       appearance="primary"
-      (click)="dialogs.open(DialogEnum.SIGNUP)"
+      (click)="dialogs.open(DialogEnum.SIGNUP).subscribe()"
     >
-      Sign up
+      Sign Up
     </button>
   }
 </header>
+
+<ng-template #content>
+  <tui-data-list role="menu" size="s">
+    <a
+      tuiOption
+      role="menuitem"
+      (click)="auth.logout()"
+      (keyup.enter)="auth.logout()"
+      tabindex="0"
+    >
+      Log out
+    </a>
+  </tui-data-list>
+</ng-template>

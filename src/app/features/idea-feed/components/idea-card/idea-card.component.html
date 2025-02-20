@@ -5,7 +5,10 @@
 <div
   tuiCardLarge
   class="!bg-background-base hover:!bg-background-base-alt transition-colors duration-300 hover:cursor-pointer"
-  [class.!rounded-none]="isMobile"
+  [ngClass]="{
+    '!rounded-none': isMobile,
+    'hover:cursor-pointer select-none': compact,
+  }"
 >
   <section
     tuiHeader
@@ -49,7 +52,11 @@
   </section>
 
   <section>
-    <h2 tuiTitle class="text-2xl font-bold line-clamp-3 break-words">
+    <h2
+      tuiTitle
+      class="text-2xl font-bold break-words"
+      [ngClass]="{ 'line-clamp-3 break-words': compact }"
+    >
       {{ idea.title }}
     </h2>
   </section>
@@ -57,7 +64,7 @@
   <section
     tuiAppearance="flat-grayscale"
     [innerHTML]="idea.content"
-    class="line-clamp-2 break-words"
+    [ngClass]="{ 'line-clamp-2 break-words !text-text-secondary': compact }"
   ></section>
 
   <section class="flex items-center gap-2">

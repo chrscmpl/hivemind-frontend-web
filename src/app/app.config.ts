@@ -4,8 +4,9 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import numbro from 'numbro';
+import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
 
 numbro.setLanguage('en-US');
 
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     NG_EVENT_PLUGINS,
   ],
 };

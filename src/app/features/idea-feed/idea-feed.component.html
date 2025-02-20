@@ -5,7 +5,7 @@
 >
   @for (idea of requestManager.data; track idea.id) {
     @defer (on viewport) {
-      <app-idea-card [idea]="idea" (init)="onScrolled($index)" />
+      <app-idea-card [idea]="idea" (init)="onScrolled($index)" compact />
       @if ($index < requestManager.data.length - 1) {
         <div class="w-full border-border-normal border-[1px]"></div>
       }

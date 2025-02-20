@@ -1,4 +1,4 @@
-import { DatePipe, UpperCasePipe } from '@angular/common';
+import { DatePipe, NgClass, UpperCasePipe } from '@angular/common';
 import {
   Component,
   effect,
@@ -42,14 +42,23 @@ import { AveragePipe } from '@app/shared/pipes/average.pipe';
     VotesControlComponent,
     AveragePipe,
     UpperCasePipe,
+    NgClass,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
 })
 export class IdeaCardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
+  private _compact: boolean = false;
   @Output() public readonly init = new EventEmitter<void>();
   @Input({ required: true }) public idea!: IdeaEntity;
+  @Input() public set compact(value: boolean | '') {
+    this._compact = value !== false;
+  }
+
+  public get compact(): boolean {
+    return this._compact;
+  }
 
   private _isAuthor: boolean = false;
 
