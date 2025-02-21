@@ -7,7 +7,6 @@ import { TuiCarousel } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 import { IdeaFeedComponent } from '@features/idea-feed/components/idea-feed/idea-feed.component';
 import { IdeaPaginationService } from '@features/idea-feed/services/idea-pagination.service';
-import { ScrollerService } from '@core/misc/services/scroller.service';
 import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
 import { FeedSelectorComponent } from '../feed-selector/feed-selector.component';
 
@@ -29,7 +28,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public readonly IdeaSortEnum = IdeaSortEnum;
   public static readonly DEFAULT_SORT = IdeaSortEnum.CONTROVERSIAL;
   public sort!: string;
-  private _index = 1;
+  private _index: number | null = null;
 
   public readonly doFetchFeeds = [false, false, false];
 
@@ -47,11 +46,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
           : IdeaSortEnum.CONTROVERSIAL;
 
     this.setQuery(this.sort);
-    this.scroller.scroll({ coordinates: { x: 0, y: 0 } });
   }
 
   public get index(): number {
-    return this._index;
+    return this._index ?? 0;
   }
 
   public constructor(
@@ -59,7 +57,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     public readonly breakpoints: BreakpointService,
     public readonly ideaPaginationService: IdeaPaginationService,
-    public readonly scroller: ScrollerService,
   ) {}
 
   public ngOnInit(): void {
@@ -78,11 +75,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
           this.setQuery(HomePageComponent.DEFAULT_SORT);
           return;
         }
-        this.sort = sort;
         this.index =
-          this.sort === IdeaSortEnum.UNPOPULAR
+          sort === IdeaSortEnum.UNPOPULAR
             ? 2
-            : this.sort === IdeaSortEnum.POPULAR
+            : sort === IdeaSortEnum.POPULAR
               ? 1
               : 0;
       }),
