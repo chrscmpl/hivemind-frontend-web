@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { DialogEnum } from '@core/dialogs/dialog.enum';
 import { DialogsService } from '@core/dialogs/dialogs.service';
 import {
@@ -47,7 +47,7 @@ interface LoginForm {
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
-export class LoginFormComponent implements AfterViewInit {
+export class LoginFormComponent {
   public readonly form = new FormGroup<LoginForm>({
     email: new FormControl(null, {
       validators: [
@@ -78,14 +78,13 @@ export class LoginFormComponent implements AfterViewInit {
     private readonly apiErrorsService: ApiErrorsService,
   ) {}
 
-  public ngAfterViewInit(): void {
-    setTimeout(() => {
+  public submit() {
+    if (this.form.invalid) {
+      // makes browser autofill work
       this.patchValueFromNativeElement('email', '#email');
       this.patchValueFromNativeElement('password', '#password');
-    }, 500);
-  }
+    }
 
-  public submit() {
     if (this.form.invalid) {
       this.formUtils.markAllAsTouched(this.form);
       this.formUtils.forceValidation(this.form);
