@@ -1,1 +1,106 @@
+<form tuiForm="l" [formGroup]="form" (ngSubmit)="submit()" autocomplete="off">
+  <a
+    tuiLink
+    class="w-fit"
+    (click)="goToLogin()"
+    (keydown.enter)="goToLogin()"
+    tabindex="0"
+    >Log in instead
+  </a>
 
+  <tui-textfield iconEnd="@tui.smile">
+    <label for="signup-displayName">Name</label>
+    <input
+      tuiTextfield
+      id="signup-displayName"
+      name="displayName"
+      type="text"
+      formControlName="displayName"
+    />
+  </tui-textfield>
+  <tui-error
+    formControlName="displayName"
+    [error]="[] | tuiFieldError | async"
+  />
+
+  <tui-textfield iconEnd="@tui.at-sign">
+    <label for="signup-handle">Handle</label>
+    <input
+      tuiTextfield
+      id="signup-handle"
+      name="handle"
+      type="text"
+      formControlName="handle"
+    />
+  </tui-textfield>
+  <tui-error formControlName="handle" [error]="[] | tuiFieldError | async" />
+
+  <tui-textfield iconEnd="@tui.mail">
+    <label for="signup-email">Email</label>
+    <input
+      tuiTextfield
+      id="signup-email"
+      name="email"
+      type="email"
+      formControlName="email"
+      autocomplete="new-password"
+    />
+  </tui-textfield>
+  <tui-error formControlName="email" [error]="[] | tuiFieldError | async" />
+
+  <tui-textfield>
+    <label for="signup-password">Password</label>
+    <input
+      tuiTextfield
+      id="signup-password"
+      name="password"
+      type="password"
+      formControlName="password"
+      autocomplete="new-password"
+    />
+    <tui-icon tuiPassword />
+  </tui-textfield>
+  <tui-error formControlName="password" [error]="[] | tuiFieldError | async" />
+
+  <progress
+    max="100"
+    tuiProgressBar
+    [color]="
+      passwordStrength === passwordStrengthEnum.STRONG
+        ? 'var(--tui-status-positive)'
+        : passwordStrength === passwordStrengthEnum.MEDIUM
+          ? 'var(--tui-status-warning)'
+          : 'var(--tui-status-negative)'
+    "
+    [value]="
+      passwordStrength === passwordStrengthEnum.STRONG
+        ? 90
+        : passwordStrength === passwordStrengthEnum.MEDIUM
+          ? 50
+          : passwordStrength === passwordStrengthEnum.WEAK
+            ? 20
+            : 0
+    "
+  ></progress>
+
+  <tui-textfield>
+    <label for="signup-confirm-password">Confirm password</label>
+    <input
+      tuiTextfield
+      id="signup-confirm-password"
+      name="confirm-password"
+      type="password"
+      formControlName="confirmPassword"
+      autocomplete="new-password"
+    />
+    <tui-icon tuiPassword />
+  </tui-textfield>
+  <tui-error
+    formControlName="confirmPassword"
+    [error]="[] | tuiFieldError | async"
+  />
+
+  <footer>
+    <button tuiButton type="submit" class="w-full">Sign up</button>
+  </footer>
+</form>

@@ -8,10 +8,10 @@
     >Sign up instead
   </a>
   <tui-textfield iconEnd="@tui.mail">
-    <label for="email">Email</label>
+    <label for="login-email">Email</label>
     <input
       tuiTextfield
-      id="email"
+      id="login-email"
       name="email"
       type="email"
       formControlName="email"
@@ -20,10 +20,10 @@
   <tui-error formControlName="email" [error]="[] | tuiFieldError | async" />
 
   <tui-textfield>
-    <label for="password">Password</label>
+    <label for="login-password">Password</label>
     <input
       tuiTextfield
-      id="password"
+      id="login-password"
       name="password"
       type="password"
       formControlName="password"
