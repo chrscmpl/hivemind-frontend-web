@@ -1,4 +1,4 @@
-import { UserDto } from '@app/shared/dto/user.dto';
+import { UserDto } from '@shared/dto/user.dto';
 
 export interface IdeaDto {
   readonly id: number;
@@ -10,5 +10,5 @@ export interface IdeaDto {
   readonly createdAt?: string;
   readonly updatedAt?: string;
   readonly user?: UserDto;
-  readonly myVote?: boolean;
+  readonly myVote?: 'up' | 'down';
 }

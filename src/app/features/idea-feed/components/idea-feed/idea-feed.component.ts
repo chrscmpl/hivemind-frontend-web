@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IdeaPaginationService } from './services/idea-pagination.service';
-import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
-import { PaginatedRequestManager } from '@app/shared/helpers/paginated-request-manager.helper';
-import { IdeaEntity } from '@app/shared/entities/idea.entity';
-import { IdeaCardComponent } from './components/idea-card/idea-card.component';
-import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
+import { IdeaPaginationService } from '../../services/idea-pagination.service';
+import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
+import { PaginatedRequestManager } from '@shared/helpers/paginated-request-manager.helper';
+import { IdeaEntity } from '@shared/entities/idea.entity';
+import { BreakpointService } from '@core/misc/services/breakpoint.service';
+import { IdeaCardComponent } from '../../../idea-card/components/idea-card/idea-card.component';
 
 @Component({
   selector: 'app-idea-feed',

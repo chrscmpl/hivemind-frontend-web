@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IdeaDto } from '@app/shared/dto/idea.dto';
-import { IdeaEntity } from '@app/shared/entities/idea.entity';
+import { IdeaDto } from '@shared/dto/idea.dto';
+import { IdeaEntity } from '@shared/entities/idea.entity';
 import {
   PaginatedRequestManager,
   PaginatedRequestParams,
-} from '@app/shared/helpers/paginated-request-manager.helper';
+} from '@shared/helpers/paginated-request-manager.helper';
 import { defaults } from 'lodash-es';
 
 export interface IdeaPaginationQuery {

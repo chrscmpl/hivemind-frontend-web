@@ -1,4 +1,4 @@
-import { UserEntity } from '@app/shared/entities/user.entity';
+import { UserEntity } from '@shared/entities/user.entity';
 import { IdeaDto } from '../dto/idea.dto';
 
 export class IdeaEntity {
@@ -33,7 +33,8 @@ export class IdeaEntity {
     this._updated =
       !!this.createdAt && !!this.updatedAt && this.updatedAt > this.createdAt;
 
-    this._myVote = data.myVote;
+    this._myVote =
+      data.myVote === 'up' ? true : data.myVote === 'down' ? false : null;
   }
 
   public get id(): number {

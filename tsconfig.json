@@ -6,7 +6,10 @@
     "outDir": "./dist/out-tsc",
     "baseUrl": "./",
     "paths": {
-      "@app/*": ["src/app/*"]
+      "@app/*": ["src/app/*"],
+      "@features/*": ["src/app/features/*"],
+      "@core/*": ["src/app/core/*"],
+      "@shared/*": ["src/app/shared/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DialogEnum } from '@app/core/dialogs/dialog.enum';
-import { DialogsService } from '@app/core/dialogs/dialogs.service';
+import { DialogEnum } from '@core/dialogs/dialog.enum';
+import { DialogsService } from '@core/dialogs/dialogs.service';
 import { TuiDialogContext } from '@taiga-ui/core';
 import { injectContext } from '@taiga-ui/polymorpheus';
 

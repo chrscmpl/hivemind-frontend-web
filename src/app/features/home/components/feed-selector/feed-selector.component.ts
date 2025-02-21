@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
+import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { TuiSegmented } from '@taiga-ui/kit';
 
 @Component({

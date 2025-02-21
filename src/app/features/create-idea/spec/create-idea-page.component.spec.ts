@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateIdeaPageComponent } from '../create-idea-page.component';
+import { CreateIdeaPageComponent } from '../components/create-idea-page/create-idea-page.component';
 
 describe('CreateIdeaPageComponent', () => {
   let component: CreateIdeaPageComponent;

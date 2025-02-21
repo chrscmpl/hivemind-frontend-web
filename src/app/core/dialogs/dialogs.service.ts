@@ -1,8 +1,8 @@
 import { Injectable, Type } from '@angular/core';
 import { TuiDialogOptions, TuiDialogService } from '@taiga-ui/core';
 import { DialogEnum } from './dialog.enum';
-import { LoginFormComponent } from '@app/features/auth/forms/login-form/login-form.component';
-import { SignupFormComponent } from '@app/features/auth/forms/signup-form/signup-form.component';
+import { LoginFormComponent } from '@features/auth/components/login-form/login-form.component';
+import { SignupFormComponent } from '@features/auth/components/signup-form/signup-form.component';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 import { Observable } from 'rxjs';
 

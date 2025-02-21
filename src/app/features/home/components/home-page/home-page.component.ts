@@ -1,15 +1,15 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
-import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
+import { BreakpointService } from '@core/misc/services/breakpoint.service';
+import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { TuiCarousel } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
-import { IdeaFeedComponent } from '../idea-feed/idea-feed.component';
-import { IdeaPaginationService } from '../idea-feed/services/idea-pagination.service';
-import { ScrollerService } from '@app/core/misc/services/scroller.service';
+import { IdeaFeedComponent } from '@features/idea-feed/components/idea-feed/idea-feed.component';
+import { IdeaPaginationService } from '@features/idea-feed/services/idea-pagination.service';
+import { ScrollerService } from '@core/misc/services/scroller.service';
 import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
-import { FeedSelectorComponent } from './components/feed-selector/feed-selector.component';
+import { FeedSelectorComponent } from '../feed-selector/feed-selector.component';
 
 @Component({
   selector: 'app-home-page',

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef } from '@angular/core';
-import { DialogEnum } from '@app/core/dialogs/dialog.enum';
-import { DialogsService } from '@app/core/dialogs/dialogs.service';
+import { DialogEnum } from '@core/dialogs/dialog.enum';
+import { DialogsService } from '@core/dialogs/dialogs.service';
 import {
   TuiButton,
   TuiDialogContext,
@@ -19,11 +19,11 @@ import {
 import { TuiForm } from '@taiga-ui/layout';
 import { TuiFieldErrorPipe, TuiPassword } from '@taiga-ui/kit';
 import { AsyncPipe } from '@angular/common';
-import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
-import { ReactiveFormsUtilsService } from '@app/shared/services/reactive-forms-utils.service';
-import { AuthService } from '@app/core/auth/services/auth.service';
-import { LoginCredentialsEntity } from '@app/core/auth/entities/login-credentials.entity';
-import { ApiErrorsService } from '@app/shared/services/api-errors.service';
+import { customValidationErrors } from '@shared/helpers/custom-validation-errors.helper';
+import { ReactiveFormsUtilsService } from '@shared/services/reactive-forms-utils.service';
+import { AuthService } from '@core/auth/services/auth.service';
+import { LoginCredentialsEntity } from '@core/auth/entities/login-credentials.entity';
+import { ApiErrorsService } from '@shared/services/api-errors.service';
 
 interface LoginForm {
   email: FormControl<string | null>;

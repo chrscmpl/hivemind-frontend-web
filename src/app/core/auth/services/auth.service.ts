@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 import { LoginCredentialsEntity } from '../entities/login-credentials.entity';
 import { AuthTokenDto } from '../dto/auth-token.dto';
 import { catchError, map, Observable, switchMap, tap } from 'rxjs';
-import { LocalStorageService } from '@app/core/misc/services/local-storage.service';
+import { LocalStorageService } from '@core/misc/services/local-storage.service';
 import { ACCESS_TOKEN_KEY } from '../const/access-token-key.const';
 
 @Injectable({

@@ -9,10 +9,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '@app/core/auth/services/auth.service';
-import { DialogEnum } from '@app/core/dialogs/dialog.enum';
-import { DialogsService } from '@app/core/dialogs/dialogs.service';
-import { AveragePipe } from '@app/shared/pipes/average.pipe';
+import { AuthService } from '@core/auth/services/auth.service';
+import { DialogEnum } from '@core/dialogs/dialog.enum';
+import { DialogsService } from '@core/dialogs/dialogs.service';
+import { AveragePipe } from '@shared/pipes/average.pipe';
 import { TuiButton } from '@taiga-ui/core';
 import { TuiLike } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';

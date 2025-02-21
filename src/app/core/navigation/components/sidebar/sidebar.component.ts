@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TuiAsideItemDirective, TuiNavigation } from '@taiga-ui/layout';
-import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
-import { SidebarService } from '@app/core/navigation/services/sidebar.service';
+import { BreakpointService } from '@core/misc/services/breakpoint.service';
+import { SidebarService } from '@core/navigation/services/sidebar.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
+import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { TuiChevron } from '@taiga-ui/kit';
 
 @Component({

@@ -8,10 +8,10 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AuthService } from '@app/core/auth/services/auth.service';
-import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
-import { IdeaEntity } from '@app/shared/entities/idea.entity';
-import { HumanizeDurationPipe } from '@app/shared/pipes/humanize-duration.pipe';
+import { AuthService } from '@core/auth/services/auth.service';
+import { BreakpointService } from '@core/misc/services/breakpoint.service';
+import { IdeaEntity } from '@shared/entities/idea.entity';
+import { HumanizeDurationPipe } from '@shared/pipes/humanize-duration.pipe';
 import {
   TuiAppearance,
   TuiButton,
@@ -22,10 +22,11 @@ import {
 } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { Subscription } from 'rxjs';
-import { ShareService } from '@app/core/misc/services/share.service';
+import { ShareService } from '@core/misc/services/share.service';
 import { environment } from 'src/environments/environment';
-import { VotesControlComponent } from './components/votes-control/votes-control.component';
-import { AveragePipe } from '@app/shared/pipes/average.pipe';
+import { VotesControlComponent } from '../../../votes/components/votes-control.component';
+import { AveragePipe } from '@shared/pipes/average.pipe';
+import { VotesService } from '@features/votes/services/votes.service';
 
 @Component({
   selector: 'app-idea-card',
@@ -65,6 +66,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
   public constructor(
     public readonly breakpoints: BreakpointService,
     private readonly shareService: ShareService,
+    private readonly votesService: VotesService,
     auth: AuthService,
   ) {
     effect(() => {
@@ -83,7 +85,9 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
   }
 
   public onVoteChange(vote: boolean | null): void {
-    this.idea.setMyVoteAndUpdateCounts(vote);
+    this.votesService
+      .setVote(this.idea.id, vote)
+      .subscribe(() => this.idea.setMyVoteAndUpdateCounts(vote));
   }
 
   public get isAuthor(): boolean {
