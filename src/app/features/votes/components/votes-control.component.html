@@ -8,18 +8,18 @@
       tuiLike
       [formControl]="upvoteControl"
       type="checkbox"
-      checkedIcon="@tui.arrow-big-up"
+      checkedIcon="@tui.arrow-big-up-filled"
       uncheckedIcon="@tui.arrow-big-up"
       class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote"
       appearance="neutral"
     />
     @if (voteTotal !== null) {
       <span
-        class="transition-colors duration-300"
+        class="transition-colors duration-300 min-w-4"
         [class.!text-upvote]="upvoteControl.value"
         [class.!text-downvote]="downvoteControl.value"
-        >{{ voteTotal | average | uppercase }}</span
-      >
+        >{{ voteTotal | average | uppercase }}
+      </span>
     }
   </button>
   <button
@@ -31,7 +31,7 @@
       tuiLike
       [formControl]="downvoteControl"
       type="checkbox"
-      checkedIcon="@tui.arrow-big-down"
+      checkedIcon="@tui.arrow-big-down-filled"
       uncheckedIcon="@tui.arrow-big-down"
       class="!border-4 !h-8 !w-8 !bg-transparent after:!text-downvote"
       appearance="neutral"
