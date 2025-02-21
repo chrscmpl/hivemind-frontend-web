@@ -6,8 +6,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { SignupDataEntity } from '@app/core/auth/entities/signup-data.entity';
+import { AuthService } from '@app/core/auth/services/auth.service';
 import { passwordStrengthEnum } from '@app/shared/enums/password-strength.enum';
 import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
+import { ApiErrorsService } from '@app/shared/services/api-errors.service';
 import { PasswordStrengthMeasurerService } from '@app/shared/services/password-strength-measurer.service';
 import { ReactiveFormsUtilsService } from '@app/shared/services/reactive-forms-utils.service';
 import { confirmPasswordValidator } from '@app/shared/validators/confirm-password.validator';
@@ -45,6 +49,7 @@ interface SignupForm {
   selector: 'app-signup-form',
   imports: [
     ReactiveFormsModule,
+    RouterLink,
     TuiTextfield,
     TuiLink,
     TuiForm,
@@ -126,8 +131,6 @@ export class SignupFormComponent implements OnInit {
     }),
   });
 
-  public readonly termsOfServiceUrl = `${environment.origin}/tos`;
-
   public readonly passwordStrengthEnum = passwordStrengthEnum;
   public passwordStrength: passwordStrengthEnum | null = null;
 
@@ -146,6 +149,8 @@ export class SignupFormComponent implements OnInit {
     private readonly dialogs: DialogsService,
     private readonly formUtils: ReactiveFormsUtilsService,
     private readonly passwordStrengthMeasurer: PasswordStrengthMeasurerService,
+    private readonly auth: AuthService,
+    private readonly apiErrorsService: ApiErrorsService,
   ) {}
 
   public ngOnInit() {
@@ -161,10 +166,24 @@ export class SignupFormComponent implements OnInit {
       this.formUtils.forceValidation(this.form);
       return;
     }
+
+    this.auth
+      .signup(
+        new SignupDataEntity({
+          displayName: this.form.value.displayName as string,
+          handle: this.form.value.handle as string,
+          email: this.form.value.email as string,
+          password: this.form.value.password as string,
+        }),
+      )
+      .subscribe({
+        next: () => this.close(true),
+        error: (err) => this.apiErrorsService.displayErrors(err),
+      });
   }
 
-  public close() {
-    this.context.completeWith(false);
+  public close(value = false) {
+    this.context.completeWith(value);
   }
 
   public goToLogin() {

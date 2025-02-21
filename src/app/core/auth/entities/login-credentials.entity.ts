@@ -2,9 +2,9 @@ export class LoginCredentialsEntity {
   private _email: string;
   private _password: string;
 
-  public constructor(email: string, password: string) {
-    this._email = email;
-    this._password = password;
+  public constructor(data: Pick<LoginCredentialsEntity, 'email' | 'password'>) {
+    this._email = data.email;
+    this._password = data.password;
   }
 
   public get email(): string {

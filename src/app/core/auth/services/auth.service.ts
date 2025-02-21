@@ -10,9 +10,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { LoginCredentialsEntity } from '../entities/login-credentials.entity';
 import { AuthTokenDto } from '../dto/auth-token.dto';
-import { catchError, map, Observable, switchMap, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { LocalStorageService } from '@core/misc/services/local-storage.service';
 import { ACCESS_TOKEN_KEY } from '../const/access-token-key.const';
+import { SignupDataEntity } from '../entities/signup-data.entity';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,22 @@ export class AuthService {
       .post<AuthTokenDto>(`${environment.api}/auth/login`, {
         email: credentials.email,
         password: credentials.password,
+      })
+      .pipe(
+        switchMap((token: AuthTokenDto) => {
+          this.accessToken = token.accessToken;
+          return this.getUserData();
+        }),
+      );
+  }
+
+  public signup(data: SignupDataEntity): Observable<AuthenticatedUser> {
+    return this.http
+      .post<AuthTokenDto>(`${environment.api}/auth/signup`, {
+        displayName: data.displayName,
+        handle: data.handle,
+        email: data.email,
+        password: data.password,
       })
       .pipe(
         switchMap((token: AuthTokenDto) => {

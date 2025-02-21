@@ -93,10 +93,10 @@ export class LoginFormComponent {
 
     this.auth
       .login(
-        new LoginCredentialsEntity(
-          this.form.value.email as string,
-          this.form.value.password as string,
-        ),
+        new LoginCredentialsEntity({
+          email: this.form.value.email as string,
+          password: this.form.value.password as string,
+        }),
       )
       .subscribe({
         next: () => this.close(true),
