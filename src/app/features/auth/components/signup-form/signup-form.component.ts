@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -24,6 +24,7 @@ import {
 import { TuiFieldErrorPipe, TuiPassword, TuiProgress } from '@taiga-ui/kit';
 import { TuiForm } from '@taiga-ui/layout';
 import { injectContext } from '@taiga-ui/polymorpheus';
+import { interval, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 interface SignupForm {
@@ -111,7 +112,16 @@ export class SignupFormComponent implements OnInit {
   public readonly passwordStrengthEnum = passwordStrengthEnum;
   public passwordStrength: passwordStrengthEnum | null = null;
 
-  private context = injectContext<TuiDialogContext<boolean>>();
+  private readonly context = injectContext<TuiDialogContext<boolean>>();
+
+  public readonly passwordStrengthMeter: WritableSignal<number> = signal(0);
+
+  private readonly strengthMeterValues = {
+    null: 0,
+    [passwordStrengthEnum.WEAK]: 20,
+    [passwordStrengthEnum.MEDIUM]: 50,
+    [passwordStrengthEnum.STRONG]: 90,
+  };
 
   public constructor(
     private readonly dialogs: DialogsService,
@@ -122,11 +132,7 @@ export class SignupFormComponent implements OnInit {
   public ngOnInit() {
     this.form.controls.password.valueChanges.subscribe((value) => {
       this.form.controls.confirmPassword.updateValueAndValidity();
-      if (!value) {
-        this.passwordStrength = null;
-        return;
-      }
-      this.passwordStrength = this.passwordStrengthMeasurer.measure(value);
+      this.updatePasswordStrength(value);
     });
   }
 
@@ -145,5 +151,25 @@ export class SignupFormComponent implements OnInit {
   public goToLogin() {
     this.close();
     this.dialogs.open(DialogEnum.LOGIN).subscribe();
+  }
+
+  private updatePasswordStrength(value: string | null) {
+    const oldMeterValue =
+      this.strengthMeterValues[this.passwordStrength ?? 'null'];
+    this.passwordStrength = value
+      ? this.passwordStrengthMeasurer.measure(value)
+      : null;
+    const newMeterValue =
+      this.strengthMeterValues[this.passwordStrength ?? 'null'];
+
+    const valueDifference = newMeterValue - oldMeterValue;
+
+    interval(10)
+      .pipe(take(20))
+      .subscribe(() =>
+        this.passwordStrengthMeter.update(
+          (value) => value + valueDifference / 20,
+        ),
+      );
   }
 }

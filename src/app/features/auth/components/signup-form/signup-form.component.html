@@ -72,15 +72,7 @@
           ? 'var(--tui-status-warning)'
           : 'var(--tui-status-negative)'
     "
-    [value]="
-      passwordStrength === passwordStrengthEnum.STRONG
-        ? 90
-        : passwordStrength === passwordStrengthEnum.MEDIUM
-          ? 50
-          : passwordStrength === passwordStrengthEnum.WEAK
-            ? 20
-            : 0
-    "
+    [value]="passwordStrengthMeter()"
   ></progress>
 
   <tui-textfield>
