@@ -81,8 +81,14 @@ export class LoginFormComponent {
   public submit() {
     if (this.form.invalid) {
       // makes browser autofill work
-      this.patchValueFromNativeElement('email', '#email');
-      this.patchValueFromNativeElement('password', '#password');
+      this.patchValueFromNativeElement(
+        this.form.controls.email,
+        '#login-email',
+      );
+      this.patchValueFromNativeElement(
+        this.form.controls.password,
+        '#login-password',
+      );
     }
 
     if (this.form.invalid) {
@@ -115,14 +121,13 @@ export class LoginFormComponent {
 
   // makes browser autofill work
   private patchValueFromNativeElement(
-    controlName: string,
+    control: FormControl<string | null>,
     querySelector: string,
   ): void {
     const nativeInput = this.element.nativeElement.querySelector(
       querySelector,
     ) as HTMLInputElement | null;
 
-    if (nativeInput?.value)
-      this.form.get(controlName)?.patchValue(nativeInput.value);
+    if (nativeInput?.value) control.patchValue(nativeInput.value);
   }
 }
