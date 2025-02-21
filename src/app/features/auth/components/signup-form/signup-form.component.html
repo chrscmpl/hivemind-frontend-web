@@ -92,6 +92,21 @@
     [error]="[] | tuiFieldError | async"
   />
 
+  <section class="flex items-center gap-2">
+    <input
+      tuiCheckbox
+      type="checkbox"
+      id="signup-accept-tos"
+      name="accept-tos"
+      formControlName="acceptTos"
+    />
+    <label for="signup-accept-tos">
+      I accept HiveMind's
+      <a tuiLink [href]="termsOfServiceUrl" target="_blank">Terms of Service</a>
+    </label>
+  </section>
+  <tui-error formControlName="acceptTos" [error]="[] | tuiFieldError | async" />
+
   <footer>
     <button tuiButton type="submit" class="w-full">Sign up</button>
   </footer>

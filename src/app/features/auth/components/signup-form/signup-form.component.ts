@@ -21,7 +21,12 @@ import {
   TuiLink,
   TuiTextfield,
 } from '@taiga-ui/core';
-import { TuiFieldErrorPipe, TuiPassword, TuiProgress } from '@taiga-ui/kit';
+import {
+  TuiCheckbox,
+  TuiFieldErrorPipe,
+  TuiPassword,
+  TuiProgress,
+} from '@taiga-ui/kit';
 import { TuiForm } from '@taiga-ui/layout';
 import { injectContext } from '@taiga-ui/polymorpheus';
 import { interval, take } from 'rxjs';
@@ -33,6 +38,7 @@ interface SignupForm {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
   confirmPassword: FormControl<string | null>;
+  acceptTos: FormControl<boolean>;
 }
 
 @Component({
@@ -48,6 +54,7 @@ interface SignupForm {
     TuiIcon,
     TuiPassword,
     TuiProgress,
+    TuiCheckbox,
     AsyncPipe,
   ],
   templateUrl: './signup-form.component.html',
@@ -107,7 +114,19 @@ export class SignupFormComponent implements OnInit {
       ],
       updateOn: 'blur',
     }),
+
+    acceptTos: new FormControl(false, {
+      nonNullable: true,
+      validators: [
+        customValidationErrors(Validators.requiredTrue, {
+          required: 'You must accept the terms of service to sign up',
+        }),
+      ],
+      updateOn: 'change',
+    }),
   });
+
+  public readonly termsOfServiceUrl = `${environment.origin}/tos`;
 
   public readonly passwordStrengthEnum = passwordStrengthEnum;
   public passwordStrength: passwordStrengthEnum | null = null;
@@ -165,10 +184,10 @@ export class SignupFormComponent implements OnInit {
     const valueDifference = newMeterValue - oldMeterValue;
 
     interval(10)
-      .pipe(take(20))
+      .pipe(take(16))
       .subscribe(() =>
         this.passwordStrengthMeter.update(
-          (value) => value + valueDifference / 20,
+          (value) => value + valueDifference / 16,
         ),
       );
   }
