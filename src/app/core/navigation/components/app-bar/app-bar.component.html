@@ -1,7 +1,7 @@
 <nav
   tuiTabBar
   [(activeItemIndex)]="activeItemIndex"
-  class="!absolute bottom-0 right-0 w-screen"
+  class="!absolute bottom-0 right-0 w-screen select-none"
 >
   @for (tab of tabs; track $index) {
     <button

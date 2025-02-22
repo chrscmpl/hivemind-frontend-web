@@ -72,7 +72,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
     effect(() => {
       this._isAuthor =
         this.idea.user?.id !== undefined &&
-        this.idea.user?.id === auth.authenticatedUser()?.id;
+        this.idea.user?.id === auth.authUser()?.id;
     });
   }
 

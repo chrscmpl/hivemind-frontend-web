@@ -1,7 +1,7 @@
 @if (!breakpointsService.isMobile()) {
   <aside
     [tuiNavigationAside]="sidebarService.expanded()"
-    class="!h-[calc(100vh-3rem)]"
+    class="!h-[calc(100vh-3rem)] select-none"
   >
     <header>
       <button
@@ -36,7 +36,13 @@
       </button>
     </header>
 
-    <button iconStart="@tui.plus" tuiAsideItem type="button">
+    <button
+      iconStart="@tui.plus"
+      tuiAsideItem
+      type="button"
+      type="button"
+      routerLink="/idea/new"
+    >
       <span>Post an idea</span>
     </button>
 

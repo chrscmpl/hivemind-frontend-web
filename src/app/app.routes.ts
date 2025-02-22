@@ -14,7 +14,7 @@ export const routes: Routes = [
     component: HomePageComponent,
   },
   {
-    path: 'create-idea',
+    path: 'idea/new',
     component: CreateIdeaPageComponent,
     canActivate: [authGuard],
   },

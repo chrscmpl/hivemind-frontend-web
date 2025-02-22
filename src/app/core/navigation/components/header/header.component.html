@@ -1,14 +1,18 @@
-@let user = auth.authenticatedUser(); @let isMobile = breakpoints.isMobile();
-<header tuiNavigationHeader [class.overflow-hidden]="isMobile">
+@let authStatus = auth.authStatus(); @let isMobile = breakpoints.isMobile();
+<header
+  tuiNavigationHeader
+  class="select-none"
+  [class.overflow-hidden]="isMobile"
+>
   @if (isMobile) {
     <app-drawer />
   }
   <app-logo minimal [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
   <hr />
-  @if (!!user) {
+  @if (!!authStatus.user) {
     <span class="flex items-center gap-2">
       <span [class]="isMobile ? 'w-20 truncate' : ''">
-        {{ user.displayName }}
+        {{ authStatus.user.displayName }}
       </span>
       <tui-avatar
         src="user.svg"
@@ -17,7 +21,7 @@
         [tuiDropdown]="content"
       />
     </span>
-  } @else {
+  } @else if (authStatus.authChecked) {
     <button
       tuiButton
       appearance="secondary"
