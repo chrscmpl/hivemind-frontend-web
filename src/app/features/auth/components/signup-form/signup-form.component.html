@@ -16,6 +16,7 @@
       name="displayName"
       type="text"
       formControlName="displayName"
+      appUpdateOnEnter
     />
   </tui-textfield>
   <tui-error
@@ -31,6 +32,7 @@
       name="handle"
       type="text"
       formControlName="handle"
+      appUpdateOnEnter
     />
   </tui-textfield>
   <tui-error formControlName="handle" [error]="[] | tuiFieldError | async" />
@@ -44,6 +46,7 @@
       type="email"
       formControlName="email"
       autocomplete="new-password"
+      appUpdateOnEnter
     />
   </tui-textfield>
   <tui-error formControlName="email" [error]="[] | tuiFieldError | async" />
@@ -57,6 +60,7 @@
       type="password"
       formControlName="password"
       autocomplete="new-password"
+      appUpdateOnEnter
     />
     <tui-icon tuiPassword />
   </tui-textfield>
@@ -84,6 +88,7 @@
       type="password"
       formControlName="confirmPassword"
       autocomplete="new-password"
+      appUpdateOnEnter
     />
     <tui-icon tuiPassword />
   </tui-textfield>
@@ -99,6 +104,9 @@
       id="signup-accept-tos"
       name="accept-tos"
       formControlName="acceptTos"
+      (keyup.enter)="
+        form.controls.acceptTos.setValue(!form.controls.acceptTos.value)
+      "
     />
     <label for="signup-accept-tos" class="cursor-pointer">
       I accept HiveMind's

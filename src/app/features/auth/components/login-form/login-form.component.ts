@@ -24,6 +24,7 @@ import { ReactiveFormsUtilsService } from '@shared/services/reactive-forms-utils
 import { AuthService } from '@core/auth/services/auth.service';
 import { LoginCredentialsEntity } from '@core/auth/entities/login-credentials.entity';
 import { ApiErrorsService } from '@shared/services/api-errors.service';
+import { UpdateOnEnterDirective } from '@app/shared/directives/update-on-enter.directive';
 
 interface LoginForm {
   email: FormControl<string | null>;
@@ -43,6 +44,7 @@ interface LoginForm {
     TuiIcon,
     TuiPassword,
     AsyncPipe,
+    UpdateOnEnterDirective,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',

@@ -9,6 +9,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { SignupDataEntity } from '@app/core/auth/entities/signup-data.entity';
 import { AuthService } from '@app/core/auth/services/auth.service';
+import { UpdateOnEnterDirective } from '@app/shared/directives/update-on-enter.directive';
 import { passwordStrengthEnum } from '@app/shared/enums/password-strength.enum';
 import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
 import { ApiErrorsService } from '@app/shared/services/api-errors.service';
@@ -61,6 +62,7 @@ interface SignupForm {
     TuiProgress,
     TuiCheckbox,
     AsyncPipe,
+    UpdateOnEnterDirective,
   ],
   templateUrl: './signup-form.component.html',
   styleUrl: './signup-form.component.scss',

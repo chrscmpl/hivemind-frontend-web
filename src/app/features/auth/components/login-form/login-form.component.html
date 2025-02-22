@@ -15,6 +15,7 @@
       name="email"
       type="email"
       formControlName="email"
+      appUpdateOnEnter
     />
   </tui-textfield>
   <tui-error formControlName="email" [error]="[] | tuiFieldError | async" />
@@ -27,6 +28,7 @@
       name="password"
       type="password"
       formControlName="password"
+      appUpdateOnEnter
     />
     <tui-icon tuiPassword />
   </tui-textfield>
