@@ -15,12 +15,9 @@
     class="grid grid-cols-[auto_auto_auto_1fr] items-center content-center gap-x-2 text-text-tertiary"
   >
     @if (idea.user?.handle && idea.user?.displayName) {
-      <span
-        tuiAppearance="flat-grayscale"
-        class="!text-text-secondary line-clamp-1 break-all"
-      >
-        <span class="text-text-secondary"> {{ idea.user!.displayName }}</span>
-        &nbsp; &commat;{{ idea.user!.handle }}
+      <span class="!text-text-secondary line-clamp-1 break-all">
+        <span class="text-text-primary"> {{ idea.user!.displayName }}</span>
+        &commat;{{ idea.user!.handle }}
       </span>
       <span>•</span>
     }
@@ -30,9 +27,8 @@
         <tui-icon
           icon="@tui.pencil"
           [tuiHint]="'Updated ' + (idea.updatedAt | date: 'medium')"
-          tuiHintAppearance=""
           [tuiHintDirection]="isMobile ? 'top-left' : 'right'"
-          class="h-4 text-text-tertiary"
+          class="h-4"
         />
       }
     </span>

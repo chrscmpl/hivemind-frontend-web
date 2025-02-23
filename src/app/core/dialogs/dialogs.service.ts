@@ -5,6 +5,7 @@ import { LoginFormComponent } from '@features/auth/components/login-form/login-f
 import { SignupFormComponent } from '@features/auth/components/signup-form/signup-form.component';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 import { Observable } from 'rxjs';
+import { SettingsDialogComponent } from '@app/features/settings/components/settings-dialog/settings-dialog.component';
 
 type DialogDescriptor = {
   component: Type<unknown>;
@@ -24,6 +25,17 @@ export class DialogsService {
       component: SignupFormComponent,
       label: 'Sign Up',
       size: 's',
+    },
+    [DialogEnum.SETTINGS]: {
+      component: SettingsDialogComponent,
+      label: 'Settings',
+      size: 'm',
+    },
+    [DialogEnum.SETTINGS_THEME]: {
+      component: SettingsDialogComponent,
+      label: 'Settings',
+      size: 'm',
+      data: { tab: 'theme' },
     },
   };
 

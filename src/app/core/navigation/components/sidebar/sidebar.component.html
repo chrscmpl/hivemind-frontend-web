@@ -40,7 +40,6 @@
       iconStart="@tui.plus"
       tuiAsideItem
       type="button"
-      type="button"
       routerLink="/idea/new"
     >
       <span>Post an idea</span>
@@ -53,10 +52,19 @@
         tuiAsideItem
         tuiChevron
         type="button"
+        (isActiveChange)="dialogs.open(DialogEnum.SETTINGS).subscribe()"
       >
         Settings
         <ng-template>
-          <button tuiAsideItem type="button">Theme</button>
+          <button
+            tuiAsideItem
+            iconStart="@tui.palette"
+            type="button"
+            type="button"
+            (click)="dialogs.open(DialogEnum.SETTINGS_THEME).subscribe()"
+          >
+            Theme
+          </button>
         </ng-template>
       </button>
     </tui-aside-group>
@@ -70,9 +78,15 @@
       >
         More
         <ng-template>
-          <button tuiAsideItem type="button">Terms of Service</button>
-          <button tuiAsideItem type="button">Privacy Policy</button>
-          <button tuiAsideItem type="button">Credits</button>
+          <button tuiAsideItem iconStart="@tui.scroll-text" type="button">
+            Terms of Service
+          </button>
+          <button tuiAsideItem iconStart="@tui.shield" type="button">
+            Privacy Policy
+          </button>
+          <button tuiAsideItem iconStart="@tui.signature" type="button">
+            Credits
+          </button>
         </ng-template>
       </button>
     </tui-aside-group>

@@ -35,7 +35,7 @@ export class ThemeService {
   private renderer: Renderer2;
 
   public lightThemeVariations: readonly string[] = ['default'];
-  public darkThemeVariations: readonly string[] = ['default'];
+  public darkThemeVariations: readonly string[] = ['default', 'oled'];
 
   private systemPreference$!: Observable<theme>;
   public themeStatus$!: Observable<themeStatus>;
@@ -65,7 +65,7 @@ export class ThemeService {
 
     this.initObservables(mediaMatcher);
 
-    // this.subscribeToObservables();
+    this.subscribeToObservables();
 
     this.manuallySetTheme$.next(this.getSavedThemeFromStorage());
     this.lightThemeVariation$.next(

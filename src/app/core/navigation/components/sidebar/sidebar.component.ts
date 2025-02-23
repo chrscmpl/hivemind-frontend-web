@@ -5,6 +5,8 @@ import { SidebarService } from '@core/navigation/services/sidebar.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { TuiChevron } from '@taiga-ui/kit';
+import { DialogsService } from '@app/core/dialogs/dialogs.service';
+import { DialogEnum } from '@app/core/dialogs/dialog.enum';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,9 +22,11 @@ import { TuiChevron } from '@taiga-ui/kit';
 })
 export class SidebarComponent {
   public readonly IdeaSortEnum = IdeaSortEnum;
+  public readonly DialogEnum = DialogEnum;
 
   public constructor(
     public readonly breakpointsService: BreakpointService,
     public readonly sidebarService: SidebarService,
+    public readonly dialogs: DialogsService,
   ) {}
 }

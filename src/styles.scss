@@ -12,21 +12,8 @@
   --unpopular: #3b82f6;
   --unpopular-transparent: #3b82f644;
 
-  --upvote-color: #f93e00;
+  --upvote-color: #db3a01;
   --downvote-color: #6800e0;
-}
-
-[tuiTheme="dark"] {
-  --tui-background-base: #121212;
-  --tui-background-base-alt: #181818;
-  --tui-theme-color: #09090b;
-  --tui-service-autofill-background: #0033eb21;
-}
-
-[tuiTheme="light"] {
-  --tui-background-base: #fffefb;
-  --tui-background-base-alt: #f5f4f1;
-  --tui-service-autofill-background: #0037ff21;
 }
 
 // override default textfield behavior (error on change)
