@@ -2,9 +2,20 @@ import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { theme, ThemeService } from '@app/core/misc/services/theme.service';
-import { TuiDataList, TuiLoader } from '@taiga-ui/core';
-import { TuiRadio } from '@taiga-ui/kit';
-import { debounceTime, Observable, skip, Subscription, take } from 'rxjs';
+import { TuiButton, TuiDataList, TuiDropdown, TuiLoader } from '@taiga-ui/core';
+import {
+  TuiChevron,
+  TuiDataListDropdownManager,
+  TuiRadio,
+} from '@taiga-ui/kit';
+import {
+  debounceTime,
+  delay,
+  Observable,
+  skip,
+  Subscription,
+  take,
+} from 'rxjs';
 
 @Component({
   selector: 'app-theme-settings-dialog',
@@ -13,6 +24,10 @@ import { debounceTime, Observable, skip, Subscription, take } from 'rxjs';
     TuiRadio,
     TuiLoader,
     TuiDataList,
+    TuiDataListDropdownManager,
+    TuiButton,
+    TuiChevron,
+    TuiDropdown,
     AsyncPipe,
     TitleCasePipe,
   ],
@@ -21,6 +36,9 @@ import { debounceTime, Observable, skip, Subscription, take } from 'rxjs';
 })
 export class ThemeSettingsDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
+
+  public themeVariationDropdownOpen = false;
+  public currentTheme?: theme;
 
   public form = new FormGroup({
     theme: new FormControl<theme | 'system' | null>(null),
@@ -32,26 +50,36 @@ export class ThemeSettingsDialogComponent implements OnInit, OnDestroy {
 
   private darkThemeVariationOptions: string[];
 
-  public themeVariationOptions;
+  public themeVariationOptions: Record<
+    theme,
+    {
+      theme: theme;
+      control: FormControl<string | null>;
+      options: string[];
+    }
+  >;
 
   public themeLoading$: Observable<boolean>;
 
   constructor(private readonly theme: ThemeService) {
     this.lightThemeVariationOptions = [...this.theme.lightThemeVariations];
     this.darkThemeVariationOptions = [...this.theme.darkThemeVariations];
-    this.themeLoading$ = this.theme.themeLoading$.pipe(debounceTime(100));
-    this.themeVariationOptions = [
-      {
+    this.themeLoading$ = this.theme.themeLoading$.pipe(
+      debounceTime(100),
+      delay(1000),
+    );
+    this.themeVariationOptions = {
+      light: {
         theme: 'light',
-        controlName: 'lightThemeVariation',
+        control: this.form.controls.lightThemeVariation,
         options: this.lightThemeVariationOptions,
       },
-      {
+      dark: {
         theme: 'dark',
-        controlName: 'darkThemeVariation',
+        control: this.form.controls.darkThemeVariation,
         options: this.darkThemeVariationOptions,
       },
-    ];
+    };
   }
 
   public ngOnInit(): void {
@@ -71,6 +99,10 @@ export class ThemeSettingsDialogComponent implements OnInit, OnDestroy {
         .subscribe((value) => {
           this.theme.setThemeVariation('dark', value ?? 'default');
         }),
+
+      this.theme.themeStatus$.subscribe((theme) => {
+        this.currentTheme = theme.theme;
+      }),
     ]);
 
     this.theme.themeStatus$.pipe(take(1)).subscribe((theme) => {
@@ -79,10 +111,6 @@ export class ThemeSettingsDialogComponent implements OnInit, OnDestroy {
       this.form.controls.lightThemeVariation.setValue(theme.variations.light);
       this.form.controls.darkThemeVariation.setValue(theme.variations.dark);
     });
-  }
-
-  public setThemeVariation(controlName: string, variation: string): void {
-    this.form.get(controlName)?.setValue(variation);
   }
 
   public ngOnDestroy(): void {

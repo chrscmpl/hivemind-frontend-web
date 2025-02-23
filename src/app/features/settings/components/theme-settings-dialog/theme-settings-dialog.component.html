@@ -1,68 +1,81 @@
 <section>
-  <form [formGroup]="form" class="flex flex-col gap-4">
-    <div class="flex gap-2">
-      <input
-        tuiRadio
-        type="radio"
-        name="theme"
-        value="light"
-        id="theme-light"
-        formControlName="theme"
-      />
-      <label for="theme-light"> Light </label>
+  <form
+    [formGroup]="form"
+    class="flex justify-between flex-wrap items-center gap-4"
+  >
+    <div class="flex flex-col gap-4">
+      <div class="flex gap-2">
+        <input
+          tuiRadio
+          type="radio"
+          name="theme"
+          value="light"
+          id="theme-light"
+          formControlName="theme"
+        />
+        <label for="theme-light"> Light </label>
+      </div>
+      <div class="flex gap-2">
+        <input
+          tuiRadio
+          type="radio"
+          name="theme"
+          value="dark"
+          id="theme-dark"
+          formControlName="theme"
+        />
+        <label for="theme-dark"> Dark </label>
+      </div>
+      <div class="flex gap-2">
+        <input
+          tuiRadio
+          type="radio"
+          name="theme"
+          value="system"
+          id="theme-system"
+          formControlName="theme"
+        />
+        <label for="theme-system"> Follow system </label>
+      </div>
     </div>
 
-    <div class="flex gap-2">
-      <input
-        tuiRadio
-        type="radio"
-        name="theme"
-        value="dark"
-        id="theme-dark"
-        formControlName="theme"
-      />
-      <label for="theme-dark"> Dark </label>
-    </div>
-
-    <div class="flex gap-2">
-      <input
-        tuiRadio
-        type="radio"
-        name="theme"
-        value="system"
-        id="theme-system"
-        formControlName="theme"
-      />
-      <label for="theme-system"> Follow system </label>
-    </div>
-
-    @for (option of themeVariationOptions; track $index) {
+    <div class="flex flex-col items-center justify-between self-stretch">
       @if (
-        form.controls.theme.value === option.theme && option.options.length > 1
+        currentTheme && themeVariationOptions[currentTheme].options.length > 1
       ) {
-        <div>
-          <span>{{ option.theme | titlecase }} theme</span>
-          <tui-data-list role="menu">
-            <tui-opt-group>
-              @for (item of option.options; track $index) {
-                <a
-                  tuiOption
-                  role="menuitem"
-                  (click)="setThemeVariation(option.controlName, item)"
-                  (keydown.enter)="setThemeVariation(option.controlName, item)"
-                  tabindex="0"
-                >
-                  {{ item }}
-                </a>
-              }
-            </tui-opt-group>
-          </tui-data-list>
-        </div>
+        <button
+          class="w-fit"
+          tuiButton
+          tuiChevron
+          type="button"
+          [tuiDropdown]="themeVariationDropdown"
+          [(tuiDropdownOpen)]="themeVariationDropdownOpen"
+        >
+          {{ currentTheme | titlecase }} theme variation
+        </button>
+      }
+      <tui-loader
+        class="opacity-0"
+        [class.!opacity-100]="themeLoading$ | async"
+      />
+    </div>
+  </form>
+</section>
+
+<ng-template #themeVariationDropdown>
+  <tui-data-list tuiDataListDropdownManager size="l" class="min-w-52">
+    @if (currentTheme) {
+      @let option = themeVariationOptions[currentTheme];
+      @for (item of option.options; track $index) {
+        <button
+          tuiOption
+          type="button"
+          class="!font-bold"
+          (click)="option.control.setValue(item)"
+        >
+          {{ item | titlecase }}
+        </button>
       }
     }
-  </form>
-
-  @if (themeLoading$ | async) {
-    <tui-loader />
-  }
-</section>
+  </tui-data-list>
+</ng-template>

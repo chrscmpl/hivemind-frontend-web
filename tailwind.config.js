@@ -7,10 +7,14 @@ module.exports = {
       colors: {
         controversial: "var(--controversial)",
         "controversial-transparent": "var(--controversial-transparent)",
+        "controversial-transparent-pressed":
+          "var(--controversial-transparent-pressed)",
         popular: "var(--popular)",
         "popular-transparent": "var(--popular-transparent)",
+        "popular-transparent-pressed": "var(--popular-transparent-pressed)",
         unpopular: "var(--unpopular)",
         "unpopular-transparent": "var(--unpopular-transparent)",
+        "unpopular-transparent-pressed": "var(--unpopular-transparent-pressed)",
         upvote: "var(--upvote-color)",
         downvote: "var(--downvote-color)",
         "border-normal": "var(--tui-border-normal)",
