@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { DialogEnum } from '@app/core/dialogs/dialog.enum';
+import { DialogsService } from '@app/core/dialogs/dialogs.service';
 import { TuiTabBar } from '@taiga-ui/addon-mobile';
 
 @Component({
@@ -11,6 +13,8 @@ import { TuiTabBar } from '@taiga-ui/addon-mobile';
 export class AppBarComponent {
   public activeItemIndex = 0;
 
+  public constructor(private readonly dialogs: DialogsService) {}
+
   public readonly tabs = [
     {
       label: 'Home',
@@ -19,13 +23,13 @@ export class AppBarComponent {
     },
     {
       label: 'Create',
-      routerLink: '/create',
+      routerLink: '/idea/new',
       icon: '@tui.circle-plus',
     },
     {
       label: 'Settings',
-      routerLink: '/settings',
       icon: '@tui.settings',
+      action: () => this.dialogs.open(DialogEnum.SETTINGS).subscribe(),
     },
   ];
 }
