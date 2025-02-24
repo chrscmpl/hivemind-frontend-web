@@ -69,8 +69,12 @@
       @for (item of option.options; track $index) {
         <button
           tuiOption
+          [tuiAppearance]="
+            option.control.value === item ? 'flat' : 'flat-grayscale'
+          "
+          [iconEnd]="option.control.value === item ? '@tui.check' : ''"
           type="button"
-          class="!font-bold"
+          class="!font-bold after:!m-0"
           (click)="option.control.setValue(item)"
         >
           {{ item | titlecase }}

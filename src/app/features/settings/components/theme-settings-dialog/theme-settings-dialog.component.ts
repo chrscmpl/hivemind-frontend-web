@@ -2,7 +2,13 @@ import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { theme, ThemeService } from '@app/core/misc/services/theme.service';
-import { TuiButton, TuiDataList, TuiDropdown, TuiLoader } from '@taiga-ui/core';
+import {
+  TuiAppearance,
+  TuiButton,
+  TuiDataList,
+  TuiDropdown,
+  TuiLoader,
+} from '@taiga-ui/core';
 import {
   TuiChevron,
   TuiDataListDropdownManager,
@@ -26,6 +32,7 @@ import {
     TuiDataList,
     TuiDataListDropdownManager,
     TuiButton,
+    TuiAppearance,
     TuiChevron,
     TuiDropdown,
     AsyncPipe,
