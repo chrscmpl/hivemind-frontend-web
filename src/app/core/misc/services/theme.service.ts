@@ -17,6 +17,7 @@ import { isEqual } from 'lodash-es';
 import { LocalStorageService } from './local-storage.service';
 import { GET_THEME_COLOR } from '../tokens/get-theme-color.token';
 import { THEMES } from '../tokens/themes.token';
+import { DOCUMENT } from '@angular/common';
 
 export type theme = 'light' | 'dark';
 
@@ -33,7 +34,6 @@ interface themeStatus {
   providedIn: 'root',
 })
 export class ThemeService {
-  private themeLink: HTMLLinkElement | null = null;
   private renderer: Renderer2;
 
   public lightThemeVariations: readonly string[];
@@ -62,6 +62,7 @@ export class ThemeService {
     private readonly storage: LocalStorageService,
     @Inject(GET_THEME_COLOR)
     private readonly getThemeColor: () => string | null,
+    @Inject(DOCUMENT) private readonly document: Document,
     mediaMatcher: MediaMatcher,
     rendererFactory: RendererFactory2,
     @Inject(THEMES) themes: { light: string[]; dark: string[] },
@@ -143,9 +144,9 @@ export class ThemeService {
   }
 
   private subscribeToObservables(): void {
-    this.themeLink = document?.head?.querySelector('.theme-link') ?? null;
-    if (this.themeLink) this.onThemeLoad();
-    const skipCount = this.themeLink ? 1 : 0;
+    const themeLink = this.document.head.querySelector('.theme-link') ?? null;
+    if (themeLink) this.onThemeLoad();
+    const skipCount = themeLink ? 1 : 0;
 
     this.theme$.pipe(skip(skipCount)).subscribe(this.onThemeChange.bind(this));
 
@@ -186,29 +187,32 @@ export class ThemeService {
     this.renderer.setAttribute(link, 'rel', 'stylesheet');
     this.renderer.setAttribute(link, 'type', 'text/css');
     this.renderer.setAttribute(link, 'class', 'theme-link');
-    this.renderer.appendChild(document.head, link);
+    this.renderer.appendChild(this.document.head, link);
     return link;
   }
 
-  private destroyStyleSheetLink(link: HTMLLinkElement): void {
-    this.renderer.removeChild(document.head, link);
+  private destroyOldStyleSheets(newLink: HTMLLinkElement): void {
+    const links = this.document.head.querySelectorAll('.theme-link');
+    links.forEach((link) => {
+      if (link === newLink) return;
+      this.renderer.removeChild(this.document.head, link);
+    });
   }
 
   private onThemeChange(theme: string): void {
     this._themeLoading$.next(true);
     const href = `./theme-${theme}.css`;
 
-    const oldLink = this.themeLink;
-    this.themeLink = this.createStyleSheetLink();
+    const themeLink = this.createStyleSheetLink();
 
-    fromEvent(this.themeLink, 'load', { passive: true })
+    fromEvent(themeLink, 'load', { passive: true })
       .pipe(take(1))
       .subscribe(() => {
-        if (oldLink) this.destroyStyleSheetLink(oldLink);
+        this.destroyOldStyleSheets(themeLink);
         this.onThemeLoad();
       });
 
-    this.renderer.setAttribute(this.themeLink, 'href', href);
+    this.renderer.setAttribute(themeLink, 'href', href);
   }
 
   private onThemeLoad(): void {
@@ -220,7 +224,7 @@ export class ThemeService {
     const themeColor = this.getThemeColor();
 
     if (themeColor)
-      document.head
+      this.document.head
         .querySelector('meta[name="theme-color"]')
         ?.setAttribute('content', themeColor);
   }
