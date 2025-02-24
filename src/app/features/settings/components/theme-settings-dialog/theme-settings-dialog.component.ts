@@ -92,12 +92,14 @@ export class ThemeSettingsDialogComponent implements OnInit, OnDestroy {
         .pipe(skip(1))
         .subscribe((value) => {
           this.theme.setThemeVariation('light', value ?? 'default');
+          this.themeVariationDropdownOpen = false;
         }),
 
       this.form.controls.darkThemeVariation.valueChanges
         .pipe(skip(1))
         .subscribe((value) => {
           this.theme.setThemeVariation('dark', value ?? 'default');
+          this.themeVariationDropdownOpen = false;
         }),
 
       this.theme.themeStatus$.subscribe((theme) => {
