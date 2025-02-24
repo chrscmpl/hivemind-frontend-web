@@ -4,6 +4,9 @@ module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
     extend: {
+      transitionDuration: {
+        tui: "var(--tui-duration)",
+      },
       colors: {
         controversial: "var(--controversial)",
         "controversial-transparent": "var(--controversial-transparent)",

@@ -11,13 +11,13 @@
       type="checkbox"
       checkedIcon="@tui.arrow-big-up-filled"
       uncheckedIcon="@tui.arrow-big-up"
-      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote before:hover:!text-upvote before:!transition-colors before:!duration-300"
+      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote before:hover:!text-upvote before:!transition-colors before:!duration-tui"
       appearance="neutral"
       (click)="$event.stopPropagation()"
     />
     @if (voteTotal !== null) {
       <span
-        class="transition-colors duration-300 min-w-4"
+        class="transition-colors duration-tui min-w-4"
         [class.!text-upvote]="upvoteControl.value"
         [class.!text-downvote]="downvoteControl.value"
         >{{ voteTotal | average | uppercase }}
@@ -36,7 +36,7 @@
       type="checkbox"
       checkedIcon="@tui.arrow-big-down-filled"
       uncheckedIcon="@tui.arrow-big-down"
-      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-downvote before:hover:!text-downvote before:!transition-colors before:!duration-300"
+      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-downvote before:hover:!text-downvote before:!transition-colors before:!duration-tui"
       appearance="neutral"
       (click)="$event.stopPropagation()"
     />

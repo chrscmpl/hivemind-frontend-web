@@ -1,7 +1,7 @@
 @use "../base";
 @use "../partials/oled-utils";
 
-[tuiTheme="dark"] {
+[tuiTheme] {
   --tui-text-primary: #00ff00;
   --tui-text-secondary: #00ff00;
   --tui-text-tertiary: #00ff00;
@@ -49,8 +49,8 @@
   --upvote-color: #ffff00;
   --downvote-color: #0000ff;
 
-  --tui-text-action: #00ff00;
-  --tui-text-action-hover: #00ff00;
+  --tui-text-action: #ffff00;
+  --tui-text-action-hover: #ffff00;
   --tui-text-negative: #ff0000;
   --tui-text-negative-hover: #ff0000;
   --tui-text-positive: #00ff00;
@@ -104,6 +104,8 @@
   --tui-font-text-xl: monospace;
   --tui-font-text-xs: monospace;
 
+  --tui-duration: 0ms !important;
+
   font-family: monospace;
   font-size: large;
 }
@@ -119,6 +121,22 @@ tui-dialog > .t-content {
 
 tui-segmented::before {
   background: var(--tui-background-base-alt);
+}
+
+tui-carousel {
+  --tui-duration: 300ms;
+}
+
+tui-carousel > .t-scroller > .t-wrapper > .t-items > .t-item {
+  --tui-duration: 0ms;
+}
+
+tui-hint {
+  border: 1px solid var(--tui-border-normal);
+}
+
+tui-hint::before {
+  display: none;
 }
 
 [tuiCardLarge] {
