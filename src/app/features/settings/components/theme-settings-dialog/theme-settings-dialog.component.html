@@ -51,7 +51,13 @@
           [tuiDropdown]="themeVariationDropdown"
           [(tuiDropdownOpen)]="themeVariationDropdownOpen"
         >
-          {{ currentTheme | titlecase }} theme variation
+          {{ currentTheme | titlecase }} theme:
+          {{
+            (currentTheme === "light"
+              ? form.controls.lightThemeVariation.value
+              : form.controls.darkThemeVariation.value
+            ) | titlecase
+          }}
         </button>
       }
       <tui-loader

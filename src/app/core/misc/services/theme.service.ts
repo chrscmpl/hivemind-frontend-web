@@ -16,6 +16,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { isEqual } from 'lodash-es';
 import { LocalStorageService } from './local-storage.service';
 import { GET_THEME_COLOR } from '../tokens/get-theme-color.token';
+import { THEMES } from '../tokens/themes.token';
 
 export type theme = 'light' | 'dark';
 
@@ -35,8 +36,8 @@ export class ThemeService {
   private themeLink: HTMLLinkElement | null = null;
   private renderer: Renderer2;
 
-  public lightThemeVariations: readonly string[] = ['default'];
-  public darkThemeVariations: readonly string[] = ['default', 'oled'];
+  public lightThemeVariations: readonly string[];
+  public darkThemeVariations: readonly string[];
 
   private systemPreference$!: Observable<theme>;
   public themeStatus$!: Observable<themeStatus>;
@@ -59,12 +60,15 @@ export class ThemeService {
 
   public constructor(
     private readonly storage: LocalStorageService,
-    mediaMatcher: MediaMatcher,
-    rendererFactory: RendererFactory2,
     @Inject(GET_THEME_COLOR)
     private readonly getThemeColor: () => string | null,
+    mediaMatcher: MediaMatcher,
+    rendererFactory: RendererFactory2,
+    @Inject(THEMES) themes: { light: string[]; dark: string[] },
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
+    this.lightThemeVariations = themes.light;
+    this.darkThemeVariations = themes.dark;
 
     this.initObservables(mediaMatcher);
 

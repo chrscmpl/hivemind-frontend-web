@@ -52,6 +52,21 @@
                 "input": "src/themes/dark/variations/oled.scss",
                 "bundleName": "theme-dark-oled",
                 "inject": false
+              },
+              {
+                "input": "src/themes/dark/variations/terminal.scss",
+                "bundleName": "theme-dark-terminal",
+                "inject": false
+              },
+              {
+                "input": "src/themes/light/variations/candy.scss",
+                "bundleName": "theme-light-candy",
+                "inject": false
+              },
+              {
+                "input": "src/themes/light/variations/tree.scss",
+                "bundleName": "theme-light-tree",
+                "inject": false
               }
             ],
             "scripts": ["src/scripts/init-theme.js"]

@@ -1,0 +1,19 @@
+@use "../base";
+
+[tuiTheme] {
+  --upvote-color: #db0163;
+  --downvote-color: #7403bf;
+
+  --tui-text-action: #db0163;
+  --tui-text-action-hover: #e70269;
+
+  --tui-background-accent-1: #db0163;
+  --tui-background-accent-1-hover: #e70269;
+  --tui-background-accent-1-pressed: #c9035c;
+
+  --tui-background-accent-2: #7403bf;
+  --tui-background-accent-2-hover: #7e03cf;
+  --tui-background-accent-2-pressed: #6c02b3;
+
+  --tui-service-autofill-background: #f900cf1b;
+}
