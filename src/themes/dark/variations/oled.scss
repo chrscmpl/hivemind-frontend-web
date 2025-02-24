@@ -52,3 +52,8 @@ tui-dropdown[data-appearance="dropdown-navigation"] {
 .app-feed-selector {
   background: var(--tui-background-base);
 }
+
+tui-segmented {
+  --tui-background-neutral-1: #000000;
+  --tui-background-base: var(--tui-background-base-alt);
+}

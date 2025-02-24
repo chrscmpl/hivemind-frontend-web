@@ -1,0 +1,27 @@
+@let isMobile = breakpoints.isMobile();
+
+<section
+  class="flex flex-col items-center h-full w-full"
+  [class.justify-center]="isMobile"
+>
+  <app-logo
+    minimal
+    class="text-8xl w-[20ch] max-w-[80vw]"
+    [class.translate-x-6]="!isMobile"
+    styleClass="w-full h-full"
+  />
+  <h1
+    class="text-8xl font-bold text-center max-w-[80vw]"
+    [class.text-6xl]="isMobile"
+  >
+    404 - Not Found
+  </h1>
+  <button
+    tuiButton
+    routerLink="/home"
+    class="mt-20 !text-6xl ![--t-size:1.5em]"
+    [class.!text-5xl]="isMobile"
+  >
+    Go to home
+  </button>
+</section>
