@@ -14,14 +14,7 @@ import {
   TuiDataListDropdownManager,
   TuiRadio,
 } from '@taiga-ui/kit';
-import {
-  debounceTime,
-  delay,
-  Observable,
-  skip,
-  Subscription,
-  take,
-} from 'rxjs';
+import { debounceTime, Observable, skip, Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-theme-settings-dialog',
@@ -71,10 +64,7 @@ export class ThemeSettingsDialogComponent implements OnInit, OnDestroy {
   constructor(private readonly theme: ThemeService) {
     this.lightThemeVariationOptions = [...this.theme.lightThemeVariations];
     this.darkThemeVariationOptions = [...this.theme.darkThemeVariations];
-    this.themeLoading$ = this.theme.themeLoading$.pipe(
-      debounceTime(100),
-      delay(1000),
-    );
+    this.themeLoading$ = this.theme.themeLoading$.pipe(debounceTime(200));
     this.themeVariationOptions = {
       light: {
         theme: 'light',

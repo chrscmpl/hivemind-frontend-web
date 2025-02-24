@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import {
   Observable,
   ReplaySubject,
@@ -15,6 +15,7 @@ import {
 import { MediaMatcher } from '@angular/cdk/layout';
 import { isEqual } from 'lodash-es';
 import { LocalStorageService } from './local-storage.service';
+import { GET_THEME_COLOR } from '../tokens/get-theme-color.token';
 
 export type theme = 'light' | 'dark';
 
@@ -60,6 +61,8 @@ export class ThemeService {
     private readonly storage: LocalStorageService,
     mediaMatcher: MediaMatcher,
     rendererFactory: RendererFactory2,
+    @Inject(GET_THEME_COLOR)
+    private readonly getThemeColor: () => string | null,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
 
@@ -210,9 +213,7 @@ export class ThemeService {
   }
 
   private updateThemeColor(): void {
-    const themeColor = getComputedStyle(
-      document.documentElement,
-    ).getPropertyValue('--component-color');
+    const themeColor = this.getThemeColor();
 
     if (themeColor)
       document.head
