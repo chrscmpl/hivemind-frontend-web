@@ -7,7 +7,7 @@
   @if (isMobile) {
     <app-drawer />
   }
-  <app-logo minimal [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
+  <app-logo [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
   <hr />
   @if (!!authStatus.user) {
     <span class="flex items-center gap-2">
