@@ -1,5 +1,6 @@
 @use "../base";
-@use "../partials/oled-utils";
+@use "../../partials/oled-utils";
+@use "../../fonts/Modeseven-L3n5.scss";
 
 [tuiTheme] {
   --tui-text-primary: #00ff00;
@@ -87,27 +88,27 @@
   --unpopular-transparent: rgba(0, 255, 0, 0.1);
   --unpopular-transparent-pressed: rgba(0, 255, 0, 0.1);
 
-  --tui-font-heading: monospace --tui-font-heading-1: monospace;
-  --tui-font-heading-2: monospace;
-  --tui-font-heading-3: monospace;
-  --tui-font-heading-4: monospace;
-  --tui-font-heading-5: monospace;
-  --tui-font-heading-6: monospace;
-  --tui-font-text: monospace;
-  --tui-font-text-l: monospace;
-  --tui-font-text-m: monospace;
-  --tui-font-text-s: monospace;
-  --tui-font-text-ui-l: monospace;
-  --tui-font-text-ui-m: monospace;
-  --tui-font-text-ui-s: monospace;
-  --tui-font-text-ui-xs: monospace;
-  --tui-font-text-xl: monospace;
-  --tui-font-text-xs: monospace;
+  --tui-font-heading: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-heading-1: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-heading-2: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-heading-3: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-heading-4: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-heading-5: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-heading-6: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-l: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-m: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-s: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-ui-l: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-ui-m: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-ui-s: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-ui-xs: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-xl: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-text-xs: "Modeseven-L3n5", monospace, consolas;
 
   --tui-duration: 0ms !important;
 
-  font-family: monospace;
-  font-size: large;
+  font-family: "Modeseven-L3n5", monospace, consolas;
 }
 
 ::selection {
@@ -137,6 +138,10 @@ tui-hint {
 
 tui-hint::before {
   display: none;
+}
+
+[tuiprogressbar] {
+  border-radius: 0px !important;
 }
 
 [tuiCardLarge] {

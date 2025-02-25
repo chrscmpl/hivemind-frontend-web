@@ -1,5 +1,5 @@
 @use "default";
-@use "../partials/oled-utils";
+@use "../../partials/oled-utils";
 
 [tuiTheme="dark"] {
   --tui-background-base: #000000;
