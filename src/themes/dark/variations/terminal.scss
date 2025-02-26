@@ -88,27 +88,29 @@
   --unpopular-transparent: rgba(0, 255, 0, 0.1);
   --unpopular-transparent-pressed: rgba(0, 255, 0, 0.1);
 
-  --tui-font-heading: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-heading-1: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-heading-2: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-heading-3: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-heading-4: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-heading-5: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-heading-6: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-l: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-m: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-s: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-ui-l: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-ui-m: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-ui-s: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-ui-xs: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-xl: "Modeseven-L3n5", monospace, consolas;
-  --tui-font-text-xs: "Modeseven-L3n5", monospace, consolas;
+  --tui-font-heading: "Modeseven-L3n5", monospace;
+  --tui-font-heading-1: normal 3.125rem/3.5rem "Modeseven-L3n5", monospace;
+  --tui-font-heading-2: normal 2.75rem/3rem "Modeseven-L3n5", monospace;
+  --tui-font-heading-3: normal 2.25rem/2.5rem "Modeseven-L3n5", monospace;
+  --tui-font-heading-4: normal 1.75rem/2rem "Modeseven-L3n5", monospace;
+  --tui-font-heading-5: normal 1.5rem/1.75rem "Modeseven-L3n5", monospace;
+  --tui-font-heading-6: normal 1.25rem/1.5rem "Modeseven-L3n5", monospace;
+
+  --tui-font-text: normal 1.0625rem/1.75rem "Modeseven-L3n5", monospace;
+  --tui-font-text-xl: normal 1.1875rem/1.75rem "Modeseven-L3n5", monospace;
+  --tui-font-text-l: "Modeseven-L3n5", monospace;
+  --tui-font-text-m: normal 1rem/1.5rem "Modeseven-L3n5", monospace;
+  --tui-font-text-s: normal 0.8125rem/1.25rem "Modeseven-L3n5", monospace;
+  --tui-font-text-xs: normal 0.6875rem/1rem "Modeseven-L3n5", monospace;
+
+  --tui-font-text-ui-l: normal 1.0625rem/1.5rem "Modeseven-L3n5", monospace;
+  --tui-font-text-ui-m: normal 1rem/1.25rem "Modeseven-L3n5", monospace;
+  --tui-font-text-ui-s: normal 0.8125rem/1rem "Modeseven-L3n5", monospace;
+  --tui-font-text-ui-xs: normal 0.6875rem/0.8125rem "Modeseven-L3n5", monospace;
 
   --tui-duration: 0ms !important;
 
-  font-family: "Modeseven-L3n5", monospace, consolas;
+  font-family: "Modeseven-L3n5", monospace;
 }
 
 ::selection {
