@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { DialogEnum } from '@core/dialogs/dialog.enum';
 import { DialogsService } from '@core/dialogs/dialogs.service';
 import {
@@ -11,6 +11,7 @@ import {
 } from '@taiga-ui/core';
 import { injectContext } from '@taiga-ui/polymorpheus';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -49,26 +50,12 @@ interface LoginForm {
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
-export class LoginFormComponent {
-  public readonly form = new FormGroup<LoginForm>({
-    email: new FormControl(null, {
-      validators: [
-        customValidationErrors(Validators.required, {
-          required: 'Email is required',
-        }),
-        customValidationErrors(Validators.email, { email: 'Invalid email' }),
-      ],
-      updateOn: 'blur',
-    }),
-    password: new FormControl(null, {
-      validators: [
-        customValidationErrors(Validators.required, {
-          required: 'Password is required',
-        }),
-      ],
-      updateOn: 'blur',
-    }),
-  });
+export class LoginFormComponent implements OnInit {
+  private _form!: FormGroup<LoginForm>;
+
+  public get form(): FormGroup<LoginForm> {
+    return this._form;
+  }
 
   private context = injectContext<TuiDialogContext<boolean>>();
 
@@ -78,7 +65,34 @@ export class LoginFormComponent {
     private readonly formUtils: ReactiveFormsUtilsService,
     private readonly auth: AuthService,
     private readonly apiErrorsService: ApiErrorsService,
+    private readonly formBuilder: FormBuilder,
   ) {}
+
+  public ngOnInit() {
+    this._form = this.initForm();
+  }
+
+  public initForm() {
+    return this.formBuilder.group<LoginForm>({
+      email: new FormControl(null, {
+        validators: [
+          customValidationErrors(Validators.required, {
+            required: 'Email is required',
+          }),
+          customValidationErrors(Validators.email, { email: 'Invalid email' }),
+        ],
+        updateOn: 'blur',
+      }),
+      password: new FormControl(null, {
+        validators: [
+          customValidationErrors(Validators.required, {
+            required: 'Password is required',
+          }),
+        ],
+        updateOn: 'blur',
+      }),
+    });
+  }
 
   public submit() {
     if (this.form.invalid) {

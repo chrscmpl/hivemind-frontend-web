@@ -1,4 +1,3 @@
-@let ageString = idea.age ? (idea.age | humanizeDuration: true) : "";
 @let isMobile = breakpoints.isMobile();
 
 <div
@@ -21,7 +20,7 @@
       <span>•</span>
     }
     <span class="flex items-center">
-      {{ ageString }}
+      {{ idea.age ? (idea.age | humanizeDuration: true) : "" }}
       @if (idea.updated) {
         <tui-icon
           icon="@tui.pencil"

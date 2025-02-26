@@ -1,6 +1,13 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import {
+  Component,
+  Inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -9,6 +16,8 @@ import {
 import { RouterLink } from '@angular/router';
 import { SignupDataEntity } from '@app/core/auth/entities/signup-data.entity';
 import { AuthService } from '@app/core/auth/services/auth.service';
+import { PasswordPatternsEntity } from '@app/shared/entities/password-patterns.entity';
+import { PASSWORD_PATTERNS } from '@app/shared/tokens/password-patterns.token';
 import { UpdateOnEnterDirective } from '@app/shared/directives/update-on-enter.directive';
 import { passwordStrengthEnum } from '@app/shared/enums/password-strength.enum';
 import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
@@ -35,7 +44,6 @@ import {
 import { TuiForm } from '@taiga-ui/layout';
 import { injectContext } from '@taiga-ui/polymorpheus';
 import { interval, take } from 'rxjs';
-import { environment } from 'src/environments/environment';
 
 interface SignupForm {
   displayName: FormControl<string | null>;
@@ -68,70 +76,11 @@ interface SignupForm {
   styleUrl: './signup-form.component.scss',
 })
 export class SignupFormComponent implements OnInit {
-  public readonly form = new FormGroup<SignupForm>({
-    displayName: new FormControl(null, {
-      validators: [
-        customValidationErrors(Validators.required, {
-          required: 'Name is required',
-        }),
-      ],
-      updateOn: 'blur',
-    }),
-    handle: new FormControl(null, {
-      validators: [
-        customValidationErrors(Validators.required, {
-          required: 'Handle is required',
-        }),
-      ],
-      updateOn: 'blur',
-    }),
-    email: new FormControl(null, {
-      validators: [
-        customValidationErrors(Validators.required, {
-          required: 'Email is required',
-        }),
-        customValidationErrors(Validators.email, { email: 'Invalid email' }),
-      ],
-      updateOn: 'blur',
-    }),
-    password: new FormControl(null, {
-      validators: [
-        customValidationErrors(Validators.required, {
-          required: 'Password is required',
-        }),
-        customValidationErrors(
-          Validators.pattern(environment.passwordStrengthPatterns.medium),
-          {
-            pattern:
-              'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-          },
-        ),
-      ],
-      updateOn: 'change',
-    }),
-    confirmPassword: new FormControl(null, {
-      validators: [
-        customValidationErrors(Validators.required, {
-          required: 'Password confirmation is required',
-        }),
-        confirmPasswordValidator(
-          (): FormControl<string | null> | undefined =>
-            this.form?.controls?.password,
-        ),
-      ],
-      updateOn: 'blur',
-    }),
+  public _form!: FormGroup<SignupForm>;
 
-    acceptTos: new FormControl(false, {
-      nonNullable: true,
-      validators: [
-        customValidationErrors(Validators.requiredTrue, {
-          required: 'You must accept the terms of service to sign up',
-        }),
-      ],
-      updateOn: 'change',
-    }),
-  });
+  public get form(): FormGroup<SignupForm> {
+    return this._form;
+  }
 
   public readonly passwordStrengthEnum = passwordStrengthEnum;
   public passwordStrength: passwordStrengthEnum | null = null;
@@ -153,12 +102,83 @@ export class SignupFormComponent implements OnInit {
     private readonly passwordStrengthMeasurer: PasswordStrengthMeasurerService,
     private readonly auth: AuthService,
     private readonly apiErrorsService: ApiErrorsService,
+    private readonly formBuilder: FormBuilder,
+    @Inject(PASSWORD_PATTERNS)
+    private readonly passwordPatterns: PasswordPatternsEntity,
   ) {}
 
   public ngOnInit() {
+    this._form = this.initForm();
     this.form.controls.password.valueChanges.subscribe((value) => {
       this.form.controls.confirmPassword.updateValueAndValidity();
       this.updatePasswordStrength(value);
+    });
+  }
+
+  public initForm(): FormGroup<SignupForm> {
+    return this.formBuilder.group<SignupForm>({
+      displayName: new FormControl(null, {
+        validators: [
+          customValidationErrors(Validators.required, {
+            required: 'Name is required',
+          }),
+        ],
+        updateOn: 'blur',
+      }),
+      handle: new FormControl(null, {
+        validators: [
+          customValidationErrors(Validators.required, {
+            required: 'Handle is required',
+          }),
+        ],
+        updateOn: 'blur',
+      }),
+      email: new FormControl(null, {
+        validators: [
+          customValidationErrors(Validators.required, {
+            required: 'Email is required',
+          }),
+          customValidationErrors(Validators.email, { email: 'Invalid email' }),
+        ],
+        updateOn: 'blur',
+      }),
+      password: new FormControl(null, {
+        validators: [
+          customValidationErrors(Validators.required, {
+            required: 'Password is required',
+          }),
+          customValidationErrors(
+            Validators.pattern(this.passwordPatterns.valid),
+            {
+              pattern:
+                'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+            },
+          ),
+        ],
+        updateOn: 'change',
+      }),
+      confirmPassword: new FormControl(null, {
+        validators: [
+          customValidationErrors(Validators.required, {
+            required: 'Password confirmation is required',
+          }),
+          confirmPasswordValidator(
+            (): FormControl<string | null> | undefined =>
+              this.form?.controls?.password,
+          ),
+        ],
+        updateOn: 'blur',
+      }),
+
+      acceptTos: new FormControl(false, {
+        nonNullable: true,
+        validators: [
+          customValidationErrors(Validators.requiredTrue, {
+            required: 'You must accept the terms of service to sign up',
+          }),
+        ],
+        updateOn: 'change',
+      }),
     });
   }
 
