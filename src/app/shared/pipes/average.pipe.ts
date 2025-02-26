@@ -6,10 +6,13 @@ import numbro from 'numbro';
 })
 export class AveragePipe implements PipeTransform {
   public transform(value: number): string {
-    return numbro(value).format({
-      average: true,
-      mantissa: value >= 1000 ? 1 : 0,
-      trimMantissa: true,
-    });
+    return numbro(value)
+      .format({
+        average: true,
+        mantissa: 1,
+        roundingFunction: (n: number) =>
+          n >= 0 ? Math.floor(n) : Math.ceil(n),
+      })
+      .replace(/\.0(?=[\w]?$)/, '');
   }
 }
