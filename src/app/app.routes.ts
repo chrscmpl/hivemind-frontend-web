@@ -30,7 +30,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'privacy',
+    path: 'privacy-policy',
     title: 'Privacy Policy',
     loadComponent: () =>
       import(

@@ -5,4 +5,24 @@
   type="button"
   iconEnd="@tui.menu"
   [(open)]="open"
-></button>
+>
+  <tui-data-list>
+    @for (group of groups; track $index) {
+      @if (group.display !== false) {
+        <tui-opt-group>
+          @for (item of group.items; track $index) {
+            <button
+              tuiOption
+              type="button"
+              (click)="onButtonClick(item.action)"
+              [iconStart]="item.icon"
+              [routerLink]="item.routerLink"
+            >
+              {{ item.title }}
+            </button>
+          }
+        </tui-opt-group>
+      }
+    }
+  </tui-data-list>
+</button>
