@@ -1,5 +1,6 @@
 import {
   computed,
+  Inject,
   Injectable,
   Signal,
   signal,
@@ -12,9 +13,10 @@ import { LoginCredentialsEntity } from '../entities/login-credentials.entity';
 import { AuthTokenDto } from '../dto/auth-token.dto';
 import { map, Observable, ReplaySubject, switchMap, take, tap } from 'rxjs';
 import { LocalStorageService } from '@core/misc/services/local-storage.service';
-import { ACCESS_TOKEN_KEY } from '../const/access-token-key.const';
 import { SignupDataEntity } from '../entities/signup-data.entity';
 import { AuthStatus } from '../entities/auth-status.entity';
+import { Router } from '@angular/router';
+import { ACCESS_TOKEN_KEY } from '../token/access-token-key.token';
 
 @Injectable({
   providedIn: 'root',
@@ -49,8 +51,10 @@ export class AuthService {
     .pipe(take(1));
 
   public constructor(
+    @Inject(ACCESS_TOKEN_KEY) private readonly accessTokenKey: string,
     private readonly storage: LocalStorageService,
     private readonly http: HttpClient,
+    private readonly router: Router,
   ) {
     if (this.accessToken) {
       this.getUserData().subscribe({
@@ -98,8 +102,9 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.storage.removeItem('accessToken');
+    this.accessToken = null;
     this.setUser(null);
+    this.router.navigate(['/']);
   }
 
   private getUserData(): Observable<AuthenticatedUser> {
@@ -123,14 +128,14 @@ export class AuthService {
   }
 
   private get accessToken(): string | null {
-    return this.storage.getItem(ACCESS_TOKEN_KEY);
+    return this.storage.getItem(this.accessTokenKey);
   }
 
   private set accessToken(token: string | null) {
     if (token === null) {
-      this.storage.removeItem(ACCESS_TOKEN_KEY);
+      this.storage.removeItem(this.accessTokenKey);
     } else {
-      this.storage.setItem(ACCESS_TOKEN_KEY, token);
+      this.storage.setItem(this.accessTokenKey, token);
     }
   }
 }

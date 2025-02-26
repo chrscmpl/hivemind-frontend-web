@@ -97,7 +97,7 @@
     [error]="[] | tuiFieldError | async"
   />
 
-  <section class="flex items-center gap-2">
+  <section class="flex gap-2">
     <input
       tuiCheckbox
       type="checkbox"
@@ -111,6 +111,7 @@
     <label for="signup-accept-tos" class="cursor-pointer">
       I accept HiveMind's
       <a tuiLink routerLink="/tos" target="_blank">Terms of Service</a>
+      and <a tuiLink routerLink="/privacy" target="_blank">Privacy Policy</a>
     </label>
   </section>
   <tui-error formControlName="acceptTos" [error]="[] | tuiFieldError | async" />
