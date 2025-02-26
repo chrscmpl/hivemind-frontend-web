@@ -126,18 +126,18 @@ tui-segmented::before {
 
 tui-carousel {
   --tui-duration: 300ms;
-}
 
-tui-carousel > .t-scroller > .t-wrapper > .t-items > .t-item {
-  --tui-duration: 0ms;
+  & > .t-scroller > .t-wrapper > .t-items > .t-item {
+    --tui-duration: 0ms;
+  }
 }
 
 tui-hint {
   border: 1px solid var(--tui-border-normal);
-}
 
-tui-hint::before {
-  display: none;
+  &::before {
+    display: none;
+  }
 }
 
 [tuiprogressbar] {
@@ -145,5 +145,26 @@ tui-hint::before {
 }
 
 [tuiCardLarge] {
+  border-radius: 0px !important;
+}
+
+button[data-appearance="primary"] {
+  background: transparent !important;
+  color: #00ff00 !important;
+  border: 2px solid #00ff00 !important;
+
+  &:hover {
+    background: rgba(0, 255, 0, 0.1) !important;
+  }
+}
+
+tui-notification,
+tui-notification > button::before {
+  color: #000000 !important;
+}
+
+.\!rounded-full,
+.\!rounded-s-full,
+.\!rounded-e-full {
   border-radius: 0px !important;
 }

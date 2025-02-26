@@ -40,6 +40,8 @@ export class VotesControlComponent implements OnInit, OnDestroy {
   public readonly upvoteControl = new FormControl<boolean | null>(null);
   public readonly downvoteControl = new FormControl<boolean | null>(null);
 
+  public voteCancelled: boolean = false;
+
   public constructor(
     private readonly dialogs: DialogsService,
     auth: AuthService,
@@ -117,6 +119,7 @@ export class VotesControlComponent implements OnInit, OnDestroy {
   }
 
   private onNullVote(): void {
+    this.voteCancelled = true;
     this.voteChange.emit(null);
   }
 

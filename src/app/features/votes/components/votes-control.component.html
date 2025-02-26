@@ -4,6 +4,7 @@
     appearance="outline-grayscale"
     class="!bg-background-base !flex !items-center !w-min !rounded-s-full !px-2 !gap-0 !h-10 active:!bg-background-neutral-1"
     (click)="upvoteControl.setValue(!upvoteControl.value)"
+    (mouseleave)="voteCancelled = false"
   >
     <input
       tuiLike
@@ -11,7 +12,8 @@
       type="checkbox"
       checkedIcon="@tui.arrow-big-up-filled"
       uncheckedIcon="@tui.arrow-big-up"
-      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote before:hover:!text-upvote before:!transition-colors before:!duration-tui"
+      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-upvote before:!transition-colors before:!duration-tui"
+      [class.before:hover:!text-upvote]="!voteCancelled"
       appearance="neutral"
       (click)="$event.stopPropagation()"
     />
@@ -29,6 +31,7 @@
     appearance="outline-grayscale"
     class="!bg-background-base !flex !items-center !rounded-e-full !border-l-0 !h-10 !px-2 active:!bg-background-neutral-1"
     (click)="downvoteControl.setValue(!downvoteControl.value)"
+    (mouseleave)="voteCancelled = false"
   >
     <input
       tuiLike
@@ -36,7 +39,8 @@
       type="checkbox"
       checkedIcon="@tui.arrow-big-down-filled"
       uncheckedIcon="@tui.arrow-big-down"
-      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-downvote before:hover:!text-downvote before:!transition-colors before:!duration-tui"
+      class="!border-4 !h-8 !w-8 !bg-transparent after:!text-downvote before:!transition-colors before:!duration-tui"
+      [class.before:hover:!text-downvote]="!voteCancelled"
       appearance="neutral"
       (click)="$event.stopPropagation()"
     />
