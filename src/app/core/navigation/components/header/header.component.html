@@ -11,7 +11,7 @@
   <hr />
   @if (!!authStatus.user) {
     <span class="flex items-center gap-2">
-      <span [class]="isMobile ? 'w-20 truncate' : ''">
+      <span [class]="isMobile ? 'w-20 truncate text-end' : ''">
         {{ authStatus.user.displayName }}
       </span>
       <tui-avatar
