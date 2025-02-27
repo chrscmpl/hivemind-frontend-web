@@ -7,6 +7,7 @@ import {
   PaginatedRequestParams,
 } from '@shared/helpers/paginated-request-manager.helper';
 import { defaults } from 'lodash-es';
+import { environment } from 'src/environments/environment';
 
 export interface IdeaPaginationQuery {
   sort?: string;
@@ -37,6 +38,17 @@ export class IdeaPaginationService {
     return manager;
   }
 
+  public setIfAbsent(
+    key: string,
+    params: IdeaPaginationParams,
+  ): PaginatedRequestManager<IdeaEntity> {
+    const oldManager = this.requestsMap.get(key);
+    if (oldManager) {
+      return oldManager;
+    }
+    return this.set(key, params);
+  }
+
   public get(key: string): PaginatedRequestManager<IdeaEntity> {
     const manager = this.requestsMap.get(key);
     if (!manager) {
@@ -59,7 +71,7 @@ export class IdeaPaginationService {
         },
         {
           http: this.http,
-          url: `http://localhost/posts`,
+          url: `${environment.api}/posts`,
           deserializer: (data: { items: IdeaDto[] }) =>
             data.items.map((item: IdeaDto) => new IdeaEntity(item)),
           ...params,

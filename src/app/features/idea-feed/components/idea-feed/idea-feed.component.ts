@@ -33,7 +33,7 @@ export class IdeaFeedComponent implements OnInit {
 
   public ngOnInit(): void {
     this.lastLoadedPage = this.page;
-    this.requestManager = this.ideaPaginationService.set(this.key, {
+    this.requestManager = this.ideaPaginationService.setIfAbsent(this.key, {
       page: this.page,
       limit: this.limit,
       query: {

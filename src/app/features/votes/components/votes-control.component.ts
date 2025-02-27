@@ -13,19 +13,12 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { DialogEnum } from '@core/dialogs/dialog.enum';
 import { DialogsService } from '@core/dialogs/dialogs.service';
 import { AveragePipe } from '@shared/pipes/average.pipe';
-import { TuiButton } from '@taiga-ui/core';
 import { TuiLike } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-votes-control',
-  imports: [
-    ReactiveFormsModule,
-    TuiLike,
-    TuiButton,
-    AveragePipe,
-    UpperCasePipe,
-  ],
+  imports: [ReactiveFormsModule, TuiLike, AveragePipe, UpperCasePipe],
   templateUrl: './votes-control.component.html',
   styleUrl: './votes-control.component.scss',
 })

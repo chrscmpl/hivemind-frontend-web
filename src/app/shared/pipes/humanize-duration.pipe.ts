@@ -5,9 +5,9 @@ import prettyMilliseconds from 'pretty-ms';
   name: 'humanizeDuration',
 })
 export class HumanizeDurationPipe implements PipeTransform {
-  public transform(milliseconds: number, compact?: boolean): string {
+  public transform(milliseconds: number): string {
     return prettyMilliseconds(milliseconds, {
-      compact,
+      compact: true,
     });
   }
 }

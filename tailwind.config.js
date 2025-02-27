@@ -21,6 +21,8 @@ module.exports = {
         upvote: "var(--upvote-color)",
         downvote: "var(--downvote-color)",
         "border-normal": "var(--tui-border-normal)",
+        "border-hover": "var(--tui-border-hover)",
+        "border-focus": "var(--tui-border-focus)",
         "background-base": "var(--tui-background-base)",
         "background-base-alt": "var(--tui-background-base-alt)",
         "background-neutral-1": "var(--tui-background-neutral-1)",

@@ -27,12 +27,14 @@ export class IdeaEntity {
       this._createdAt = new Date(data.createdAt);
       this._age = Date.now() - this._createdAt.getTime();
     }
-    if (data.updatedAt) this._updatedAt = new Date(data.updatedAt);
-    if (data.user) this._user = new UserEntity(data.user);
-
+    if (data.updatedAt) {
+      this._updatedAt = new Date(data.updatedAt);
+    }
+    if (data.user) {
+      this._user = new UserEntity(data.user);
+    }
     this._updated =
       !!this.createdAt && !!this.updatedAt && this.updatedAt > this.createdAt;
-
     this._myVote =
       data.myVote === 'up' ? true : data.myVote === 'down' ? false : null;
   }

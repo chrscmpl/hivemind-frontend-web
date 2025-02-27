@@ -20,7 +20,7 @@
       <span>•</span>
     }
     <span class="flex items-center">
-      {{ idea.age ? (idea.age | humanizeDuration: true) : "" }}
+      {{ idea.age ? (idea.age | humanizeDuration) : "" }}
       @if (idea.updated) {
         <tui-icon
           icon="@tui.pencil"
@@ -58,6 +58,7 @@
   <section
     tuiAppearance="flat-grayscale"
     [innerHTML]="idea.content"
+    class="text-base"
     [ngClass]="{ 'line-clamp-2 break-words !text-text-secondary': compact }"
   ></section>
 
