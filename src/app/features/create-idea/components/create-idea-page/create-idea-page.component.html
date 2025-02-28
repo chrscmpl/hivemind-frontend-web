@@ -3,15 +3,54 @@
 <section class="p-4 w-full min-h-full flex flex-col items-center">
   <form
     [formGroup]="form"
-    class="flex flex-col flex-1 w-full items-center"
+    class="flex flex-col flex-1 w-full items-stretch gap-4"
     [class.max-w-3xl]="!isMobile"
+    (ngSubmit)="submit()"
   >
+    <header class="flex items-center gap-4">
+      <button
+        tuiButton
+        type="button"
+        size="l"
+        class="self-start"
+        iconStart="@tui.move-left"
+      >
+        <span class="translate-y-[-2px]">Back</span>
+      </button>
+      <h1 class="font-tui-3">Create an idea</h1>
+    </header>
+    <section>
+      <tui-textfield iconEnd="@tui.lightbulb" class="h-16">
+        <label for="create-idea-title" class="!text-xl !font-semibold"
+          >Title</label
+        >
+        <input
+          tuiTextfield
+          class="!text-xl !font-semibold"
+          id="create-idea-title"
+          name="title"
+          type="text"
+          formControlName="title"
+          appUpdateOnEnter
+        />
+      </tui-textfield>
+      <tui-error formControlName="title" [error]="[] | tuiFieldError | async" />
+    </section>
     <tui-editor
-      class="max-w-3xl w-full"
       [tools]="tools"
       formControlName="content"
-      [ngClass]="{ 'flex-1 w-[90vw]': isMobile }"
-      >Idea content</tui-editor
+      [ngClass]="{ 'flex-1 w-[90vw]': isMobile, '!min-h-80': !isMobile }"
     >
+      Idea content
+    </tui-editor>
+    <button
+      tuiButton
+      type="submit"
+      size="l"
+      [ngClass]="{ 'self-end min-w-52': !isMobile }"
+      iconEnd="@tui.send-horizontal"
+    >
+      <span class="translate-y-[-2px]">Post</span>
+    </button>
   </form>
 </section>

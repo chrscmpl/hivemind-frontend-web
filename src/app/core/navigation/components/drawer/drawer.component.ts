@@ -36,7 +36,7 @@ export class DrawerComponent {
         {
           title: 'Post Idea',
           icon: '@tui.plus',
-          routerLink: '/idea/new',
+          routerLink: '/ideas/new',
         },
       ],
     },

@@ -41,5 +41,28 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".font-tui-1": {
+          font: "var(--tui-font-heading-1)",
+        },
+        ".font-tui-2": {
+          font: "var(--tui-font-heading-2)",
+        },
+        ".font-tui-3": {
+          font: "var(--tui-font-heading-3)",
+        },
+        ".font-tui-4": {
+          font: "var(--tui-font-heading-4)",
+        },
+        ".font-tui-5": {
+          font: "var(--tui-font-heading-5)",
+        },
+        ".font-tui-6": {
+          font: "var(--tui-font-heading-6)",
+        },
+      });
+    },
+  ],
 };

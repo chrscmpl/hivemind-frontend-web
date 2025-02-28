@@ -23,7 +23,7 @@ export class AppBarComponent {
     },
     {
       label: 'Create',
-      routerLink: '/idea/new',
+      routerLink: '/ideas/new',
       icon: '@tui.circle-plus',
     },
     {
