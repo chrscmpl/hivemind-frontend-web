@@ -69,12 +69,12 @@ export class LoginFormComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this._form = this.initForm();
+    this._form = this.buildForm();
   }
 
-  public initForm() {
+  public buildForm() {
     return this.formBuilder.group<LoginForm>({
-      email: new FormControl(null, {
+      email: this.formBuilder.control(null, {
         validators: [
           customValidationErrors(Validators.required, {
             required: 'Email is required',
@@ -83,7 +83,7 @@ export class LoginFormComponent implements OnInit {
         ],
         updateOn: 'blur',
       }),
-      password: new FormControl(null, {
+      password: this.formBuilder.control(null, {
         validators: [
           customValidationErrors(Validators.required, {
             required: 'Password is required',

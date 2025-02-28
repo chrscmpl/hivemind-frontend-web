@@ -108,16 +108,16 @@ export class SignupFormComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this._form = this.initForm();
+    this._form = this.buildForm();
     this.form.controls.password.valueChanges.subscribe((value) => {
       this.form.controls.confirmPassword.updateValueAndValidity();
       this.updatePasswordStrength(value);
     });
   }
 
-  public initForm(): FormGroup<SignupForm> {
+  public buildForm(): FormGroup<SignupForm> {
     return this.formBuilder.group<SignupForm>({
-      displayName: new FormControl(null, {
+      displayName: this.formBuilder.control(null, {
         validators: [
           customValidationErrors(Validators.required, {
             required: 'Name is required',
@@ -125,7 +125,7 @@ export class SignupFormComponent implements OnInit {
         ],
         updateOn: 'blur',
       }),
-      handle: new FormControl(null, {
+      handle: this.formBuilder.control(null, {
         validators: [
           customValidationErrors(Validators.required, {
             required: 'Handle is required',
@@ -133,7 +133,7 @@ export class SignupFormComponent implements OnInit {
         ],
         updateOn: 'blur',
       }),
-      email: new FormControl(null, {
+      email: this.formBuilder.control(null, {
         validators: [
           customValidationErrors(Validators.required, {
             required: 'Email is required',
@@ -142,7 +142,7 @@ export class SignupFormComponent implements OnInit {
         ],
         updateOn: 'blur',
       }),
-      password: new FormControl(null, {
+      password: this.formBuilder.control(null, {
         validators: [
           customValidationErrors(Validators.required, {
             required: 'Password is required',
@@ -157,7 +157,7 @@ export class SignupFormComponent implements OnInit {
         ],
         updateOn: 'change',
       }),
-      confirmPassword: new FormControl(null, {
+      confirmPassword: this.formBuilder.control(null, {
         validators: [
           customValidationErrors(Validators.required, {
             required: 'Password confirmation is required',
@@ -170,7 +170,7 @@ export class SignupFormComponent implements OnInit {
         updateOn: 'blur',
       }),
 
-      acceptTos: new FormControl(false, {
+      acceptTos: this.formBuilder.control(false, {
         nonNullable: true,
         validators: [
           customValidationErrors(Validators.requiredTrue, {

@@ -1,1 +1,17 @@
-<p>create-idea-page works!</p>
+@let isMobile = breakpoints.isMobile();
+
+<section class="p-4 w-full min-h-full flex flex-col items-center">
+  <form
+    [formGroup]="form"
+    class="flex flex-col flex-1 w-full items-center"
+    [class.max-w-3xl]="!isMobile"
+  >
+    <tui-editor
+      class="max-w-3xl w-full"
+      [tools]="tools"
+      formControlName="content"
+      [ngClass]="{ 'flex-1 w-[90vw]': isMobile }"
+      >Idea content</tui-editor
+    >
+  </form>
+</section>

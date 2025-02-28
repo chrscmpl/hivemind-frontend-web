@@ -15,6 +15,7 @@
       <tui-scrollbar [hidden]="isMobile" class="app-scrollbar w-full">
         <main
           class="flex-1 w-full min-h-[calc(100vh-3rem)] !border-0 grid items-stretch justify-stretch content-stretch justify-items-stretch"
+          [class.!pb-12]="isMobile"
         >
           <router-outlet class="hidden" />
         </main>

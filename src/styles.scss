@@ -35,3 +35,9 @@
 .app-scrollbar > .t-content {
   min-height: 100% !important;
 }
+
+@for $i from 1 through 6 {
+  h#{$i} {
+    font: var(--tui-font-heading-#{$i});
+  }
+}
