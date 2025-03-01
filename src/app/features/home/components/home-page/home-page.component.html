@@ -15,13 +15,15 @@
       buttonAppearance="secondary-grayscale"
     />
 
-    <app-age-selector
-      [class.min-w-44]="!isMobile"
-      [formControl]="ageControl"
-      ngDefaultControl
-      buttonAppearance="secondary-grayscale"
-      (ageChange)="onAgeSelectorChange($event)"
-    />
+    @if (feedControl.value !== IdeaSortEnum.NEW) {
+      <app-age-selector
+        [class.min-w-44]="!isMobile"
+        [formControl]="ageControl"
+        ngDefaultControl
+        buttonAppearance="secondary-grayscale"
+        (ageChange)="onAgeSelectorChange($event)"
+      />
+    }
   </div>
   <tui-carousel
     [index]="index"

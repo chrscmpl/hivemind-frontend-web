@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { IdeaDto } from '@shared/dto/idea.dto';
 import { IdeaEntity } from '@shared/entities/idea.entity';
 import {
@@ -30,6 +31,10 @@ export class IdeaPaginationService {
   public createManager(
     params: IdeaPaginationParams,
   ): PaginatedRequestManager<IdeaEntity> {
+    if (params.query.sort === IdeaSortEnum.NEW) {
+      delete params.query.age;
+    }
+
     return new PaginatedRequestManager<IdeaEntity>(
       defaults(
         {
