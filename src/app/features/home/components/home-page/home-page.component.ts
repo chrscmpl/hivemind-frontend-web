@@ -9,6 +9,7 @@ import { IdeaFeedComponent } from '@features/idea-feed/components/idea-feed/idea
 import { IdeaPaginationService } from '@features/idea-feed/services/idea-pagination.service';
 import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
 import { FeedSelectorComponent } from '../feed-selector/feed-selector.component';
+import { FeedDescriptorEntity } from '../entities/feed-descriptor.entity';
 
 @Component({
   selector: 'app-home-page',
@@ -30,20 +31,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public sort!: string;
   private _index: number | null = null;
 
-  public readonly doFetchFeeds = [false, false, false];
-
   public set index(value: number) {
     if (this._index === value) {
       return;
     }
     this._index = value;
-    this.doFetchFeeds[this._index] = true;
-    this.sort =
-      value === 2
-        ? IdeaSortEnum.UNPOPULAR
-        : value === 1
-          ? IdeaSortEnum.POPULAR
-          : IdeaSortEnum.CONTROVERSIAL;
+    this.feeds[this._index].fetch = true;
+    this.sort = this.feeds[this._index].sort;
 
     this.setQuery(this.sort);
   }
@@ -51,6 +45,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public get index(): number {
     return this._index ?? 0;
   }
+
+  public readonly feeds: FeedDescriptorEntity[] = Object.values(
+    IdeaSortEnum,
+  ).map((sort) => ({ sort }));
 
   public constructor(
     private readonly route: ActivatedRoute,
@@ -60,13 +58,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.doFetchFeeds[0] = this.ideaPaginationService.has(
-      IdeaSortEnum.CONTROVERSIAL,
-    );
-    this.doFetchFeeds[1] = this.ideaPaginationService.has(IdeaSortEnum.POPULAR);
-    this.doFetchFeeds[2] = this.ideaPaginationService.has(
-      IdeaSortEnum.UNPOPULAR,
-    );
+    this.feeds.forEach((feed) => {
+      feed.fetch = this.ideaPaginationService.has(feed.sort);
+    });
 
     this.subscriptions.push(
       this.route.queryParamMap.subscribe((params) => {
@@ -81,6 +75,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
             : sort === IdeaSortEnum.POPULAR
               ? 1
               : 0;
+
+        this.feeds.forEach((feed, index) => {
+          if (feed.sort === sort) {
+            this.index = index;
+          }
+        });
       }),
     );
   }

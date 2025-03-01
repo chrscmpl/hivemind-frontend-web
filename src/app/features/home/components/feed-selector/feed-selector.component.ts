@@ -13,5 +13,5 @@ export class FeedSelectorComponent {
   @Input() public activeIndex = 0;
   @Output() public readonly activeIndexChange = new EventEmitter<number>();
 
-  public readonly IdeaSortEnum = IdeaSortEnum;
+  public readonly options = Object.values(IdeaSortEnum);
 }

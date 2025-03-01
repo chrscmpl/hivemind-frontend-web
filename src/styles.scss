@@ -3,17 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --controversial: #ef4444;
-  --controversial-transparent: #ef444444;
-  --controversial-transparent-pressed: #ef444460;
+  --feed-controversial: #ef4444;
+  --feed-controversial-transparent: #ef444444;
+  --feed-controversial-transparent-pressed: #ef444460;
 
-  --popular: #f59e0b;
-  --popular-transparent: #f59e0b44;
-  --popular-transparent-pressed: #f59f0b5d;
+  --feed-popular: #f59e0b;
+  --feed-popular-transparent: #f59e0b44;
+  --feed-popular-transparent-pressed: #f59f0b5d;
 
-  --unpopular: #3b82f6;
-  --unpopular-transparent: #3b82f644;
-  --unpopular-transparent-pressed: #3b83f65d;
+  --feed-unpopular: #3b82f6;
+  --feed-unpopular-transparent: #3b82f644;
+  --feed-unpopular-transparent-pressed: #3b83f65d;
+
+  --feed-new: #3bf6f3;
+  --feed-new-transparent: #3bf6f344;
+  --feed-new-transparent-pressed: #3bf6f35d;
 
   --upvote-color: #db3a01;
   --downvote-color: #6800e0;

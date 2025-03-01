@@ -1,35 +1,5 @@
 @let isMobile = breakpoints.isMobile();
 
-<ng-template #feed let-sort="sort" let-fetch="fetch">
-  <tui-scrollbar
-    class="min-h-0 overflow-scroll h-[calc(100vh-7rem)] pb-4"
-    [hidden]="isMobile"
-    [class.w-screen]="isMobile"
-  >
-    <div class="flex justify-center" [class.pr-12]="!isMobile">
-      <div class="w-full" [class.max-w-3xl]="!isMobile">
-        @if (fetch) {
-          <app-idea-feed
-            [sort]="sort"
-            [key]="sort"
-            age="7d"
-            [page]="1"
-            [limit]="10"
-            includeOwnVotes
-            includeUsers
-          />
-        }
-        <tui-loader
-          [showLoader]="true"
-          size="xxl"
-          [inheritColor]="true"
-          class="text-background-neutral-1"
-        />
-      </div>
-    </div>
-  </tui-scrollbar>
-</ng-template>
-
 <div class="h-full relative">
   <app-feed-selector [(activeIndex)]="index" />
   <div class="overflow-hidden min-h-0">
@@ -38,39 +8,37 @@
       [draggable]="isMobile"
       class="!min-h-0 top-0 left-0 max-w-[100vw]"
     >
-      <div *tuiItem>
-        <ng-container
-          *ngTemplateOutlet="
-            feed;
-            context: {
-              sort: IdeaSortEnum.CONTROVERSIAL,
-              fetch: doFetchFeeds[0],
-            }
-          "
-        />
-      </div>
-      <div *tuiItem>
-        <ng-container
-          *ngTemplateOutlet="
-            feed;
-            context: {
-              sort: IdeaSortEnum.POPULAR,
-              fetch: doFetchFeeds[1],
-            }
-          "
-        />
-      </div>
-      <div *tuiItem>
-        <ng-container
-          *ngTemplateOutlet="
-            feed;
-            context: {
-              sort: IdeaSortEnum.UNPOPULAR,
-              fetch: doFetchFeeds[2],
-            }
-          "
-        />
-      </div>
+      @for (feed of feeds; track $index) {
+        <div *tuiItem>
+          <tui-scrollbar
+            class="min-h-0 overflow-scroll h-[calc(100vh-7rem)] pb-4"
+            [hidden]="isMobile"
+            [class.w-screen]="isMobile"
+          >
+            <div class="flex justify-center" [class.pr-12]="!isMobile">
+              <div class="w-full" [class.max-w-3xl]="!isMobile">
+                @if (feed.fetch) {
+                  <app-idea-feed
+                    [sort]="feed.sort"
+                    [key]="feed.sort"
+                    age="7d"
+                    [page]="1"
+                    [limit]="10"
+                    includeOwnVotes
+                    includeUsers
+                  />
+                }
+                <tui-loader
+                  [showLoader]="true"
+                  size="xxl"
+                  [inheritColor]="true"
+                  class="text-background-neutral-1"
+                />
+              </div>
+            </div>
+          </tui-scrollbar>
+        </div>
+      }
     </tui-carousel>
   </div>
 </div>

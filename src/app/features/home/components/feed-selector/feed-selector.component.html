@@ -7,14 +7,10 @@
     class="w-min mx-5"
     size="l"
   >
-    <button class="font-semibold">
-      {{ IdeaSortEnum.CONTROVERSIAL | titlecase }}
-    </button>
-    <button class="font-semibold">
-      {{ IdeaSortEnum.POPULAR | titlecase }}
-    </button>
-    <button class="font-semibold">
-      {{ IdeaSortEnum.UNPOPULAR | titlecase }}
-    </button>
+    @for (option of options; track $index) {
+      <button class="font-semibold">
+        {{ option | titlecase }}
+      </button>
+    }
   </tui-segmented>
 </div>

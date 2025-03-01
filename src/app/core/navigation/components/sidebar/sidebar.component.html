@@ -34,6 +34,16 @@
       >
         <span>Unpopular</span>
       </button>
+      <button
+        iconStart="@tui.clock"
+        tuiAsideItem
+        type="button"
+        routerLink="/home"
+        [queryParams]="{ sort: IdeaSortEnum.NEW }"
+        class="!font-bold [--tui-text-primary:theme(colors.new)] [--tui-background-neutral-1-hover:theme(colors.new-transparent)] [--tui-background-neutral-1-pressed:theme(colors.new-transparent-pressed)]"
+      >
+        <span>New</span>
+      </button>
     </header>
 
     <button
