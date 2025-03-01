@@ -23,10 +23,17 @@
   --color-downvote: #6800e0;
 }
 
+body {
+  font: var(--tui-font-text-m);
+}
+
 @layer base {
   a {
     color: var(--tui-text-action);
     text-decoration: underline;
+  }
+  p {
+    font: var(--tui-font-text-m);
   }
   ol,
   ul {

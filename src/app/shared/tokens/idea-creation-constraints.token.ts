@@ -8,7 +8,7 @@ export const IDEA_CREATION_CONSTRAINTS =
       providedIn: 'root',
       factory: () => ({
         title: {
-          minLength: 5,
+          minLength: 1,
           maxLength: 300,
         },
         content: {
