@@ -2,15 +2,21 @@
 
 <div class="h-full flex flex-col">
   <div
-    class="sticky z-10 top-0 left-0 gap-4 flex-wrap px-4 bg-background-base-alt min-h-20 flex items-center max-w-[100vw] overflow-hidden app-home-nav"
+    class="sticky z-10 top-0 left-0 gap-4 p-4 bg-background-base-alt min-h-20 max-w-[100vw] overflow-hidden app-home-nav"
+    [ngClass]="{
+      'flex items-center': !isMobile,
+      'grid grid-cols-auto-fit-36 grid-flow-row grid-rows-1': isMobile,
+    }"
   >
     <app-feed-selector
+      [class.min-w-44]="!isMobile"
       [formControl]="feedControl"
       ngDefaultControl
       buttonAppearance="secondary-grayscale"
     />
 
     <app-age-selector
+      [class.min-w-44]="!isMobile"
       [formControl]="ageControl"
       ngDefaultControl
       buttonAppearance="secondary-grayscale"

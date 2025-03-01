@@ -47,8 +47,8 @@
   --tui-radius-l: 0px;
   --tui-radius-xl: 0px;
 
-  --upvote-color: #ffff00;
-  --downvote-color: #0000ff;
+  --color-upvote: #ffff00;
+  --color-downvote: #0000ff;
 
   --tui-text-action: #ffff00;
   --tui-text-action-hover: #ffff00;
@@ -76,21 +76,21 @@
   --tui-status-info-pale: #00ffff;
   --tui-status-info-pale-hover: #00ffff;
 
-  --feed-controversial: #00ff00;
-  --feed-controversial-transparent: rgba(0, 255, 0, 0.1);
-  --feed-controversial-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-controversial: #00ff00;
+  --color-controversial-transparent: rgba(0, 255, 0, 0.1);
+  --color-controversial-transparent-pressed: rgba(0, 255, 0, 0.1);
 
-  --feed-popular: #00ff00;
-  --feed-popular-transparent: rgba(0, 255, 0, 0.1);
-  --feed-popular-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-popular: #00ff00;
+  --color-popular-transparent: rgba(0, 255, 0, 0.1);
+  --color-popular-transparent-pressed: rgba(0, 255, 0, 0.1);
 
-  --feed-unpopular: #00ff00;
-  --feed-unpopular-transparent: rgba(0, 255, 0, 0.1);
-  --feed-unpopular-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-unpopular: #00ff00;
+  --color-unpopular-transparent: rgba(0, 255, 0, 0.1);
+  --color-unpopular-transparent-pressed: rgba(0, 255, 0, 0.1);
 
-  --feed-new: #00ff00;
-  --feed-new-transparent: rgba(0, 255, 0, 0.1);
-  --feed-new-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-new: #00ff00;
+  --color-new-transparent: rgba(0, 255, 0, 0.1);
+  --color-new-transparent-pressed: rgba(0, 255, 0, 0.1);
 
   --tui-font-heading: "Modeseven-L3n5", monospace;
   --tui-font-heading-1: normal 3.125rem/3.5rem "Modeseven-L3n5", monospace;

@@ -3,24 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --feed-controversial: #ef4444;
-  --feed-controversial-transparent: #ef444444;
-  --feed-controversial-transparent-pressed: #ef444460;
+  --color-controversial: #ef4444;
+  --color-controversial-transparent: #ef444444;
+  --color-controversial-transparent-pressed: #ef444460;
 
-  --feed-popular: #f59e0b;
-  --feed-popular-transparent: #f59e0b44;
-  --feed-popular-transparent-pressed: #f59f0b5d;
+  --color-popular: #f59e0b;
+  --color-popular-transparent: #f59e0b44;
+  --color-popular-transparent-pressed: #f59f0b5d;
 
-  --feed-unpopular: #3b82f6;
-  --feed-unpopular-transparent: #3b82f644;
-  --feed-unpopular-transparent-pressed: #3b83f65d;
+  --color-unpopular: #3b82f6;
+  --color-unpopular-transparent: #3b82f644;
+  --color-unpopular-transparent-pressed: #3b83f65d;
 
-  --feed-new: #3bf6f3;
-  --feed-new-transparent: #3bf6f344;
-  --feed-new-transparent-pressed: #3bf6f35d;
+  --color-new: #3bf6f3;
+  --color-new-transparent: #3bf6f344;
+  --color-new-transparent-pressed: #3bf6f35d;
 
-  --upvote-color: #db3a01;
-  --downvote-color: #6800e0;
+  --color-upvote: #db3a01;
+  --color-downvote: #6800e0;
 }
 
 // override default textfield behavior (error on change)

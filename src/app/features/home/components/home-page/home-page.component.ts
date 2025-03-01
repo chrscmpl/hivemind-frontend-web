@@ -12,6 +12,7 @@ import { FeedDescriptorEntity } from '../../entities/feed-descriptor.entity';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IdeaAgeEnum } from '@app/shared/enums/idea-age.enum';
 import { AgeSelectorComponent } from '../age-selector/age-selector.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-home-page',
@@ -23,6 +24,7 @@ import { AgeSelectorComponent } from '../age-selector/age-selector.component';
     IdeaFeedComponent,
     FeedSelectorComponent,
     AgeSelectorComponent,
+    NgClass,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
