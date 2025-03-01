@@ -5,7 +5,6 @@ import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { TuiCarousel } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 import { IdeaFeedComponent } from '@features/idea-feed/components/idea-feed/idea-feed.component';
-import { IdeaPaginationService } from '@features/idea-feed/services/idea-pagination.service';
 import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
 import { FeedSelectorComponent } from '../feed-selector/feed-selector.component';
 import { FeedDescriptorEntity } from '../../entities/feed-descriptor.entity';
@@ -47,7 +46,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     public readonly breakpoints: BreakpointService,
-    public readonly ideaPaginationService: IdeaPaginationService,
     private readonly homePageService: HomePageService,
   ) {}
 
@@ -65,10 +63,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
         nonNullable: true,
       },
     );
-
-    this.feeds.forEach((feed) => {
-      feed.fetch = this.ideaPaginationService.has(feed.sort);
-    });
 
     this.subscriptions.push(
       this.feedControl.valueChanges.subscribe((sort) => {

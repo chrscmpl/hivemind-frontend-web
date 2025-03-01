@@ -40,7 +40,6 @@
             <div class="w-full" [class.max-w-3xl]="!isMobile">
               @if (feed.fetch) {
                 <app-idea-feed
-                  [key]="feed.sort"
                   [sort]="feed.sort"
                   [age]="ageControl.value"
                   includeOwnVotes

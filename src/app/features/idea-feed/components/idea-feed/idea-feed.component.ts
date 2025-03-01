@@ -14,14 +14,13 @@ import { UtilsService } from '@app/shared/services/utils.service';
   styleUrl: './idea-feed.component.scss',
 })
 export class IdeaFeedComponent implements OnInit {
-  @Input({ required: true }) public key!: string;
   @Input() includeOwnVotes: boolean | '' = false;
   @Input() includeUsers: boolean | '' = false;
 
   private _age!: string;
   @Input({ required: true }) public set age(value: string) {
     this._age = value;
-    if (this.requestManager) this.utils.runAfterCD(() => this.reset(true));
+    if (this.requestManager) this.utils.runAfterCD(() => this.reset());
   }
   public get age(): string {
     return this._age;
@@ -30,7 +29,7 @@ export class IdeaFeedComponent implements OnInit {
   private _sort!: string;
   @Input({ required: true }) public set sort(value: IdeaSortEnum) {
     this._sort = value;
-    if (this.requestManager) this.utils.runAfterCD(() => this.reset(true));
+    if (this.requestManager) this.utils.runAfterCD(() => this.reset());
   }
   public get sort(): string {
     return this._sort;
@@ -59,14 +58,10 @@ export class IdeaFeedComponent implements OnInit {
     }
   }
 
-  private reset(hard: boolean = false): void {
+  private reset(): void {
     this.lastLoadedPage = 1;
 
-    const managerFactory = hard
-      ? this.ideaPaginationService.set.bind(this.ideaPaginationService)
-      : this.ideaPaginationService.setIfAbsent.bind(this.ideaPaginationService);
-
-    this.requestManager = managerFactory(this.key, {
+    this.requestManager = this.ideaPaginationService.createManager({
       page: 1,
       limit: 10,
       query: {

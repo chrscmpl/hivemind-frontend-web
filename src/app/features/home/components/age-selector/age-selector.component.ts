@@ -62,8 +62,12 @@ export class AgeSelectorComponent implements OnInit {
 
   public setOption(option: AgeSelectorOption) {
     this.control.control?.setValue(option.value);
+
+    if (this._currentAgeLabel !== option.label) {
+      this.ageChange.emit(option.value);
+    }
+
     this._currentAgeLabel = option.label;
     this.open = false;
-    this.ageChange.emit(option.value);
   }
 }

@@ -25,43 +25,9 @@ export type IdeaPaginationParams = Omit<
   providedIn: 'root',
 })
 export class IdeaPaginationService {
-  private requestsMap = new Map<string, PaginatedRequestManager<IdeaEntity>>();
-
   public constructor(private readonly http: HttpClient) {}
 
-  public set(
-    key: string,
-    params: IdeaPaginationParams,
-  ): PaginatedRequestManager<IdeaEntity> {
-    const manager = this.createRequestManager(params);
-    this.requestsMap.set(key, manager);
-    return manager;
-  }
-
-  public setIfAbsent(
-    key: string,
-    params: IdeaPaginationParams,
-  ): PaginatedRequestManager<IdeaEntity> {
-    const oldManager = this.requestsMap.get(key);
-    if (oldManager) {
-      return oldManager;
-    }
-    return this.set(key, params);
-  }
-
-  public get(key: string): PaginatedRequestManager<IdeaEntity> {
-    const manager = this.requestsMap.get(key);
-    if (!manager) {
-      throw new Error(`Request manager with key ${key} not found`);
-    }
-    return manager;
-  }
-
-  public has(key: string): boolean {
-    return this.requestsMap.has(key);
-  }
-
-  public createRequestManager(
+  public createManager(
     params: IdeaPaginationParams,
   ): PaginatedRequestManager<IdeaEntity> {
     return new PaginatedRequestManager<IdeaEntity>(

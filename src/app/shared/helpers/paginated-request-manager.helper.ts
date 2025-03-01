@@ -30,7 +30,6 @@ export class PaginatedRequestManager<Entity> {
   private _completed: boolean = false;
 
   private _data: Entity[] = [];
-  private _fetching: boolean = false;
 
   public get data$(): Observable<Entity[]> {
     return this._data$;
@@ -107,6 +106,10 @@ export class PaginatedRequestManager<Entity> {
 
   public get limit(): number {
     return this._limit;
+  }
+
+  public get query(): Record<string, any> {
+    return this.queryParameters ?? {};
   }
 
   public getPage(page: number): readonly Entity[] {
