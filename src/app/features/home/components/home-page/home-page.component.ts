@@ -33,8 +33,6 @@ import { HomePageService } from '../../services/home-page.service';
 export class HomePageComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription[] = [];
   public readonly IdeaSortEnum = IdeaSortEnum;
-  public static readonly DEFAULT_SORT = IdeaSortEnum.CONTROVERSIAL;
-  public static readonly DEFAULT_AGE = IdeaAgeEnum.ONE_WEEK;
   public index: number = 0;
 
   public feedControl!: FormControl<IdeaSortEnum>;
@@ -55,14 +53,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.feedControl = new FormControl<IdeaSortEnum>(
-      HomePageComponent.DEFAULT_SORT,
+      this.homePageService.lastSort,
       {
         nonNullable: true,
       },
     );
 
     this.ageControl = new FormControl<IdeaAgeEnum>(
-      this.homePageService.lastAge ?? HomePageComponent.DEFAULT_AGE,
+      this.homePageService.lastAge,
       {
         nonNullable: true,
       },
@@ -79,6 +77,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
           sort: sort,
         });
         this.feeds[this.index].fetch = true;
+        this.homePageService.lastSort = sort;
       }),
 
       this.ageControl.valueChanges.subscribe((age) => {
@@ -90,11 +89,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
         const age = params['age'];
         if (!sort || !age) {
           this.setQuery({
-            sort: sort ?? HomePageComponent.DEFAULT_SORT,
-            age:
-              age ??
-              this.homePageService.lastAge ??
-              HomePageComponent.DEFAULT_AGE,
+            sort: sort ?? this.homePageService.lastSort,
+            age: age ?? this.homePageService.lastAge,
           });
           return;
         }

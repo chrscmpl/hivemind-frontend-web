@@ -62,8 +62,6 @@ export class IdeaFeedComponent implements OnInit {
   private reset(hard: boolean = false): void {
     this.lastLoadedPage = 1;
 
-    console.log(hard);
-
     const managerFactory = hard
       ? this.ideaPaginationService.set.bind(this.ideaPaginationService)
       : this.ideaPaginationService.setIfAbsent.bind(this.ideaPaginationService);
