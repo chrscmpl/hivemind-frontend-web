@@ -5,6 +5,7 @@ import { PaginatedRequestManager } from '@shared/helpers/paginated-request-manag
 import { IdeaEntity } from '@shared/entities/idea.entity';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { IdeaCardComponent } from '../../../idea-card/components/idea-card/idea-card.component';
+import { UtilsService } from '@app/shared/services/utils.service';
 
 @Component({
   selector: 'app-idea-feed',
@@ -14,19 +15,25 @@ import { IdeaCardComponent } from '../../../idea-card/components/idea-card/idea-
 })
 export class IdeaFeedComponent implements OnInit {
   @Input({ required: true }) public key!: string;
-  @Input({ required: true }) public sort!: IdeaSortEnum;
-  @Input({ required: true }) public page!: number;
-  @Input({ required: true }) public limit!: number;
   @Input() includeOwnVotes: boolean | '' = false;
   @Input() includeUsers: boolean | '' = false;
 
   private _age!: string;
   @Input({ required: true }) public set age(value: string) {
     this._age = value;
-    if (this.requestManager) this.reset();
+    if (this.requestManager) this.utils.runAfterCD(() => this.reset(true));
   }
   public get age(): string {
     return this._age;
+  }
+
+  private _sort!: string;
+  @Input({ required: true }) public set sort(value: IdeaSortEnum) {
+    this._sort = value;
+    if (this.requestManager) this.utils.runAfterCD(() => this.reset(true));
+  }
+  public get sort(): string {
+    return this._sort;
   }
 
   private lastLoadedPage!: number;
@@ -38,6 +45,7 @@ export class IdeaFeedComponent implements OnInit {
   public constructor(
     public readonly breakpoints: BreakpointService,
     private readonly ideaPaginationService: IdeaPaginationService,
+    private readonly utils: UtilsService,
   ) {}
 
   public ngOnInit(): void {
@@ -51,11 +59,18 @@ export class IdeaFeedComponent implements OnInit {
     }
   }
 
-  private reset(): void {
-    this.lastLoadedPage = this.page;
-    this.requestManager = this.ideaPaginationService.set(this.key, {
-      page: this.page,
-      limit: this.limit,
+  private reset(hard: boolean = false): void {
+    this.lastLoadedPage = 1;
+
+    console.log(hard);
+
+    const managerFactory = hard
+      ? this.ideaPaginationService.set.bind(this.ideaPaginationService)
+      : this.ideaPaginationService.setIfAbsent.bind(this.ideaPaginationService);
+
+    this.requestManager = managerFactory(this.key, {
+      page: 1,
+      limit: 10,
       query: {
         sort: this.sort,
         age: this.age,
@@ -64,7 +79,7 @@ export class IdeaFeedComponent implements OnInit {
       },
     });
 
-    this.requestManager.next();
+    if (!this.requestManager.data.length) this.requestManager.next();
   }
 
   private shouldLoadMore(index: number) {

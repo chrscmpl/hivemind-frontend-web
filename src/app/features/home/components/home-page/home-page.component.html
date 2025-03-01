@@ -20,6 +20,7 @@
       [formControl]="ageControl"
       ngDefaultControl
       buttonAppearance="secondary-grayscale"
+      (ageChange)="onAgeSelectorChange($event)"
     />
   </div>
   <tui-carousel
@@ -39,11 +40,9 @@
             <div class="w-full" [class.max-w-3xl]="!isMobile">
               @if (feed.fetch) {
                 <app-idea-feed
-                  [sort]="feed.sort"
                   [key]="feed.sort"
+                  [sort]="feed.sort"
                   [age]="ageControl.value"
-                  [page]="1"
-                  [limit]="10"
                   includeOwnVotes
                   includeUsers
                 />

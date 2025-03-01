@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { IdeaAgeEnum } from '@app/shared/enums/idea-age.enum';
 import {
@@ -31,6 +31,7 @@ interface AgeSelectorOption {
 })
 export class AgeSelectorComponent implements OnInit {
   @Input() buttonAppearance: TuiAppearanceOptions['appearance'] = 'primary';
+  @Output() public ageChange = new EventEmitter<IdeaAgeEnum>();
 
   private _currentAgeLabel!: string;
   public open: boolean = false;
@@ -63,5 +64,6 @@ export class AgeSelectorComponent implements OnInit {
     this.control.control?.setValue(option.value);
     this._currentAgeLabel = option.label;
     this.open = false;
+    this.ageChange.emit(option.value);
   }
 }

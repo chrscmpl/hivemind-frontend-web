@@ -13,6 +13,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IdeaAgeEnum } from '@app/shared/enums/idea-age.enum';
 import { AgeSelectorComponent } from '../age-selector/age-selector.component';
 import { NgClass } from '@angular/common';
+import { HomePageService } from '../../services/home-page.service';
 
 @Component({
   selector: 'app-home-page',
@@ -36,15 +37,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public static readonly DEFAULT_AGE = IdeaAgeEnum.ONE_WEEK;
   public index: number = 0;
 
-  public readonly feedControl = new FormControl<IdeaSortEnum>(
-    HomePageComponent.DEFAULT_SORT,
-    { nonNullable: true },
-  );
+  public feedControl!: FormControl<IdeaSortEnum>;
 
-  public readonly ageControl = new FormControl<IdeaAgeEnum>(
-    HomePageComponent.DEFAULT_AGE,
-    { nonNullable: true },
-  );
+  public ageControl!: FormControl<IdeaAgeEnum>;
 
   public readonly feeds: FeedDescriptorEntity[] = Object.values(
     IdeaSortEnum,
@@ -55,9 +50,24 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     public readonly breakpoints: BreakpointService,
     public readonly ideaPaginationService: IdeaPaginationService,
+    private readonly homePageService: HomePageService,
   ) {}
 
   public ngOnInit(): void {
+    this.feedControl = new FormControl<IdeaSortEnum>(
+      HomePageComponent.DEFAULT_SORT,
+      {
+        nonNullable: true,
+      },
+    );
+
+    this.ageControl = new FormControl<IdeaAgeEnum>(
+      this.homePageService.lastAge ?? HomePageComponent.DEFAULT_AGE,
+      {
+        nonNullable: true,
+      },
+    );
+
     this.feeds.forEach((feed) => {
       feed.fetch = this.ideaPaginationService.has(feed.sort);
     });
@@ -81,7 +91,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
         if (!sort || !age) {
           this.setQuery({
             sort: sort ?? HomePageComponent.DEFAULT_SORT,
-            age: age ?? HomePageComponent.DEFAULT_AGE,
+            age:
+              age ??
+              this.homePageService.lastAge ??
+              HomePageComponent.DEFAULT_AGE,
           });
           return;
         }
@@ -108,6 +121,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
       onSameUrlNavigation: 'reload',
     });
+  }
+
+  public onAgeSelectorChange(age: IdeaAgeEnum): void {
+    this.feeds.forEach((feed) => {
+      feed.fetch = false;
+    });
+    this.homePageService.lastAge = age;
   }
 
   public onCarouselChange(index: number): void {
