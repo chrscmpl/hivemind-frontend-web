@@ -178,7 +178,7 @@ module.exports = {
           [1, 2, 3, 4, 5, 6].map((size) => [
             `.font-tui-${size}`,
             {
-              font: `var(--tui-font-body-${size})`,
+              font: `var(--tui-font-heading-${size})`,
             },
           ]),
         ),

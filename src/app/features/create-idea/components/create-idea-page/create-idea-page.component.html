@@ -14,6 +14,7 @@
         size="l"
         class="self-start"
         iconStart="@tui.move-left"
+        (click)="navigationUtils.back()"
       >
         <span class="translate-y-[-2px]">Back</span>
       </button>
@@ -21,13 +22,14 @@
     </header>
     <section>
       <tui-textfield iconEnd="@tui.lightbulb" class="h-16">
-        <label for="create-idea-title" class="!text-xl !font-semibold"
-          >Title</label
-        >
+        <label for="create-idea-title" class="!text-xl !font-semibold">
+          Title
+        </label>
         <input
           tuiTextfield
           class="!text-xl !font-semibold"
           id="create-idea-title"
+          [maxlength]="constraints.title.maxLength"
           name="title"
           type="text"
           formControlName="title"
@@ -36,13 +38,20 @@
       </tui-textfield>
       <tui-error formControlName="title" [error]="[] | tuiFieldError | async" />
     </section>
-    <tui-editor
-      [tools]="tools"
-      formControlName="content"
-      [ngClass]="{ 'flex-1 w-[90vw]': isMobile, '!min-h-80': !isMobile }"
-    >
-      Idea content
-    </tui-editor>
+    <section class="flex flex-col" [class.flex-1]="isMobile">
+      <tui-editor
+        [tools]="tools"
+        [maxlength]="constraints.content.maxLength"
+        formControlName="content"
+        [ngClass]="{ 'flex-1 w-[90vw]': isMobile, '!min-h-80': !isMobile }"
+      >
+        Idea content
+      </tui-editor>
+      <tui-error
+        formControlName="content"
+        [error]="[] | tuiFieldError | async"
+      />
+    </section>
     <button
       tuiButton
       type="submit"
