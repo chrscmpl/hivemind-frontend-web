@@ -5,6 +5,7 @@
     [formGroup]="form"
     class="flex flex-col flex-1 w-full items-stretch gap-4"
     [class.max-w-3xl]="!isMobile"
+    [class.max-w-[90vw]]="isMobile"
     (ngSubmit)="submit()"
   >
     <header class="flex items-center gap-4 flex-wrap">
@@ -38,12 +39,13 @@
       </tui-textfield>
       <tui-error formControlName="title" [error]="[] | tuiFieldError | async" />
     </section>
-    <section class="flex flex-col" [class.flex-1]="isMobile">
+    <section class="flex flex-col items-stretch" [class.flex-1]="isMobile">
       <tui-editor
         [tools]="tools"
         [maxlength]="constraints.content.maxLength"
         formControlName="content"
-        [ngClass]="{ 'flex-1 w-[90vw]': isMobile, '!min-h-80': !isMobile }"
+        [class.flex-1]="isMobile"
+        [class.!min-h-80]="!isMobile"
       >
         Idea content
       </tui-editor>

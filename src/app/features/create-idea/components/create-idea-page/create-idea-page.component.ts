@@ -11,13 +11,22 @@ import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
 import { UpdateOnEnterDirective } from '@app/shared/directives/update-on-enter.directive';
 import { IdeaCreationConstraintsEntity } from '@app/shared/entities/idea-creation-contraints.entity';
+import { IdeaCreationData } from '@app/shared/entities/idea-creation-data.entity';
 import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
+import { ApiErrorsService } from '@app/shared/services/api-errors.service';
+import { IdeaMutationService } from '@app/shared/services/idea-mutation.service';
 import { ReactiveFormsUtilsService } from '@app/shared/services/reactive-forms-utils.service';
 import { EDITOR_TOOLS } from '@app/shared/tokens/editor-tools.token';
 import { IDEA_CREATION_CONSTRAINTS } from '@app/shared/tokens/idea-creation-constraints.token';
-import { TuiButton, TuiError, TuiTextfield } from '@taiga-ui/core';
+import {
+  TuiAlertService,
+  TuiButton,
+  TuiError,
+  TuiTextfield,
+} from '@taiga-ui/core';
 import { TuiEditor, TuiEditorToolType } from '@taiga-ui/editor';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import { take } from 'rxjs';
 
 interface IdeaForm {
   title: FormControl<string | null>;
@@ -55,14 +64,13 @@ export class CreateIdeaPageComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly formUtils: ReactiveFormsUtilsService,
     public readonly navigationUtils: NavigationUtilsService,
+    private readonly ideaMutationService: IdeaMutationService,
+    private readonly apiErrorsService: ApiErrorsService,
+    private readonly alerts: TuiAlertService,
   ) {}
 
   public ngOnInit(): void {
     this._form = this.buildForm();
-
-    this.form.controls.content.statusChanges.subscribe(() => {
-      console.log(this.form.controls.content.errors);
-    });
   }
 
   private buildForm(): FormGroup<IdeaForm> {
@@ -107,5 +115,32 @@ export class CreateIdeaPageComponent implements OnInit {
       this.formUtils.forceValidation(this.form);
       return;
     }
+
+    this.ideaMutationService
+      .create(
+        new IdeaCreationData({
+          title: this.form.value.title!,
+          content: this.form.value.content!,
+        }),
+      )
+      .subscribe({
+        next: () => this.onCreationSuccess(),
+        error: (err) => this.onCreationError(err),
+      });
+  }
+
+  private onCreationSuccess() {
+    this.navigationUtils.back();
+    this.alerts
+      .open('Idea created successfully', {
+        appearance: 'positive',
+        label: 'Success',
+      })
+      .pipe(take(1))
+      .subscribe();
+  }
+
+  private onCreationError(err: unknown) {
+    this.apiErrorsService.displayErrors(err);
   }
 }

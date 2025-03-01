@@ -23,6 +23,25 @@
   --color-downvote: #6800e0;
 }
 
+@layer base {
+  a {
+    color: var(--tui-text-action);
+    text-decoration: underline;
+  }
+  ol,
+  ul {
+    list-style: revert;
+    padding-left: revert;
+  }
+  hr {
+    margin: 0.5rem 0;
+    border-color: var(--tui-border-normal);
+  }
+  code {
+    background-color: var(--tui-background-neutral-1);
+  }
+}
+
 // override default textfield behavior (error on change)
 [tuiAppearance][data-appearance="textfield"]:focus-visible:not(
     [data-focus="false"]
