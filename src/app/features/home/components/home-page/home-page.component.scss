@@ -1,5 +1,13 @@
 :host ::ng-deep {
-  .t-items > .t-item {
-    padding: 0;
+  tui-carousel > .t-scroller {
+    height: 100%;
+
+    & > .t-wrapper > .t-items {
+      height: 100%;
+
+      > .t-item {
+        padding: 0;
+      }
+    }
   }
 }
