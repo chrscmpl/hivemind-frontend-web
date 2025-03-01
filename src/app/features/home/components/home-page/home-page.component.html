@@ -1,17 +1,26 @@
 @let isMobile = breakpoints.isMobile();
 
 <div class="h-full relative">
-  <app-feed-selector [(activeIndex)]="index" />
+  <div
+    class="sticky top-0 left-0 px-4 bg-background-base-alt h-20 flex items-center max-w-[100vw] overflow-hidden app-home-nav"
+  >
+    <app-feed-selector
+      [formControl]="feedControl"
+      ngDefaultControl
+      buttonAppearance="secondary-grayscale"
+    />
+  </div>
   <div class="overflow-hidden min-h-0">
     <tui-carousel
-      [(index)]="index"
+      [index]="index"
+      (indexChange)="onCarouselChange($event)"
       [draggable]="isMobile"
       class="!min-h-0 top-0 left-0 max-w-[100vw]"
     >
       @for (feed of feeds; track $index) {
         <div *tuiItem>
           <tui-scrollbar
-            class="min-h-0 overflow-scroll h-[calc(100vh-7rem)] pb-4"
+            class="min-h-0 overflow-scroll h-[calc(100vh-8rem)] pb-4"
             [hidden]="isMobile"
             [class.w-screen]="isMobile"
           >

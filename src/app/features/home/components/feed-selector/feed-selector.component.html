@@ -1,16 +1,27 @@
-<div
-  class="sticky top-0 left-0 bg-background-base-alt h-16 flex items-center max-w-[100vw] overflow-hidden app-feed-selector"
+<button
+  class="min-w-44"
+  tuiButton
+  [appearance]="buttonAppearance"
+  tuiChevron
+  type="button"
+  [tuiDropdown]="dropdown"
+  [(tuiDropdownOpen)]="open"
 >
-  <tui-segmented
-    [activeItemIndex]="activeIndex"
-    (activeItemIndexChange)="activeIndexChange.emit($event)"
-    class="w-min mx-5"
-    size="l"
-  >
+  {{ control.value | titlecase }}
+</button>
+
+<ng-template #dropdown>
+  <tui-data-list tuiDataListDropdownManager size="l" class="min-w-52">
     @for (option of options; track $index) {
-      <button class="font-semibold">
+      <button
+        tuiOption
+        class="font-semibold"
+        [tuiAppearance]="control.value === option ? 'flat' : 'flat-grayscale'"
+        type="button"
+        (click)="setOption(option)"
+      >
         {{ option | titlecase }}
       </button>
     }
-  </tui-segmented>
-</div>
+  </tui-data-list>
+</ng-template>

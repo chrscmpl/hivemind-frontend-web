@@ -1,4 +1,3 @@
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
@@ -10,11 +9,12 @@ import { IdeaPaginationService } from '@features/idea-feed/services/idea-paginat
 import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
 import { FeedSelectorComponent } from '../feed-selector/feed-selector.component';
 import { FeedDescriptorEntity } from '../entities/feed-descriptor.entity';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home-page',
   imports: [
-    NgTemplateOutlet,
+    ReactiveFormsModule,
     TuiCarousel,
     TuiScrollbar,
     TuiLoader,
@@ -28,23 +28,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription[] = [];
   public readonly IdeaSortEnum = IdeaSortEnum;
   public static readonly DEFAULT_SORT = IdeaSortEnum.CONTROVERSIAL;
-  public sort!: string;
-  private _index: number | null = null;
+  public index: number = 0;
 
-  public set index(value: number) {
-    if (this._index === value) {
-      return;
-    }
-    this._index = value;
-    this.feeds[this._index].fetch = true;
-    this.sort = this.feeds[this._index].sort;
-
-    this.setQuery(this.sort);
-  }
-
-  public get index(): number {
-    return this._index ?? 0;
-  }
+  public readonly feedControl = new FormControl<IdeaSortEnum>(
+    IdeaSortEnum.CONTROVERSIAL,
+    { nonNullable: true },
+  );
 
   public readonly feeds: FeedDescriptorEntity[] = Object.values(
     IdeaSortEnum,
@@ -63,24 +52,21 @@ export class HomePageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(
-      this.route.queryParamMap.subscribe((params) => {
-        const sort = params.get('sort');
+      this.feedControl.valueChanges.subscribe((sort) => {
+        this.index = this.feeds.findIndex((feed) => feed.sort === sort);
+        this.setQuery(sort);
+        this.feeds[this.index].fetch = true;
+      }),
+
+      this.route.queryParams.subscribe((params) => {
+        const sort = params['sort'];
         if (!sort) {
           this.setQuery(HomePageComponent.DEFAULT_SORT);
           return;
         }
-        this.index =
-          sort === IdeaSortEnum.UNPOPULAR
-            ? 2
-            : sort === IdeaSortEnum.POPULAR
-              ? 1
-              : 0;
-
-        this.feeds.forEach((feed, index) => {
-          if (feed.sort === sort) {
-            this.index = index;
-          }
-        });
+        if (Object.values(IdeaSortEnum).includes(sort as IdeaSortEnum)) {
+          this.feedControl.setValue(sort as IdeaSortEnum);
+        }
       }),
     );
   }
@@ -95,5 +81,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
       onSameUrlNavigation: 'reload',
     });
+  }
+
+  public onCarouselChange(index: number): void {
+    this.feedControl.setValue(this.feeds[index].sort);
   }
 }

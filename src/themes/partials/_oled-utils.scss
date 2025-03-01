@@ -1,5 +1,5 @@
 [tuinavigationheader],
-.app-feed-selector {
+.app-home-nav {
   box-shadow:
     0px -1px 0px 0px var(--tui-border-normal),
     0px 1px 0px 0px var(--tui-border-normal);
@@ -23,7 +23,7 @@ tui-dropdown[data-appearance="dropdown-navigation"] {
   outline-offset: -2px;
 }
 
-.app-feed-selector {
+.app-home-nav {
   background: var(--tui-background-base);
 }
 

@@ -1,17 +1,40 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
-import { TuiSegmented } from '@taiga-ui/kit';
+import {
+  TuiAppearance,
+  TuiAppearanceOptions,
+  TuiButton,
+  TuiDataList,
+  TuiDropdown,
+} from '@taiga-ui/core';
+import { TuiChevron, TuiDataListDropdownManager } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-feed-selector',
-  imports: [TuiSegmented, TitleCasePipe],
+  imports: [
+    ReactiveFormsModule,
+    TuiDataList,
+    TuiDataListDropdownManager,
+    TuiButton,
+    TuiAppearance,
+    TuiChevron,
+    TuiDropdown,
+    TitleCasePipe,
+  ],
   templateUrl: './feed-selector.component.html',
   styleUrl: './feed-selector.component.scss',
 })
 export class FeedSelectorComponent {
-  @Input() public activeIndex = 0;
-  @Output() public readonly activeIndexChange = new EventEmitter<number>();
+  @Input() buttonAppearance: TuiAppearanceOptions['appearance'] = 'primary';
 
+  public open: boolean = false;
   public readonly options = Object.values(IdeaSortEnum);
+  public constructor(public readonly control: NgControl) {}
+
+  public setOption(option: IdeaSortEnum) {
+    this.control.control?.setValue(option);
+    this.open = false;
+  }
 }
