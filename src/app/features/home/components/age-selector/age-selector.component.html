@@ -16,7 +16,9 @@
       <button
         tuiOption
         class="font-semibold"
-        [tuiAppearance]="control.value === option ? 'flat' : 'flat-grayscale'"
+        [tuiAppearance]="
+          control.value === option.value ? 'flat' : 'flat-grayscale'
+        "
         type="button"
         (click)="setOption(option)"
       >

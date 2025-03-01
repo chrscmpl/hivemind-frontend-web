@@ -7,20 +7,23 @@
   [tuiDropdown]="dropdown"
   [(tuiDropdownOpen)]="open"
 >
-  {{ control.value | titlecase }}
+  {{ currentFeedLabel }}
 </button>
 
 <ng-template #dropdown>
-  <tui-data-list tuiDataListDropdownManager size="l" class="min-w-52">
+  <tui-data-list tuiDataListDropdownManager size="l">
     @for (option of options; track $index) {
       <button
         tuiOption
-        class="font-semibold"
-        [tuiAppearance]="control.value === option ? 'flat' : 'flat-grayscale'"
+        class="font-semibold !justify-start"
+        [iconStart]="option.icon ?? ''"
+        [tuiAppearance]="
+          control.value === option.value ? 'flat' : 'flat-grayscale'
+        "
         type="button"
         (click)="setOption(option)"
       >
-        {{ option | titlecase }}
+        {{ option.label }}
       </button>
     }
   </tui-data-list>
