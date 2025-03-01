@@ -2,10 +2,16 @@
 
 <div class="h-full relative">
   <div
-    class="sticky top-0 left-0 px-4 bg-background-base-alt h-20 flex items-center max-w-[100vw] overflow-hidden app-home-nav"
+    class="sticky top-0 left-0 gap-4 flex-wrap px-4 bg-background-base-alt min-h-20 flex items-center max-w-[100vw] overflow-hidden app-home-nav"
   >
     <app-feed-selector
       [formControl]="feedControl"
+      ngDefaultControl
+      buttonAppearance="secondary-grayscale"
+    />
+
+    <app-age-selector
+      [formControl]="ageControl"
       ngDefaultControl
       buttonAppearance="secondary-grayscale"
     />
@@ -30,7 +36,7 @@
                   <app-idea-feed
                     [sort]="feed.sort"
                     [key]="feed.sort"
-                    age="7d"
+                    [age]="ageControl.value"
                     [page]="1"
                     [limit]="10"
                     includeOwnVotes

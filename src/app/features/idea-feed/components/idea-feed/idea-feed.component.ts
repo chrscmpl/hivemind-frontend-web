@@ -15,11 +15,20 @@ import { IdeaCardComponent } from '../../../idea-card/components/idea-card/idea-
 export class IdeaFeedComponent implements OnInit {
   @Input({ required: true }) public key!: string;
   @Input({ required: true }) public sort!: IdeaSortEnum;
-  @Input({ required: true }) public age!: string;
   @Input({ required: true }) public page!: number;
   @Input({ required: true }) public limit!: number;
   @Input() includeOwnVotes: boolean | '' = false;
   @Input() includeUsers: boolean | '' = false;
+
+  private _age!: string;
+  @Input({ required: true }) public set age(value: string) {
+    this._age = value;
+    if (this.requestManager) this.reset();
+  }
+  public get age(): string {
+    return this._age;
+  }
+
   private lastLoadedPage!: number;
 
   public loading: boolean = false;
@@ -52,6 +61,22 @@ export class IdeaFeedComponent implements OnInit {
       this.requestManager.next();
       this.lastLoadedPage = this.requestManager.page;
     }
+  }
+
+  private reset(): void {
+    this.lastLoadedPage = this.page;
+    this.requestManager = this.ideaPaginationService.set(this.key, {
+      page: this.page,
+      limit: this.limit,
+      query: {
+        sort: this.sort,
+        age: this.age,
+        includeOwnVotes: this.includeOwnVotes !== false,
+        includeUsers: this.includeUsers !== false,
+      },
+    });
+
+    this.requestManager.next();
   }
 
   private shouldLoadMore(index: number) {

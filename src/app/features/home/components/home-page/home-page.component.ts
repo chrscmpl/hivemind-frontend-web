@@ -8,8 +8,10 @@ import { IdeaFeedComponent } from '@features/idea-feed/components/idea-feed/idea
 import { IdeaPaginationService } from '@features/idea-feed/services/idea-pagination.service';
 import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
 import { FeedSelectorComponent } from '../feed-selector/feed-selector.component';
-import { FeedDescriptorEntity } from '../entities/feed-descriptor.entity';
+import { FeedDescriptorEntity } from '../../entities/feed-descriptor.entity';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { IdeaAgeEnum } from '@app/shared/enums/idea-age.enum';
+import { AgeSelectorComponent } from '../age-selector/age-selector.component';
 
 @Component({
   selector: 'app-home-page',
@@ -20,6 +22,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     TuiLoader,
     IdeaFeedComponent,
     FeedSelectorComponent,
+    AgeSelectorComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -28,10 +31,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription[] = [];
   public readonly IdeaSortEnum = IdeaSortEnum;
   public static readonly DEFAULT_SORT = IdeaSortEnum.CONTROVERSIAL;
+  public static readonly DEFAULT_AGE = IdeaAgeEnum.ONE_WEEK;
   public index: number = 0;
 
   public readonly feedControl = new FormControl<IdeaSortEnum>(
-    IdeaSortEnum.CONTROVERSIAL,
+    HomePageComponent.DEFAULT_SORT,
+    { nonNullable: true },
+  );
+
+  public readonly ageControl = new FormControl<IdeaAgeEnum>(
+    HomePageComponent.DEFAULT_AGE,
     { nonNullable: true },
   );
 
@@ -54,18 +63,31 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.feedControl.valueChanges.subscribe((sort) => {
         this.index = this.feeds.findIndex((feed) => feed.sort === sort);
-        this.setQuery(sort);
+        this.setQuery({
+          sort: sort,
+        });
         this.feeds[this.index].fetch = true;
+      }),
+
+      this.ageControl.valueChanges.subscribe((age) => {
+        this.setQuery({ age: age });
       }),
 
       this.route.queryParams.subscribe((params) => {
         const sort = params['sort'];
-        if (!sort) {
-          this.setQuery(HomePageComponent.DEFAULT_SORT);
+        const age = params['age'];
+        if (!sort || !age) {
+          this.setQuery({
+            sort: sort ?? HomePageComponent.DEFAULT_SORT,
+            age: age ?? HomePageComponent.DEFAULT_AGE,
+          });
           return;
         }
         if (Object.values(IdeaSortEnum).includes(sort as IdeaSortEnum)) {
           this.feedControl.setValue(sort as IdeaSortEnum);
+        }
+        if (Object.values(IdeaAgeEnum).includes(age as IdeaAgeEnum)) {
+          this.ageControl.setValue(age as IdeaAgeEnum);
         }
       }),
     );
@@ -75,9 +97,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  private setQuery(sort: string): void {
+  private setQuery(query: { sort?: string; age?: string }): void {
     this.router.navigate([], {
-      queryParams: { sort },
+      queryParams: {
+        sort: query.sort ?? this.feedControl.value,
+        age: query.age ?? this.ageControl.value,
+      },
       queryParamsHandling: 'merge',
       onSameUrlNavigation: 'reload',
     });

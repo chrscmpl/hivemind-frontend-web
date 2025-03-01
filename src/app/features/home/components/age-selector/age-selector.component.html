@@ -1,0 +1,27 @@
+<button
+  class="min-w-44"
+  tuiButton
+  [appearance]="buttonAppearance"
+  tuiChevron
+  type="button"
+  [tuiDropdown]="dropdown"
+  [(tuiDropdownOpen)]="open"
+>
+  {{ currentAgeLabel }}
+</button>
+
+<ng-template #dropdown>
+  <tui-data-list tuiDataListDropdownManager size="l" class="min-w-52">
+    @for (option of options; track $index) {
+      <button
+        tuiOption
+        class="font-semibold"
+        [tuiAppearance]="control.value === option ? 'flat' : 'flat-grayscale'"
+        type="button"
+        (click)="setOption(option)"
+      >
+        {{ option.label }}
+      </button>
+    }
+  </tui-data-list>
+</ng-template>
