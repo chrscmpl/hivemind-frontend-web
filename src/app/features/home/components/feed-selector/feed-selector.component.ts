@@ -1,5 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
+import { MATH } from '@app/shared/tokens/math.token';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import {
   TuiAppearance,
@@ -58,7 +59,10 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
     { label: 'New', value: IdeaSortEnum.NEW, icon: '@tui.clock' },
   ];
 
-  public constructor(public readonly control: NgControl) {}
+  public constructor(
+    @Inject(MATH) private readonly math: Math,
+    public readonly control: NgControl,
+  ) {}
 
   public ngOnInit(): void {
     this.updateCurrentFeed(this.control.control?.value);
@@ -71,6 +75,10 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
     }
     this.subscriptions.push(
       this.wheel$.subscribe((delta) => {
+        if (this.math.abs(delta) < 3) {
+          return;
+        }
+
         const currentFeedIndex = this.options.findIndex(
           (option) => option.value === this._currentFeed,
         );
