@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, effect, Input, OnInit } from '@angular/core';
 import { IdeaPaginationService } from '../../services/idea-pagination.service';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@shared/helpers/paginated-request-manager.helper';
@@ -6,6 +6,7 @@ import { IdeaEntity } from '@shared/entities/idea.entity';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { IdeaCardComponent } from '../../../idea-card/components/idea-card/idea-card.component';
 import { UtilsService } from '@app/shared/services/utils.service';
+import { AuthService } from '@app/core/auth/services/auth.service';
 
 @Component({
   selector: 'app-idea-feed',
@@ -45,7 +46,20 @@ export class IdeaFeedComponent implements OnInit {
     public readonly breakpoints: BreakpointService,
     private readonly ideaPaginationService: IdeaPaginationService,
     private readonly utils: UtilsService,
-  ) {}
+    auth: AuthService,
+  ) {
+    let lastIsAuthenticated: boolean | null = null;
+    effect(() => {
+      const isAuthenticated = auth.isAuthenticated();
+      if (
+        lastIsAuthenticated !== null &&
+        isAuthenticated !== lastIsAuthenticated
+      ) {
+        this.reset();
+      }
+      lastIsAuthenticated = isAuthenticated;
+    });
+  }
 
   public ngOnInit(): void {
     this.reset();
