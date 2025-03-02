@@ -4,14 +4,31 @@
   class="select-none"
   [class.overflow-hidden]="isMobile"
 >
-  @if (isMobile) {
+  @if (isMobile && ui.UIStyle()) {
+    <button
+      tuiButton
+      appearance="secondary-grayscale"
+      type="button"
+      size="s"
+      class="self-start !rounded-full"
+      iconStart="@tui.undo-2"
+      (click)="navigationUtils.back()"
+    >
+      @if (!isMobile) {
+        <span class="translate-y-[-2px]">Back</span>
+      }
+    </button>
+  } @else {
     <app-drawer />
+    <app-logo [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
   }
-  <app-logo [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
   <hr />
   @if (!!authStatus.user) {
     <span class="flex items-center gap-2">
-      <span [class]="isMobile ? 'w-20 truncate text-end' : ''">
+      <span
+        class="truncate text-end max-w-[70vw] h-6 translate-y-1"
+        [class.!max-w-20]="isMobile && ui.UIStyle() === UIStyleEnum.DEFAULT"
+      >
         {{ authStatus.user.displayName }}
       </span>
       <tui-avatar

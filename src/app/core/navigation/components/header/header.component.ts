@@ -8,6 +8,9 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { TuiButton, TuiDataList, TuiDropdown } from '@taiga-ui/core';
 import { DialogsService } from '@core/dialogs/dialogs.service';
 import { DialogEnum } from '@core/dialogs/dialog.enum';
+import { UIService } from '../../services/ui.service';
+import { UIStylesEnum } from '../../enums/ui-styles.enum';
+import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
 
 @Component({
   selector: 'app-header',
@@ -26,10 +29,13 @@ import { DialogEnum } from '@core/dialogs/dialog.enum';
 })
 export class HeaderComponent {
   public readonly DialogEnum = DialogEnum;
+  public readonly UIStyleEnum = UIStylesEnum;
 
   public constructor(
     public readonly breakpoints: BreakpointService,
     public readonly auth: AuthService,
     public readonly dialogs: DialogsService,
+    public readonly ui: UIService,
+    public readonly navigationUtils: NavigationUtilsService,
   ) {}
 }

@@ -5,6 +5,8 @@ import { HomePageComponent } from '@features/home/components/home-page/home-page
 import { NotFoundPageComponent } from './features/not-found/components/not-found-page/not-found-page.component';
 import { ideaResolver } from './shared/resolvers/idea.resolver';
 import { IdeaPageComponent } from './features/idea-page/components/idea-page/idea-page.component';
+import { uiStyleGuard } from './core/navigation/guards/ui-style.guard';
+import { UIStylesEnum } from './core/navigation/enums/ui-styles.enum';
 
 export const routes: Routes = [
   {
@@ -15,12 +17,13 @@ export const routes: Routes = [
   {
     path: 'home',
     title: 'HiveMind',
+    canActivate: [uiStyleGuard(UIStylesEnum.DEFAULT)],
     component: HomePageComponent,
   },
   {
     path: 'ideas/new',
     title: 'Post Idea',
-    canActivate: [authGuard],
+    canActivate: [authGuard, uiStyleGuard(UIStylesEnum.BACK)],
     component: CreateIdeaPageComponent,
   },
   {
@@ -29,6 +32,7 @@ export const routes: Routes = [
       {
         path: '',
         title: 'Idea',
+        canActivate: [uiStyleGuard(UIStylesEnum.BACK)],
         resolve: {
           idea: ideaResolver(),
         },
@@ -38,6 +42,7 @@ export const routes: Routes = [
         path: 'edit',
         title: 'Edit Idea',
         component: CreateIdeaPageComponent,
+        canActivate: [uiStyleGuard(UIStylesEnum.BACK)],
         resolve: {
           updateIdea: ideaResolver({ requireIsAuthor: true }),
         },
@@ -47,6 +52,7 @@ export const routes: Routes = [
   {
     path: 'tos',
     title: 'Terms of Service',
+    canActivate: [uiStyleGuard(UIStylesEnum.DEFAULT)],
     loadComponent: () =>
       import('./features/info/components/tos-page/tos-page.component').then(
         (m) => m.TosPageComponent,
@@ -55,6 +61,7 @@ export const routes: Routes = [
   {
     path: 'privacy-policy',
     title: 'Privacy Policy',
+    canActivate: [uiStyleGuard(UIStylesEnum.DEFAULT)],
     loadComponent: () =>
       import(
         './features/info/components/privacy-policy-page/privacy-policy-page.component'
@@ -63,6 +70,7 @@ export const routes: Routes = [
   {
     path: 'credits',
     title: 'Credits',
+    canActivate: [uiStyleGuard(UIStylesEnum.DEFAULT)],
     loadComponent: () =>
       import(
         './features/info/components/credits-page/credits-page.component'
@@ -71,6 +79,7 @@ export const routes: Routes = [
   {
     path: '**',
     title: 'Not Found',
+    canActivate: [uiStyleGuard(UIStylesEnum.DEFAULT)],
     component: NotFoundPageComponent,
   },
 ];

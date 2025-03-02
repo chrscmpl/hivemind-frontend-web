@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { TuiAsideItemDirective, TuiNavigation } from '@taiga-ui/layout';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
-import { SidebarService } from '@core/navigation/services/sidebar.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { TuiChevron } from '@taiga-ui/kit';
 import { DialogsService } from '@app/core/dialogs/dialogs.service';
 import { DialogEnum } from '@app/core/dialogs/dialog.enum';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
