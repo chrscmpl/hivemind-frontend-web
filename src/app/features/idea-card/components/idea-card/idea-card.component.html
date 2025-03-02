@@ -143,8 +143,12 @@
 </div>
 
 <ng-template #menu let-observer>
-  @let isDialog = observer.closed !== undefined;
-  <tui-data-list [size]="isDialog ? 'l' : 's'" [class.pt-4]="isDialog">
+  @let isDialog = observer.complete !== undefined;
+  <tui-data-list
+    [size]="isDialog ? 'l' : 's'"
+    [class.pt-4]="isDialog"
+    (click)="observer.complete?.()"
+  >
     <button
       tuiOption
       class="!justify-start"

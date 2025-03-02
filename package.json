@@ -6,6 +6,7 @@
     "start": "ng serve",
     "start:broadcast": "ng serve --host 0.0.0.0",
     "backend": "cd ../hivemind-backend-api && npm run start:dev",
+    "backend:broadcast": "cd ../hivemind-backend-api && npx cross-env HOST=0.0.0.0 npm run start:dev",
     "build": "ng build",
     "build:stats": "ng build --stats-json",
     "serve": "serve -s dist/hivemind-frontend-web/browser",
