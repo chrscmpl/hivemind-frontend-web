@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DialogEnum } from '@app/core/dialogs/dialog.enum';
 import { DialogsService } from '@app/core/dialogs/dialogs.service';
+import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
 import { TuiTabBar } from '@taiga-ui/addon-mobile';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-app-bar',
@@ -10,10 +12,9 @@ import { TuiTabBar } from '@taiga-ui/addon-mobile';
   templateUrl: './app-bar.component.html',
   styleUrl: './app-bar.component.scss',
 })
-export class AppBarComponent {
-  public activeItemIndex = 0;
-
-  public constructor(private readonly dialogs: DialogsService) {}
+export class AppBarComponent implements OnInit, OnDestroy {
+  public activeItemIndex = -1;
+  private readonly subscriptions: Subscription[] = [];
 
   public readonly tabs = [
     {
@@ -29,7 +30,32 @@ export class AppBarComponent {
     {
       label: 'Settings',
       icon: '@tui.settings',
-      action: () => this.dialogs.open(DialogEnum.SETTINGS).subscribe(),
+      action: () => {
+        const index = this.activeItemIndex;
+        this.dialogs.open(DialogEnum.SETTINGS).subscribe({
+          complete: () => (this.activeItemIndex = index),
+        });
+      },
     },
   ];
+
+  public constructor(
+    private readonly dialogs: DialogsService,
+    private readonly navigationUtils: NavigationUtilsService,
+  ) {}
+
+  public ngOnInit(): void {
+    this.subscriptions.push(
+      this.navigationUtils.navigationEnd$.subscribe((e) => {
+        const path = e.url.split('?')[0];
+        this.activeItemIndex = this.tabs.findIndex(
+          (tab) => tab.routerLink === path,
+        );
+      }),
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach((s) => s.unsubscribe());
+  }
 }
