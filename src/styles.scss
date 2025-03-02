@@ -32,25 +32,40 @@ body {
     color: var(--tui-text-action);
     text-decoration: underline;
   }
+
   p {
     font: var(--tui-font-text-m);
   }
+
   ol,
   ul {
     list-style: revert;
     padding-left: revert;
   }
+
   blockquote {
     padding: 0.2rem 1rem;
     margin: 0.5rem 0;
     border-left: 1px solid var(--tui-border-normal);
   }
+
   hr {
     margin: 0.5rem 0;
     border-color: var(--tui-border-normal);
   }
+
   code {
     background-color: var(--tui-background-neutral-1);
+  }
+
+  ::selection {
+    background: var(--tui-service-selection-background);
+  }
+
+  @for $i from 1 through 6 {
+    h#{$i} {
+      font: var(--tui-font-heading-#{$i});
+    }
   }
 }
 
@@ -71,8 +86,6 @@ body {
   min-height: 100% !important;
 }
 
-@for $i from 1 through 6 {
-  h#{$i} {
-    font: var(--tui-font-heading-#{$i});
-  }
+[automation-id="toolbar__task-list-button"] {
+  display: none;
 }

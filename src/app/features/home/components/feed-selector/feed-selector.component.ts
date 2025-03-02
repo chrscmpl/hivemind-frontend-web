@@ -9,7 +9,7 @@ import {
   TuiDropdown,
 } from '@taiga-ui/core';
 import { TuiChevron, TuiDataListDropdownManager } from '@taiga-ui/kit';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, throttleTime } from 'rxjs';
 
 interface FeedSelectorOption {
   label: string;
@@ -44,6 +44,9 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
     return this._currentFeedLabel;
   }
 
+  private _wheelSubject = new Subject<number>();
+  public readonly wheel$ = this._wheelSubject.pipe(throttleTime(150));
+
   public readonly options: FeedSelectorOption[] = [
     {
       label: 'Controversial',
@@ -66,10 +69,30 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
         ),
       );
     }
+    this.subscriptions.push(
+      this.wheel$.subscribe((delta) => {
+        const currentFeedIndex = this.options.findIndex(
+          (option) => option.value === this._currentFeed,
+        );
+
+        if (delta > 0) {
+          this.setOption(
+            this.options[(currentFeedIndex + 1) % this.options.length],
+          );
+        } else {
+          this.setOption(
+            this.options[
+              (currentFeedIndex - 1 + this.options.length) % this.options.length
+            ],
+          );
+        }
+      }),
+    );
   }
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this._wheelSubject.complete();
   }
 
   private updateCurrentFeed(value?: IdeaSortEnum): void {
@@ -85,5 +108,9 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
     this.control.control?.setValue(option.value);
     this._currentFeedLabel = option.label;
     this.open = false;
+  }
+
+  public onWheel(e: WheelEvent): void {
+    this._wheelSubject.next(e.deltaY);
   }
 }

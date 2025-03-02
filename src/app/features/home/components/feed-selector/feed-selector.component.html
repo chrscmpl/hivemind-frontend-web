@@ -6,6 +6,7 @@
   type="button"
   [tuiDropdown]="dropdown"
   [(tuiDropdownOpen)]="open"
+  (wheel)="onWheel($event)"
 >
   {{ currentFeedLabel }}
 </button>
