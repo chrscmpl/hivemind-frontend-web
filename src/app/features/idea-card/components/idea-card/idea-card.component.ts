@@ -1,4 +1,4 @@
-import { DatePipe, NgClass, UpperCasePipe } from '@angular/common';
+import { DatePipe, JsonPipe, NgClass, UpperCasePipe } from '@angular/common';
 import {
   Component,
   effect,
@@ -16,6 +16,7 @@ import {
   TuiAppearance,
   TuiButton,
   TuiDataList,
+  TuiDialogService,
   TuiDropdown,
   TuiHint,
   TuiIcon,
@@ -46,6 +47,7 @@ import { Router, RouterLink } from '@angular/router';
     UpperCasePipe,
     NgClass,
     RouterLink,
+    JsonPipe,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
@@ -70,6 +72,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
     private readonly shareService: ShareService,
     private readonly votesService: VotesService,
     private readonly router: Router,
+    public readonly dialogsService: TuiDialogService,
     auth: AuthService,
   ) {
     effect(() => {

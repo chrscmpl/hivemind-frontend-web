@@ -53,21 +53,41 @@
         />
       }
     </span>
-    <button
-      appearance="outline-grayscale"
-      iconStart="@tui.ellipsis-vertical"
-      tuiDropdownHover
-      tuiIconButton
-      type="button"
-      [tuiDropdown]="dropdown"
-      size="s"
-      appearance="flat-grayscale"
-      class="!rounded-full justify-self-end col-start-[-1]"
+    <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+    <div
+      class="justify-self-end col-start-[-1]"
       (click)="$event.stopPropagation()"
       (keydown.enter)="$event.stopPropagation()"
     >
-      More
-    </button>
+      @if (isMobile) {
+        <button
+          appearance="outline-grayscale"
+          iconStart="@tui.ellipsis-vertical"
+          tuiIconButton
+          type="button"
+          size="s"
+          appearance="outline-grayscale"
+          class="!rounded-full"
+          (click)="dialogsService.open(menu).subscribe()"
+        >
+          More
+        </button>
+      } @else {
+        <button
+          appearance="outline-grayscale"
+          iconStart="@tui.ellipsis-vertical"
+          tuiDropdownHover
+          tuiIconButton
+          type="button"
+          [tuiDropdown]="menu"
+          size="s"
+          appearance="flat-grayscale"
+          class="!rounded-full"
+        >
+          More
+        </button>
+      }
+    </div>
   </section>
 
   <section>
@@ -122,18 +142,29 @@
   </section>
 </div>
 
-<ng-template #dropdown>
-  <tui-data-list size="s">
-    <button iconStart="@tui.share-2" tuiOption (click)="share()">Share</button>
+<ng-template #menu let-observer>
+  @let isDialog = observer.closed !== undefined;
+  <tui-data-list [size]="isDialog ? 'l' : 's'" [class.pt-4]="isDialog">
+    <button
+      tuiOption
+      class="!justify-start"
+      iconStart="@tui.share-2"
+      (click)="share()"
+    >
+      Share
+    </button>
     @if (isAuthor) {
       <button
-        iconStart="@tui.pencil"
         tuiOption
+        class="!justify-start"
+        iconStart="@tui.pencil"
         [routerLink]="['/', 'ideas', idea.id, 'edit']"
       >
         Edit
       </button>
-      <button iconStart="@tui.trash" tuiOption>Delete</button>
+      <button tuiOption class="!justify-start" iconStart="@tui.trash">
+        Delete
+      </button>
     }
   </tui-data-list>
 </ng-template>
