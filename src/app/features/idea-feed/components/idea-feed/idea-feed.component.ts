@@ -1,5 +1,5 @@
 import { Component, effect, Input, OnInit } from '@angular/core';
-import { IdeaPaginationService } from '../../services/idea-pagination.service';
+import { IdeaFetchService } from '../../../../shared/services/idea-fetch.service';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@shared/helpers/paginated-request-manager.helper';
 import { IdeaEntity } from '@shared/entities/idea.entity';
@@ -44,7 +44,7 @@ export class IdeaFeedComponent implements OnInit {
 
   public constructor(
     public readonly breakpoints: BreakpointService,
-    private readonly ideaPaginationService: IdeaPaginationService,
+    private readonly ideaPaginationService: IdeaFetchService,
     private readonly utils: UtilsService,
     auth: AuthService,
   ) {
@@ -75,7 +75,7 @@ export class IdeaFeedComponent implements OnInit {
   private reset(): void {
     this.lastLoadedPage = 1;
 
-    this.requestManager = this.ideaPaginationService.createManager({
+    this.requestManager = this.ideaPaginationService.paginate({
       page: 1,
       limit: 10,
       query: {

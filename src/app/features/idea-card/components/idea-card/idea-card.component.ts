@@ -27,6 +27,7 @@ import { environment } from 'src/environments/environment';
 import { VotesControlComponent } from '../../../votes/components/votes-control.component';
 import { AveragePipe } from '@shared/pipes/average.pipe';
 import { VotesService } from '@features/votes/services/votes.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-idea-card',
@@ -67,6 +68,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
     public readonly breakpoints: BreakpointService,
     private readonly shareService: ShareService,
     private readonly votesService: VotesService,
+    private readonly router: Router,
     auth: AuthService,
   ) {
     effect(() => {
@@ -101,5 +103,11 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
       url: `${environment.origin}/${this.idea.id}`,
       urlCopiedToClipboardMessage: 'Idea link copied to clipboard',
     });
+  }
+
+  public navigateToIdea(): void {
+    if (this.compact) {
+      this.router.navigate(['ideas', this.idea.id]);
+    }
   }
 }

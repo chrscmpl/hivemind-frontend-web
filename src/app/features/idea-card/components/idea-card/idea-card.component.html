@@ -7,17 +7,40 @@
     '!rounded-none': isMobile,
     'hover:cursor-pointer select-none': compact,
   }"
+  (click)="navigateToIdea()"
+  (keydown.enter)="navigateToIdea()"
+  tabindex="0"
 >
   <section
     tuiHeader
-    class="grid grid-cols-[auto_auto_auto_1fr] items-center content-center gap-x-2 text-text-tertiary"
+    class="grid items-center content-center gap-x-2 text-text-tertiary"
+    [class.grid-cols-[auto_auto_auto_1fr]]="compact"
+    [class.grid-cols-[1fr_auto_auto_auto]]="!compact"
   >
     @if (idea.user?.handle && idea.user?.displayName) {
-      <span class="!text-text-secondary line-clamp-1 break-all">
-        <span class="text-text-primary"> {{ idea.user!.displayName }}</span>
-        &commat;{{ idea.user!.handle }}
+      <span
+        class="!text-text-secondary"
+        [ngClass]="{
+          'line-clamp-1 break-all': compact,
+        }"
+      >
+        <span
+          class="text-text-primary"
+          [ngClass]="{
+            'line-clamp-1 break-all': !compact,
+          }"
+        >
+          {{ idea.user!.displayName }}</span
+        >
+        <span
+          [ngClass]="{
+            'line-clamp-1 break-all': !compact,
+          }"
+        >
+          &commat;{{ idea.user!.handle }}</span
+        >
       </span>
-      <span>•</span>
+      <span [class.opacity-0]="!compact">•</span>
     }
     <span class="flex items-center">
       {{ idea.age ? (idea.age | humanizeDuration) : "" }}

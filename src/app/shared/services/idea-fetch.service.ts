@@ -8,6 +8,7 @@ import {
   PaginatedRequestParams,
 } from '@shared/helpers/paginated-request-manager.helper';
 import { defaults } from 'lodash-es';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface IdeaPaginationQuery {
@@ -25,10 +26,20 @@ export type IdeaPaginationParams = Omit<
 @Injectable({
   providedIn: 'root',
 })
-export class IdeaPaginationService {
+export class IdeaFetchService {
   public constructor(private readonly http: HttpClient) {}
 
-  public createManager(
+  public fetch(id: number): Observable<IdeaEntity> {
+    return this.http
+      .get<IdeaDto>(`${environment.api}/posts/${id}`, {
+        params: {
+          include: 'user,myVote',
+        },
+      })
+      .pipe(map((data: IdeaDto) => new IdeaEntity(data)));
+  }
+
+  public paginate(
     params: IdeaPaginationParams,
   ): PaginatedRequestManager<IdeaEntity> {
     if (params.query.sort === IdeaSortEnum.NEW) {

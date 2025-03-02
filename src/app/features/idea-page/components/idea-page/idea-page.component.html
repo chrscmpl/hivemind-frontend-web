@@ -1,0 +1,12 @@
+@let isMobile = breakpoints.isMobile();
+
+<section class="flex flex-col items-center">
+  <section
+    class="flex flex-col items-stretch gap-4"
+    [class.max-w-3xl]="!isMobile"
+    [class.pb-16]="isMobile"
+  >
+    <app-idea-card [idea]="idea" />
+    <div class="border-b border-border-normal"></div>
+  </section>
+</section>
