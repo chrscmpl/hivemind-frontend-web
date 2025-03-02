@@ -4,7 +4,7 @@
   class="select-none"
   [class.overflow-hidden]="isMobile"
 >
-  @if (isMobile && ui.UIStyle()) {
+  @if (isMobile && ui.UIStyle() === UIStyleEnum.BACK) {
     <button
       tuiButton
       appearance="secondary-grayscale"
@@ -14,12 +14,12 @@
       iconStart="@tui.undo-2"
       (click)="navigationUtils.back()"
     >
-      @if (!isMobile) {
-        <span class="translate-y-[-2px]">Back</span>
-      }
+      <span class="hidden"></span>
     </button>
   } @else {
-    <app-drawer />
+    @if (isMobile) {
+      <app-drawer />
+    }
     <app-logo [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
   }
   <hr />
