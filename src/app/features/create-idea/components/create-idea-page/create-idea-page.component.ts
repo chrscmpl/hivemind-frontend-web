@@ -7,11 +7,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
 import { UpdateOnEnterDirective } from '@app/shared/directives/update-on-enter.directive';
 import { IdeaCreationConstraintsEntity } from '@app/shared/entities/idea-creation-contraints.entity';
 import { IdeaCreationData } from '@app/shared/entities/idea-creation-data.entity';
+import { IdeaUpdateData } from '@app/shared/entities/idea-update-data.entity';
+import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
 import { ApiErrorsService } from '@app/shared/services/api-errors.service';
 import { IdeaMutationService } from '@app/shared/services/idea-mutation.service';
@@ -56,10 +59,13 @@ export class CreateIdeaPageComponent implements OnInit {
     return this._form;
   }
 
+  private ideaToUpdate: IdeaEntity | null = null;
+
   public constructor(
     @Inject(EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],
     @Inject(IDEA_CREATION_CONSTRAINTS)
     public readonly constraints: IdeaCreationConstraintsEntity,
+    private readonly route: ActivatedRoute,
     public readonly breakpoints: BreakpointService,
     private readonly formBuilder: FormBuilder,
     private readonly formUtils: ReactiveFormsUtilsService,
@@ -71,6 +77,15 @@ export class CreateIdeaPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this._form = this.buildForm();
+    this.route.data.pipe(take(1)).subscribe((data) => {
+      this.ideaToUpdate = data['updateIdea'];
+      if (this.ideaToUpdate) {
+        this.form.patchValue({
+          title: this.ideaToUpdate.title,
+          content: this.ideaToUpdate.content,
+        });
+      }
+    });
   }
 
   private buildForm(): FormGroup<IdeaForm> {
@@ -116,6 +131,14 @@ export class CreateIdeaPageComponent implements OnInit {
       return;
     }
 
+    if (this.ideaToUpdate) {
+      this.update();
+    } else {
+      this.create();
+    }
+  }
+
+  private create() {
     this.ideaMutationService
       .create(
         new IdeaCreationData({
@@ -124,15 +147,30 @@ export class CreateIdeaPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: () => this.onCreationSuccess(),
-        error: (err) => this.onCreationError(err),
+        next: () => this.onSuccess('Idea created successfully'),
+        error: (err) => this.onError(err),
       });
   }
 
-  private onCreationSuccess() {
+  private update() {
+    this.ideaMutationService
+      .update(
+        new IdeaUpdateData({
+          id: this.ideaToUpdate!.id,
+          title: this.form.value.title!,
+          content: this.form.value.content!,
+        }),
+      )
+      .subscribe({
+        next: () => this.onSuccess('Idea updated successfully'),
+        error: (err) => this.onError(err),
+      });
+  }
+
+  private onSuccess(message: string) {
     this.navigationUtils.back();
     this.alerts
-      .open('Idea created successfully', {
+      .open(message, {
         appearance: 'positive',
         label: 'Success',
       })
@@ -140,7 +178,7 @@ export class CreateIdeaPageComponent implements OnInit {
       .subscribe();
   }
 
-  private onCreationError(err: unknown) {
+  private onError(err: unknown) {
     this.apiErrorsService.displayErrors(err);
   }
 }

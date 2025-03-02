@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
@@ -7,7 +8,7 @@ import { take } from 'rxjs';
 
 @Component({
   selector: 'app-idea-page',
-  imports: [IdeaCardComponent],
+  imports: [IdeaCardComponent, NgClass],
   templateUrl: './idea-page.component.html',
   styleUrl: './idea-page.component.scss',
 })

@@ -63,6 +63,8 @@
       size="s"
       appearance="flat-grayscale"
       class="!rounded-full justify-self-end col-start-[-1]"
+      (click)="$event.stopPropagation()"
+      (keydown.enter)="$event.stopPropagation()"
     >
       More
     </button>
@@ -97,12 +99,16 @@
       "
       [vote]="idea.myVote ?? null"
       (voteChange)="onVoteChange($event)"
+      (click)="$event.stopPropagation()"
+      (keydown.enter)="$event.stopPropagation()"
     />
 
     <button
       tuiButton
       appearance="outline-grayscale"
       class="!bg-background-base !rounded-full !flex !items-center !w-min !h-10 !gap-3 !px-4 active:!bg-background-neutral-1"
+      (click)="$event.stopPropagation()"
+      (keydown.enter)="$event.stopPropagation()"
     >
       <tui-icon
         icon="@tui.message-square-text"
@@ -120,7 +126,13 @@
   <tui-data-list size="s">
     <button iconStart="@tui.share-2" tuiOption (click)="share()">Share</button>
     @if (isAuthor) {
-      <button iconStart="@tui.pencil" tuiOption>Edit</button>
+      <button
+        iconStart="@tui.pencil"
+        tuiOption
+        [routerLink]="['/', 'ideas', idea.id, 'edit']"
+      >
+        Edit
+      </button>
       <button iconStart="@tui.trash" tuiOption>Delete</button>
     }
   </tui-data-list>

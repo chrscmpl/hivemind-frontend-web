@@ -25,11 +25,24 @@ export const routes: Routes = [
   },
   {
     path: 'ideas/:id',
-    title: 'Idea',
-    resolve: {
-      idea: ideaResolver,
-    },
-    component: IdeaPageComponent,
+    children: [
+      {
+        path: '',
+        title: 'Idea',
+        resolve: {
+          idea: ideaResolver(),
+        },
+        component: IdeaPageComponent,
+      },
+      {
+        path: 'edit',
+        title: 'Edit Idea',
+        component: CreateIdeaPageComponent,
+        resolve: {
+          updateIdea: ideaResolver({ requireIsAuthor: true }),
+        },
+      },
+    ],
   },
   {
     path: 'tos',

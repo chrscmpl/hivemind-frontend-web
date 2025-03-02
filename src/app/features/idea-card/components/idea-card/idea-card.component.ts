@@ -27,7 +27,7 @@ import { environment } from 'src/environments/environment';
 import { VotesControlComponent } from '../../../votes/components/votes-control.component';
 import { AveragePipe } from '@shared/pipes/average.pipe';
 import { VotesService } from '@features/votes/services/votes.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-idea-card',
@@ -45,6 +45,7 @@ import { Router } from '@angular/router';
     AveragePipe,
     UpperCasePipe,
     NgClass,
+    RouterLink,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
