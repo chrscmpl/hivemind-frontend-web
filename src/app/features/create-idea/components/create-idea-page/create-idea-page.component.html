@@ -8,17 +8,14 @@
     [class.max-w-[90vw]]="isMobile"
     (ngSubmit)="submit()"
   >
-    <header class="flex items-center gap-4 flex-wrap">
-      <button
-        tuiButton
-        type="button"
-        size="l"
-        class="self-start"
-        iconStart="@tui.undo-2"
-        (click)="navigationUtils.back()"
-      >
-        <span class="translate-y-[-2px]">Back</span>
-      </button>
+    <header
+      class="flex items-center gap-4 flex-wrap"
+      [ngClass]="{
+        'items-center': !isMobile,
+        'flex-col': isMobile,
+      }"
+    >
+      <app-back-button />
       <h1 class="font-tui-3">
         @if (ideaToUpdate) {
           Edit idea

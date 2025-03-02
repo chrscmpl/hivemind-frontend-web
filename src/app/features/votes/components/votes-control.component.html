@@ -1,6 +1,6 @@
-<div class="flex">
+<div class="flex select-none">
   <div
-    class="ease-in-out text-text-primary transition-colors duration-tui border border-border-normal hover:border-border-hover bg-background-base flex items-center justify-between w-min rounded-s-full px-2 gap-0 h-10 active:bg-background-neutral-1"
+    class="cursor-pointer ease-in-out text-text-primary transition-colors duration-tui border border-border-normal hover:border-border-hover bg-background-base flex items-center justify-between w-min rounded-s-full px-2 gap-0 h-10 active:bg-background-neutral-1"
     (click)="upvoteControl.setValue(!upvoteControl.value)"
     (keydown.enter)="upvoteControl.setValue(!upvoteControl.value)"
     tabindex="0"
@@ -28,7 +28,7 @@
   </div>
   <div
     appearance="outline-grayscale"
-    class="ease-in-out transition-colors duration-tui border border-border-normal hover:border-border-hover bg-background-base flex items-center rounded-e-full h-10 px-2 active:bg-background-neutral-1"
+    class="cursor-pointer ease-in-out transition-colors duration-tui border border-border-normal hover:border-border-hover bg-background-base flex items-center rounded-e-full h-10 px-2 active:bg-background-neutral-1"
     (click)="downvoteControl.setValue(!downvoteControl.value)"
     (keydown.enter)="downvoteControl.setValue(!downvoteControl.value)"
     tabindex="0"

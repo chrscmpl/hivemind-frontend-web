@@ -2,12 +2,15 @@
 
 <section class="flex flex-col items-center">
   <section
-    class="flex flex-col items-stretch gap-4"
+    class="flex flex-col items-stretch"
     [ngClass]="{
-      'max-w-3xl py-4': !isMobile,
+      'max-w-3xl gap-4 py-4': !isMobile,
       'pb-16': isMobile,
     }"
   >
+    @if (!isMobile) {
+      <app-back-button />
+    }
     <app-idea-card [idea]="idea" />
     <div class="border-b border-border-normal"></div>
   </section>

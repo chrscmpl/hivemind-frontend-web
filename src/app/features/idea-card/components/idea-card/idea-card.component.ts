@@ -28,6 +28,7 @@ import { VotesControlComponent } from '../../../votes/components/votes-control.c
 import { AveragePipe } from '@shared/pipes/average.pipe';
 import { VotesService } from '@features/votes/services/votes.service';
 import { Router, RouterLink } from '@angular/router';
+import { BackButtonComponent } from '@app/shared/components/back-button/back-button.component';
 
 @Component({
   selector: 'app-idea-card',
@@ -46,6 +47,7 @@ import { Router, RouterLink } from '@angular/router';
     UpperCasePipe,
     NgClass,
     RouterLink,
+    BackButtonComponent,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',

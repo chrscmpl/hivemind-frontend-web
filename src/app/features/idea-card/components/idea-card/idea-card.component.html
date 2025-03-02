@@ -2,7 +2,7 @@
 
 <div
   tuiCardLarge
-  class="!bg-background-base hover:!bg-background-base-alt active:!bg-background-base-alt transition-colors duration-tui hover:cursor-pointer"
+  class="!bg-background-base hover:!bg-background-base-alt active:!bg-background-base-alt transition-colors duration-tui hover:cursor-pointer !max-w-[100vw]"
   [ngClass]="{
     '!rounded-none': isMobile,
     'hover:cursor-pointer select-none': compact,
@@ -15,8 +15,12 @@
     tuiHeader
     class="grid items-center content-center gap-x-2 text-text-tertiary"
     [class.grid-cols-[auto_auto_auto_1fr]]="compact"
-    [class.grid-cols-[1fr_auto_auto_auto]]="!compact"
+    [class.grid-cols-[auto_1fr_auto_auto_auto]]="!compact && isMobile"
+    [class.grid-cols-[1fr_auto_auto_auto]]="!compact && !isMobile"
   >
+    @if (!compact && isMobile) {
+      <app-back-button />
+    }
     @if (idea.user?.handle && idea.user?.displayName) {
       <span
         class="!text-text-secondary"
@@ -83,8 +87,8 @@
   <section
     tuiAppearance="flat-grayscale"
     [innerHTML]="idea.content"
-    class="text-base"
-    [ngClass]="{ 'line-clamp-2 break-words !text-text-secondary': compact }"
+    class="text-base break-words"
+    [ngClass]="{ 'line-clamp-2  !text-text-secondary': compact }"
   ></section>
 
   <section class="flex items-center gap-2">

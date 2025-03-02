@@ -10,6 +10,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
+import { BackButtonComponent } from '@app/shared/components/back-button/back-button.component';
 import { UpdateOnEnterDirective } from '@app/shared/directives/update-on-enter.directive';
 import { IdeaCreationConstraintsEntity } from '@app/shared/entities/idea-creation-contraints.entity';
 import { IdeaCreationData } from '@app/shared/entities/idea-creation-data.entity';
@@ -48,6 +49,7 @@ interface IdeaForm {
     TuiButton,
     UpdateOnEnterDirective,
     AsyncPipe,
+    BackButtonComponent,
   ],
   templateUrl: './create-idea-page.component.html',
   styleUrl: './create-idea-page.component.scss',
@@ -69,10 +71,10 @@ export class CreateIdeaPageComponent implements OnInit {
     public readonly breakpoints: BreakpointService,
     private readonly formBuilder: FormBuilder,
     private readonly formUtils: ReactiveFormsUtilsService,
-    public readonly navigationUtils: NavigationUtilsService,
     private readonly ideaMutationService: IdeaMutationService,
     private readonly apiErrorsService: ApiErrorsService,
     private readonly alerts: TuiAlertService,
+    public readonly navigationUtils: NavigationUtilsService,
   ) {}
 
   public ngOnInit(): void {

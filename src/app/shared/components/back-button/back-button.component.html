@@ -1,0 +1,16 @@
+@let isMobile = breakpoints.isMobile();
+
+<button
+  tuiButton
+  [appearance]="isMobile ? 'outline-grayscale' : 'primary'"
+  type="button"
+  [size]="isMobile ? 's' : 'l'"
+  class="self-start"
+  [class.!rounded-full]="isMobile"
+  iconStart="@tui.undo-2"
+  (click)="navigationUtils.back()"
+>
+  @if (!isMobile) {
+    <span class="translate-y-[-2px]">Back</span>
+  }
+</button>
