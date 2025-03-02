@@ -1,6 +1,8 @@
 import { Component, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@app/core/auth/services/auth.service';
+import { DialogEnum } from '@app/core/dialogs/dialog.enum';
+import { DialogsService } from '@app/core/dialogs/dialogs.service';
 import { TuiButton, TuiDataList } from '@taiga-ui/core';
 import { TuiNavigation } from '@taiga-ui/layout';
 
@@ -43,6 +45,15 @@ export class DrawerComponent {
     {
       items: [
         {
+          title: 'Settings',
+          icon: '@tui.settings',
+          action: () => this.dialogs.open(DialogEnum.SETTINGS).subscribe(),
+        },
+      ],
+    },
+    {
+      items: [
+        {
           title: 'Terms of Service',
           icon: '@tui.scroll-text',
           routerLink: '/tos',
@@ -71,9 +82,12 @@ export class DrawerComponent {
     },
   ];
 
-  public constructor(private readonly auth: AuthService) {
+  public constructor(
+    private readonly auth: AuthService,
+    private readonly dialogs: DialogsService,
+  ) {
     effect(() => {
-      this._groups[2].display = this.auth.isAuthenticated();
+      this._groups[3].display = this.auth.isAuthenticated();
     });
   }
 
