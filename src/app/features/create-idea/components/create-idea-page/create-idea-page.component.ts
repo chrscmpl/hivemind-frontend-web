@@ -59,7 +59,7 @@ export class CreateIdeaPageComponent implements OnInit {
     return this._form;
   }
 
-  private ideaToUpdate: IdeaEntity | null = null;
+  public ideaToUpdate: IdeaEntity | null = null;
 
   public constructor(
     @Inject(EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],

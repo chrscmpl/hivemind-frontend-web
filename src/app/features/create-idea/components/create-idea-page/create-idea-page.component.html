@@ -19,7 +19,13 @@
       >
         <span class="translate-y-[-2px]">Back</span>
       </button>
-      <h1 class="font-tui-3">Create an idea</h1>
+      <h1 class="font-tui-3">
+        @if (ideaToUpdate) {
+          Edit idea
+        } @else {
+          Create idea
+        }
+      </h1>
     </header>
     <section>
       <tui-textfield iconEnd="@tui.lightbulb" class="h-16">
