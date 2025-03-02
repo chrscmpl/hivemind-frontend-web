@@ -66,8 +66,8 @@
           tuiIconButton
           type="button"
           size="s"
-          appearance="outline-grayscale"
-          class="!rounded-full"
+          [appearance]="compact ? 'flat-grayscale' : 'outline-grayscale'"
+          class="!rounded-full before:!text-text-tertiary"
           (click)="dialogsService.open(menu).subscribe()"
         >
           More

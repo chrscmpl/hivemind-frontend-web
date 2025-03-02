@@ -1,4 +1,4 @@
-import { DatePipe, JsonPipe, NgClass, UpperCasePipe } from '@angular/common';
+import { DatePipe, NgClass, UpperCasePipe } from '@angular/common';
 import {
   Component,
   effect,
@@ -47,7 +47,6 @@ import { Router, RouterLink } from '@angular/router';
     UpperCasePipe,
     NgClass,
     RouterLink,
-    JsonPipe,
   ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
