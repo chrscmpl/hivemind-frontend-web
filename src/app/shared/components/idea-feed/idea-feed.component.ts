@@ -1,10 +1,10 @@
 import { Component, effect, Input, OnInit } from '@angular/core';
-import { IdeaFetchService } from '../../../../shared/services/idea-fetch.service';
+import { IdeaFetchService } from '../../services/idea-fetch.service';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@shared/helpers/paginated-request-manager.helper';
 import { IdeaEntity } from '@shared/entities/idea.entity';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
-import { IdeaCardComponent } from '../../../idea-card/components/idea-card/idea-card.component';
+import { IdeaCardComponent } from '../idea-card/idea-card.component';
 import { UtilsService } from '@app/shared/services/utils.service';
 import { AuthService } from '@app/core/auth/services/auth.service';
 

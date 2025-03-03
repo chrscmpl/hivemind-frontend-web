@@ -25,9 +25,9 @@ import { TuiCardLarge } from '@taiga-ui/layout';
 import { Subscription } from 'rxjs';
 import { ShareService } from '@core/misc/services/share.service';
 import { environment } from 'src/environments/environment';
-import { VotesControlComponent } from '../../../votes/components/votes-control.component';
+import { VotesControlComponent } from '../votes-control/votes-control.component';
 import { AveragePipe } from '@shared/pipes/average.pipe';
-import { VotesService } from '@features/votes/services/votes.service';
+import { VotesService } from '@shared/services/votes.service';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VotesControlComponent } from '../components/votes-control.component';
+import { VotesControlComponent } from '@shared/components/votes-control/votes-control.component';
 
 describe('VotesControlComponent', () => {
   let component: VotesControlComponent;
