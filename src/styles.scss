@@ -84,6 +84,8 @@ body {
 
 .app-scrollbar > .t-content {
   min-height: 100% !important;
+  display: flex;
+  flex-direction: column;
 }
 
 [automation-id="toolbar__task-list-button"] {
