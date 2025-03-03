@@ -175,12 +175,23 @@ module.exports = {
     function ({ addUtilities }) {
       addUtilities(
         Object.fromEntries(
-          [1, 2, 3, 4, 5, 6].map((size) => [
-            `.font-tui-${size}`,
-            {
-              font: `var(--tui-font-heading-${size})`,
-            },
-          ]),
+          [1, 2, 3, 4, 5, 6]
+            .map((size) => [
+              `.font-tui-heading-${size}`,
+              {
+                font: `var(--tui-font-heading-${size})`,
+              },
+            ])
+            .concat(
+              ["xl", "l", "ui-l", "m", "ui-m", "s", "ui-s", "xs"].map(
+                (size) => [
+                  `.font-tui-text-${size}`,
+                  {
+                    font: `var(--tui-font-text-${size})`,
+                  },
+                ],
+              ),
+            ),
         ),
       );
     },
