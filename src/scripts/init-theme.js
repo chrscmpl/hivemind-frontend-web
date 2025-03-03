@@ -1,3 +1,8 @@
+// This script does something very similar to what ThemeService does in
+// src/app/core/misc/services/theme.service.ts
+// However this script is necessary to prevent Flash of Unstyled Content (FOUC)
+// by being linked in the head
+
 let theme;
 try {
   theme =
