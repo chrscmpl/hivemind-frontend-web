@@ -7,20 +7,18 @@
   "
 >
   <div
-    class="bg-background-base h-[100dvh] w-screen overflow-hidden flex flex-col justify-stretch"
+    class="bg-background-base h-[100dvh] w-screen overflow-hidden grid grid-rows-[auto,minmax(0,1fr)] grid-cols-[auto,minmax(0,1fr)] justify-stretch content-stretch items-stretch justify-items-stretch"
   >
-    <app-header />
-    <div class="flex-1 flex h-[calc(100dvh-3rem)] w-full items-stretch">
-      <app-sidebar />
-      <tui-scrollbar [hidden]="isMobile" class="app-scrollbar w-full">
-        <main
-          class="w-full flex-1 !border-0 grid items-stretch justify-stretch content-stretch justify-items-stretch"
-          [class.!pb-12]="isMobile"
-        >
-          <router-outlet class="hidden" />
-        </main>
-      </tui-scrollbar>
-    </div>
+    <app-header class="col-span-2" />
+    <app-sidebar />
+    <tui-scrollbar [hidden]="isMobile" class="app-scrollbar w-full min-h-0">
+      <main
+        class="w-full flex-1 !border-0 grid items-stretch justify-stretch content-stretch justify-items-stretch"
+        [class.!pb-12]="isMobile"
+      >
+        <router-outlet class="hidden" />
+      </main>
+    </tui-scrollbar>
   </div>
   @if (isMobile) {
     <app-app-bar />
