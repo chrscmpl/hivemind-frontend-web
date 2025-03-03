@@ -13,6 +13,7 @@ import { IdeaAgeEnum } from '@app/shared/enums/idea-age.enum';
 import { AgeSelectorComponent } from '../age-selector/age-selector.component';
 import { NgClass } from '@angular/common';
 import { HomePageService } from '../../services/home-page.service';
+import { SuppressTouchOnScrollDirective } from '@app/shared/directives/suppress-touch-on-scroll.directive';
 
 @Component({
   selector: 'app-home-page',
@@ -25,6 +26,7 @@ import { HomePageService } from '../../services/home-page.service';
     FeedSelectorComponent,
     AgeSelectorComponent,
     NgClass,
+    SuppressTouchOnScrollDirective,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
