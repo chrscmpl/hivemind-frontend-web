@@ -7,10 +7,14 @@ import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { IdeaCardComponent } from '../idea-card/idea-card.component';
 import { UtilsService } from '@app/shared/services/utils.service';
 import { AuthService } from '@app/core/auth/services/auth.service';
+import { LoadingIndicator } from '@app/shared/helpers/loading-indicator.helper';
+import { LoadingIndicatorService } from '@app/shared/services/loading-indicator.service';
+import { TuiIcon, TuiLoader } from '@taiga-ui/core';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-idea-feed',
-  imports: [IdeaCardComponent],
+  imports: [IdeaCardComponent, TuiLoader, AsyncPipe, TuiIcon],
   templateUrl: './idea-feed.component.html',
   styleUrl: './idea-feed.component.scss',
 })
@@ -38,16 +42,20 @@ export class IdeaFeedComponent implements OnInit {
 
   private lastLoadedPage!: number;
 
-  public loading: boolean = false;
-
   public requestManager!: PaginatedRequestManager<IdeaEntity>;
+
+  public readonly loadingIndicator: LoadingIndicator;
+
+  public noResults: boolean = false;
 
   public constructor(
     public readonly breakpoints: BreakpointService,
     private readonly ideaPaginationService: IdeaFetchService,
     private readonly utils: UtilsService,
     auth: AuthService,
+    loadingIndicatorService: LoadingIndicatorService,
   ) {
+    this.loadingIndicator = loadingIndicatorService.getLoadingIndicator(200);
     let lastIsAuthenticated: boolean | null = null;
     effect(() => {
       const isAuthenticated = auth.isAuthenticated();
@@ -67,13 +75,14 @@ export class IdeaFeedComponent implements OnInit {
 
   public onScrolled(index: number): void {
     if (this.shouldLoadMore(index)) {
-      this.requestManager.next();
+      this.next();
       this.lastLoadedPage = this.requestManager.page;
     }
   }
 
   private reset(): void {
     this.lastLoadedPage = 1;
+    this.noResults = false;
 
     this.requestManager = this.ideaPaginationService.paginate({
       page: 1,
@@ -86,7 +95,29 @@ export class IdeaFeedComponent implements OnInit {
       },
     });
 
-    if (!this.requestManager.data.length) this.requestManager.next();
+    if (!this.requestManager.data.length) this.next();
+  }
+
+  private next(): void {
+    this.loadingIndicator.start();
+    this.requestManager.next().subscribe({
+      next: (data) => this.onNewData(data),
+      error: () => this.onDataError(),
+    });
+  }
+
+  private onNewData(data: IdeaEntity[] | null): void {
+    this.loadingIndicator.stop();
+    if (!data?.length && !this.requestManager.data.length) {
+      this.noResults = true;
+    }
+  }
+
+  private onDataError(): void {
+    this.loadingIndicator.stop();
+    if (!this.requestManager.data.length) {
+      this.noResults = true;
+    }
   }
 
   private shouldLoadMore(index: number) {

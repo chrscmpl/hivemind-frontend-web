@@ -4,7 +4,7 @@
   tuiCardLarge
   class="!bg-background-base hover:!bg-background-base-alt transition-colors duration-tui hover:cursor-pointer !max-w-[100vw]"
   [ngClass]="{
-    '!rounded-none': isMobile,
+    '!rounded-none ![--t-space:0.8rem]  ![--t-padding:1.2rem]': isMobile,
     'hover:cursor-pointer select-none': compact,
   }"
   (click)="navigateToIdea()"
@@ -107,7 +107,7 @@
     [ngClass]="{ 'line-clamp-2  !text-text-secondary': compact }"
   ></section>
 
-  <section class="flex items-center gap-2">
+  <section class="flex items-center gap-2" [class.flex-row-reverse]="isMobile">
     <app-votes-control
       [voteTotal]="
         idea.upvoteCount !== undefined &&

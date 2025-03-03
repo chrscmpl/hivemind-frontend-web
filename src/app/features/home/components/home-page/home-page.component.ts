@@ -5,7 +5,7 @@ import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { TuiCarousel } from '@taiga-ui/kit';
 import { Subscription } from 'rxjs';
 import { IdeaFeedComponent } from '@app/shared/components/idea-feed/idea-feed.component';
-import { TuiLoader, TuiScrollbar } from '@taiga-ui/core';
+import { TuiScrollbar } from '@taiga-ui/core';
 import { FeedSelectorComponent } from '../feed-selector/feed-selector.component';
 import { FeedDescriptorEntity } from '../../entities/feed-descriptor.entity';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +21,6 @@ import { SuppressTouchOnScrollDirective } from '@app/shared/directives/suppress-
     ReactiveFormsModule,
     TuiCarousel,
     TuiScrollbar,
-    TuiLoader,
     IdeaFeedComponent,
     FeedSelectorComponent,
     AgeSelectorComponent,

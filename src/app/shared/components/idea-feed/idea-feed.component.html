@@ -13,4 +13,18 @@
       <div class="h-64"></div>
     }
   }
+  @if (loadingIndicator.isLoading$ | async) {
+    <tui-loader
+      [showLoader]="true"
+      size="xxl"
+      [inheritColor]="true"
+      class="text-background-neutral-1"
+    />
+  }
+  @if (noResults) {
+    <div class="self-center mt-8 flex flex-col items-center gap-2">
+      <tui-icon icon="@tui.circle-alert" class="text-5xl"></tui-icon>
+      <span class="font-tui-text-l">No ideas match the criteria</span>
+    </div>
+  }
 </div>

@@ -12,6 +12,13 @@ module.exports = {
       transitionDuration: {
         tui: "var(--tui-duration)",
       },
+      borderRadius: () => {
+        return Object.fromEntries(
+          ["xs", "s", "m", "l", "xl"].flatMap((size) => [
+            [`tui-${size}`, `var(--tui-radius-${size})`],
+          ]),
+        );
+      },
       gridTemplateColumns: () => {
         return Object.fromEntries(
           twSizes.flatMap((size) => [

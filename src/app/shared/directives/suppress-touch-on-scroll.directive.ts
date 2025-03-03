@@ -25,7 +25,7 @@ export class SuppressTouchOnScrollDirective implements OnInit, OnDestroy {
         fromEvent(this.element.nativeElement, 'scroll', {
           passive: true,
         })
-          .pipe(throttleTime(200))
+          .pipe(throttleTime(400))
           .subscribe(() => {
             this.isHorizontalLocked = true;
           }),

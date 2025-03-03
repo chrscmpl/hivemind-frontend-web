@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject, map, take } from 'rxjs';
+import {
+  Observable,
+  ReplaySubject,
+  catchError,
+  map,
+  of,
+  take,
+  tap,
+  throwError,
+} from 'rxjs';
 
 type DeserializerFn<Entity> = (input: any) => Entity[];
 
@@ -70,15 +79,19 @@ export class PaginatedRequestManager<Entity> {
     this._completed = true;
   }
 
-  public next(): void {
-    if (this.completed) return;
+  public next(): Observable<Entity[] | null> {
+    if (this.completed) return of(null);
     this._page++;
-    this.newRequest()
-      .pipe(take(1))
-      .subscribe({
-        next: (data) => this.emitData(data),
-        error: (err) => this.emitError(err),
-      });
+    return this.newRequest().pipe(
+      take(1),
+      tap((data) => {
+        this.emitData(data);
+      }),
+      catchError((err) => {
+        this.emitError(err);
+        return throwError(() => err);
+      }),
+    );
   }
 
   public refresh(): void {

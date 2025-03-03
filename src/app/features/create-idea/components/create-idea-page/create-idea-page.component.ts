@@ -149,7 +149,7 @@ export class CreateIdeaPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: () => this.onSuccess('Idea created successfully'),
+        next: () => this.onSuccess('Idea published successfully'),
         error: (err) => this.onError(err),
       });
   }
