@@ -34,10 +34,11 @@
     @for (feed of feeds; track $index) {
       <div *tuiItem class="!relative h-full">
         <tui-scrollbar
+          id="home-feed-{{ feed.sort }}"
           class="!absolute !top-0 !left-0 !w-full !min-h-0 !h-full !pb-4"
           [hidden]="isMobile"
           [class.w-screen]="isMobile"
-          appSyncY="home-feed-{{ feed.sort }}"
+          appSyncY
           appSuppressTouchOnScroll
         >
           <div class="flex justify-center" [class.pr-12]="!isMobile">
