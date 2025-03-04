@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { cacheBusters } from '@app/core/misc/helpers/cache-busters.helper';
 import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { IdeaDto } from '@shared/dto/idea.dto';
 import { IdeaEntity } from '@shared/entities/idea.entity';
@@ -31,7 +32,8 @@ export class IdeaFetchService {
   public constructor(private readonly http: HttpClient) {}
 
   @Cacheable({
-    maxCacheCount: 16,
+    maxCacheCount: 32,
+    cacheBusterObserver: cacheBusters.AuthChanged$,
   })
   public fetch(id: number): Observable<IdeaEntity> {
     return this.http
@@ -44,7 +46,8 @@ export class IdeaFetchService {
   }
 
   @Cacheable({
-    maxCacheCount: 4,
+    maxCacheCount: 8,
+    cacheBusterObserver: cacheBusters.AuthChanged$,
     cacheHasher: (params: IdeaPaginationParams[]) =>
       params.map((obj) => JSON.stringify(obj.query)),
   })

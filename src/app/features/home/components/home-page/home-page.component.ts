@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
@@ -14,6 +14,7 @@ import { AgeSelectorComponent } from '../age-selector/age-selector.component';
 import { NgClass } from '@angular/common';
 import { HomePageService } from '../../services/home-page.service';
 import { SuppressTouchOnScrollDirective } from '@app/shared/directives/suppress-touch-on-scroll.directive';
+import { SyncYDirective } from '@app/shared/directives/sync-y.directive';
 
 @Component({
   selector: 'app-home-page',
@@ -26,6 +27,7 @@ import { SuppressTouchOnScrollDirective } from '@app/shared/directives/suppress-
     AgeSelectorComponent,
     NgClass,
     SuppressTouchOnScrollDirective,
+    SyncYDirective,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -48,6 +50,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     public readonly breakpoints: BreakpointService,
     private readonly homePageService: HomePageService,
+    private readonly element: ElementRef,
   ) {}
 
   public ngOnInit(): void {

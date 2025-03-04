@@ -8,4 +8,6 @@ import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 export class HomePageService {
   public lastSort: IdeaSortEnum = IdeaSortEnum.CONTROVERSIAL;
   public lastAge: IdeaAgeEnum = IdeaAgeEnum.ONE_WEEK;
+
+  public lastYPositions: Record<string, number> = {};
 }
