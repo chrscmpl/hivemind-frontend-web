@@ -10,6 +10,7 @@ import {
 import { defaults } from 'lodash-es';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Cacheable } from 'ts-cacheable';
 
 export interface IdeaPaginationQuery {
   sort?: string;
@@ -29,6 +30,9 @@ export type IdeaPaginationParams = Omit<
 export class IdeaFetchService {
   public constructor(private readonly http: HttpClient) {}
 
+  @Cacheable({
+    maxCacheCount: 16,
+  })
   public fetch(id: number): Observable<IdeaEntity> {
     return this.http
       .get<IdeaDto>(`${environment.api}/posts/${id}`, {
@@ -39,14 +43,19 @@ export class IdeaFetchService {
       .pipe(map((data: IdeaDto) => new IdeaEntity(data)));
   }
 
+  @Cacheable({
+    maxCacheCount: 4,
+    cacheHasher: (params: IdeaPaginationParams[]) =>
+      params.map((obj) => JSON.stringify(obj.query)),
+  })
   public paginate(
     params: IdeaPaginationParams,
-  ): PaginatedRequestManager<IdeaEntity> {
+  ): Observable<PaginatedRequestManager<IdeaEntity>> {
     if (params.query.sort === IdeaSortEnum.NEW) {
       delete params.query.age;
     }
 
-    return new PaginatedRequestManager<IdeaEntity>(
+    const manager = new PaginatedRequestManager<IdeaEntity>(
       defaults(
         {
           query: this.buildQuery(params.query),
@@ -60,6 +69,8 @@ export class IdeaFetchService {
         },
       ),
     );
+
+    return manager.next().pipe(map(() => manager));
   }
 
   private buildQuery(

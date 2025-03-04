@@ -3,14 +3,16 @@
   [class.gap-2]="!breakpoints.isMobile()"
   [class.pt-2]="!breakpoints.isMobile()"
 >
-  @for (idea of requestManager.data; track idea.id) {
-    @defer (on viewport) {
-      <app-idea-card [idea]="idea" (init)="onScrolled($index)" compact />
-      @if ($index < requestManager.data.length - 1) {
-        <div class="w-full border-border-normal border-[1px]"></div>
+  @if (requestManager) {
+    @for (idea of requestManager.data; track idea.id) {
+      @defer (on viewport) {
+        <app-idea-card [idea]="idea" (init)="onScrolled($index)" compact />
+        @if ($index < requestManager.data.length - 1) {
+          <div class="w-full border-border-normal border-[1px]"></div>
+        }
+      } @placeholder {
+        <div class="h-64"></div>
       }
-    } @placeholder {
-      <div class="h-64"></div>
     }
   }
   @if (loadingIndicator.isLoading$ | async) {

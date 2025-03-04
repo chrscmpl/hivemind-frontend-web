@@ -11,6 +11,7 @@ import { LoadingIndicator } from '@app/shared/helpers/loading-indicator.helper';
 import { LoadingIndicatorService } from '@app/shared/services/loading-indicator.service';
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
+import { delayWhen } from 'rxjs';
 
 @Component({
   selector: 'app-idea-feed',
@@ -19,6 +20,8 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './idea-feed.component.scss',
 })
 export class IdeaFeedComponent implements OnInit {
+  private static readonly LOADING_INDICATOR_START_DELAY = 200;
+
   @Input() includeOwnVotes: boolean | '' = false;
   @Input() includeUsers: boolean | '' = false;
 
@@ -42,7 +45,7 @@ export class IdeaFeedComponent implements OnInit {
 
   private lastLoadedPage!: number;
 
-  public requestManager!: PaginatedRequestManager<IdeaEntity>;
+  public requestManager?: PaginatedRequestManager<IdeaEntity>;
 
   public readonly loadingIndicator: LoadingIndicator;
 
@@ -50,15 +53,20 @@ export class IdeaFeedComponent implements OnInit {
 
   public constructor(
     public readonly breakpoints: BreakpointService,
-    private readonly ideaPaginationService: IdeaFetchService,
+    private readonly ideas: IdeaFetchService,
     private readonly utils: UtilsService,
-    auth: AuthService,
+    private readonly auth: AuthService,
     loadingIndicatorService: LoadingIndicatorService,
   ) {
-    this.loadingIndicator = loadingIndicatorService.getLoadingIndicator(200);
+    this.loadingIndicator = loadingIndicatorService.getLoadingIndicator(
+      IdeaFeedComponent.LOADING_INDICATOR_START_DELAY,
+    );
     let lastIsAuthenticated: boolean | null = null;
     effect(() => {
-      const isAuthenticated = auth.isAuthenticated();
+      if (!this.auth.authChecked()) {
+        return;
+      }
+      const isAuthenticated = this.auth.isAuthenticated();
       if (
         lastIsAuthenticated !== null &&
         isAuthenticated !== lastIsAuthenticated
@@ -70,58 +78,61 @@ export class IdeaFeedComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.reset();
+    this.auth.authChecked$.subscribe(() => this.reset());
   }
 
   public onScrolled(index: number): void {
     if (this.shouldLoadMore(index)) {
       this.next();
-      this.lastLoadedPage = this.requestManager.page;
     }
   }
 
   private reset(): void {
-    this.lastLoadedPage = 1;
+    this.requestManager = undefined;
     this.noResults = false;
-
-    this.requestManager = this.ideaPaginationService.paginate({
-      page: 1,
-      limit: 10,
-      query: {
-        sort: this.sort,
-        age: this.age,
-        includeOwnVotes: this.includeOwnVotes !== false,
-        includeUsers: this.includeUsers !== false,
-      },
-    });
-
-    if (!this.requestManager.data.length) this.next();
+    this.loadingIndicator.start();
+    this.ideas
+      .paginate({
+        page: 1,
+        limit: 10,
+        query: {
+          sort: this.sort,
+          age: this.age,
+          includeOwnVotes: this.includeOwnVotes !== false,
+          includeUsers: this.includeUsers !== false,
+        },
+      })
+      .pipe(delayWhen(() => this.auth.authChecked$))
+      .subscribe({
+        next: (requestManager) => {
+          this.loadingIndicator.stop();
+          this.requestManager = requestManager;
+          this.lastLoadedPage = this.requestManager.page;
+          this.noResults = !this.requestManager.data.length;
+        },
+        error: () => {
+          this.loadingIndicator.stop();
+          this.noResults = true;
+        },
+      });
   }
 
   private next(): void {
     this.loadingIndicator.start();
-    this.requestManager.next().subscribe({
-      next: (data) => this.onNewData(data),
-      error: () => this.onDataError(),
+    this.requestManager?.next().subscribe({
+      next: () => this.onNewData(),
+      error: () => this.loadingIndicator.stop(),
     });
   }
 
-  private onNewData(data: IdeaEntity[] | null): void {
+  private onNewData(): void {
     this.loadingIndicator.stop();
-    if (!data?.length && !this.requestManager.data.length) {
-      this.noResults = true;
-    }
-  }
-
-  private onDataError(): void {
-    this.loadingIndicator.stop();
-    if (!this.requestManager.data.length) {
-      this.noResults = true;
-    }
+    this.lastLoadedPage = this.requestManager!.page;
   }
 
   private shouldLoadMore(index: number) {
     return (
+      this.requestManager &&
       index >= this.requestManager.page * this.requestManager.limit - 3 &&
       this.requestManager.page < this.lastLoadedPage + 1
     );
