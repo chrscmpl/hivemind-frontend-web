@@ -1,5 +1,6 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
+import { ThrottledWheelDirective } from '@app/shared/directives/throttled-wheel.directive';
 import { MATH } from '@app/shared/tokens/math.token';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import {
@@ -28,6 +29,7 @@ interface FeedSelectorOption {
     TuiAppearance,
     TuiChevron,
     TuiDropdown,
+    ThrottledWheelDirective,
   ],
   templateUrl: './feed-selector.component.html',
   styleUrl: './feed-selector.component.scss',
@@ -46,7 +48,6 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
   }
 
   private _wheelSubject = new Subject<number>();
-  public readonly wheel$ = this._wheelSubject.pipe(throttleTime(150));
 
   public readonly options: FeedSelectorOption[] = [
     {
@@ -73,29 +74,6 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
         ),
       );
     }
-    this.subscriptions.push(
-      this.wheel$.subscribe((delta) => {
-        if (this.math.abs(delta) < 3) {
-          return;
-        }
-
-        const currentFeedIndex = this.options.findIndex(
-          (option) => option.value === this._currentFeed,
-        );
-
-        if (delta > 0) {
-          this.setOption(
-            this.options[(currentFeedIndex + 1) % this.options.length],
-          );
-        } else {
-          this.setOption(
-            this.options[
-              (currentFeedIndex - 1 + this.options.length) % this.options.length
-            ],
-          );
-        }
-      }),
-    );
   }
 
   public ngOnDestroy(): void {
@@ -119,6 +97,24 @@ export class FeedSelectorComponent implements OnInit, OnDestroy {
   }
 
   public onWheel(e: WheelEvent): void {
-    this._wheelSubject.next(e.deltaY);
+    if (this.math.abs(e.deltaY) < 2) {
+      return;
+    }
+
+    const currentFeedIndex = this.options.findIndex(
+      (option) => option.value === this._currentFeed,
+    );
+
+    if (e.deltaY > 0) {
+      this.setOption(
+        this.options[(currentFeedIndex + 1) % this.options.length],
+      );
+    } else {
+      this.setOption(
+        this.options[
+          (currentFeedIndex - 1 + this.options.length) % this.options.length
+        ],
+      );
+    }
   }
 }

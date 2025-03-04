@@ -109,6 +109,10 @@ export class PaginatedRequestManager<Entity> {
     return this._data;
   }
 
+  public get mutableData(): Entity[] {
+    return this._data;
+  }
+
   public get completed(): boolean {
     return this._completed;
   }
