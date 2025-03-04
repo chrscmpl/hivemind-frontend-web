@@ -6,7 +6,8 @@
   type="button"
   [tuiDropdown]="dropdown"
   [(tuiDropdownOpen)]="open"
-  (wheel)="onWheel($event)"
+  appThrottledWheel
+  (throttledWheel)="onWheel($event)"
 >
   {{ currentFeedLabel }}
 </button>

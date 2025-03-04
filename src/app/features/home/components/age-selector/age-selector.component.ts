@@ -1,6 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
+import { ThrottledWheelDirective } from '@app/shared/directives/throttled-wheel.directive';
 import { IdeaAgeEnum } from '@app/shared/enums/idea-age.enum';
+import { MATH } from '@app/shared/tokens/math.token';
 import {
   TuiAppearance,
   TuiAppearanceOptions,
@@ -25,6 +34,7 @@ interface AgeSelectorOption {
     TuiAppearance,
     TuiChevron,
     TuiDropdown,
+    ThrottledWheelDirective,
   ],
   templateUrl: './age-selector.component.html',
   styleUrl: './age-selector.component.scss',
@@ -45,7 +55,10 @@ export class AgeSelectorComponent implements OnInit {
     { label: 'All Time', value: IdeaAgeEnum.ALL_TIME },
   ];
 
-  public constructor(public readonly control: NgControl) {}
+  public constructor(
+    public readonly control: NgControl,
+    @Inject(MATH) private readonly math: Math,
+  ) {}
 
   public ngOnInit(): void {
     const value = this.control.control?.value;
@@ -69,5 +82,25 @@ export class AgeSelectorComponent implements OnInit {
 
     this._currentAgeLabel = option.label;
     this.open = false;
+  }
+
+  public onWheel(e: WheelEvent): void {
+    if (this.math.abs(e.deltaY) < 2) {
+      return;
+    }
+
+    const currentIndex = this.options.findIndex(
+      (option) => option.value === this.control.control?.value,
+    );
+
+    if (e.deltaY > 0) {
+      this.setOption(this.options[(currentIndex + 1) % this.options.length]);
+    } else {
+      this.setOption(
+        this.options[
+          (currentIndex - 1 + this.options.length) % this.options.length
+        ],
+      );
+    }
   }
 }

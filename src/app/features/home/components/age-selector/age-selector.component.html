@@ -6,6 +6,8 @@
   type="button"
   [tuiDropdown]="dropdown"
   [(tuiDropdownOpen)]="open"
+  appThrottledWheel
+  (throttledWheel)="onWheel($event)"
 >
   {{ currentAgeLabel }}
 </button>

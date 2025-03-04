@@ -1,4 +1,4 @@
 export const environment = {
-  origin: 'http://localhost:4200',
-  api: 'http://localhost',
+  origin: 'http://192.168.0.66:4200',
+  api: 'http://192.168.0.66',
 };
