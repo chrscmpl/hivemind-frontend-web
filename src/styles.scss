@@ -84,10 +84,10 @@ body {
 
 .app-scrollbar > .t-content {
   min-height: 100% !important;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 [automation-id="toolbar__task-list-button"] {
-  display: none;
+  display: none !important;
 }

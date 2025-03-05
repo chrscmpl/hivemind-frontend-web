@@ -2,18 +2,18 @@
 
 <section class="p-4 w-full min-h-full flex flex-col items-center">
   <form
-    [formGroup]="form"
+    [formGroup]="formService.form"
     class="flex flex-col flex-1 w-full items-stretch gap-4"
     [class.max-w-3xl]="!isMobile"
     [class.max-w-[90vw]]="isMobile"
-    (ngSubmit)="submit()"
+    (ngSubmit)="formService.submit()"
   >
     <header class="flex items-center gap-4 flex-wrap">
       @if (!isMobile) {
         <app-back-button />
       }
       <h1 class="font-tui-heading-3">
-        @if (ideaToUpdate) {
+        @if (formService.ideaToUpdate) {
           Edit idea
         } @else {
           Post an idea
@@ -29,7 +29,7 @@
           tuiTextfield
           class="!text-xl !font-semibold"
           id="create-idea-title"
-          [maxlength]="constraints.title.maxLength"
+          [maxlength]="formService.constraints.title.maxLength"
           name="title"
           type="text"
           formControlName="title"
@@ -41,7 +41,7 @@
     <section class="flex flex-col items-stretch" [class.flex-1]="isMobile">
       <tui-editor
         [tools]="tools"
-        [maxlength]="constraints.content.maxLength"
+        [maxlength]="formService.constraints.content.maxLength"
         formControlName="content"
         [class.flex-1]="isMobile"
         [class.!min-h-80]="!isMobile"

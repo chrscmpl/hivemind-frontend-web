@@ -1,4 +1,4 @@
-import { Component, effect, Input, OnInit } from '@angular/core';
+import { Component, effect, Input, OnDestroy, OnInit } from '@angular/core';
 import { IdeaFetchService } from '../../services/idea-fetch.service';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@shared/helpers/paginated-request-manager.helper';
@@ -19,7 +19,7 @@ import { delayWhen } from 'rxjs';
   templateUrl: './idea-feed.component.html',
   styleUrl: './idea-feed.component.scss',
 })
-export class IdeaFeedComponent implements OnInit {
+export class IdeaFeedComponent implements OnInit, OnDestroy {
   private static readonly LOADING_INDICATOR_START_DELAY = 200;
 
   @Input() includeOwnVotes: boolean | '' = false;
@@ -79,6 +79,10 @@ export class IdeaFeedComponent implements OnInit {
 
   public ngOnInit(): void {
     this.auth.authChecked$.subscribe(() => this.reset());
+  }
+
+  public ngOnDestroy(): void {
+    this.loadingIndicator.complete();
   }
 
   public onScrolled(index: number): void {
