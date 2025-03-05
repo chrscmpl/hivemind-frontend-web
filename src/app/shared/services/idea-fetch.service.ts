@@ -9,7 +9,7 @@ import {
   PaginatedRequestParams,
 } from '@shared/helpers/paginated-request-manager.helper';
 import { defaults } from 'lodash-es';
-import { map, Observable } from 'rxjs';
+import { map, merge, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Cacheable } from 'ts-cacheable';
 
@@ -33,7 +33,10 @@ export class IdeaFetchService {
 
   @Cacheable({
     maxCacheCount: 32,
-    cacheBusterObserver: cacheBusters.AuthChanged$,
+    cacheBusterObserver: merge(
+      cacheBusters.AuthChanged$,
+      cacheBusters.IdeaUpdated$,
+    ),
   })
   public fetch(id: number): Observable<IdeaEntity> {
     return this.http
