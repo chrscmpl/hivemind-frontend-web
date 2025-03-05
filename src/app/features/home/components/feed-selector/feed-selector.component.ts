@@ -11,7 +11,7 @@ import {
   TuiDropdown,
 } from '@taiga-ui/core';
 import { TuiChevron, TuiDataListDropdownManager } from '@taiga-ui/kit';
-import { Subject, Subscription, throttleTime } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 interface FeedSelectorOption {
   label: string;

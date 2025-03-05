@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SyncYService } from '../services/sync-y.service';
+import { KeepYService } from '../services/keep-y.service';
 
-describe('SyncYService', () => {
-  let service: SyncYService;
+describe('KeepYService', () => {
+  let service: KeepYService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SyncYService);
+    service = TestBed.inject(KeepYService);
   });
 
   it('should be created', () => {

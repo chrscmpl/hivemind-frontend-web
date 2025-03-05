@@ -38,7 +38,8 @@
           class="!absolute !top-0 !left-0 !w-full !min-h-0 !h-full !pb-4"
           [hidden]="isMobile"
           [class.w-screen]="isMobile"
-          appSyncY
+          appKeepY
+          [restoreY]="feed.fetch ?? false"
           appSuppressTouchOnScroll
         >
           <div class="flex justify-center" [class.pr-12]="!isMobile">
