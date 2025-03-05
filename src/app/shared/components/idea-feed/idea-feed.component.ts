@@ -91,6 +91,15 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
     }
   }
 
+  public removeIdea(idea: IdeaEntity) {
+    const index = this.requestManager?.data.findIndex(
+      (other) => other.id === idea.id,
+    );
+    if (index !== undefined) {
+      this.requestManager?.mutableData.splice(index, 1);
+    }
+  }
+
   private reset(): void {
     this.requestManager = undefined;
     this.noResults = false;

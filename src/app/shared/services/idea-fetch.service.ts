@@ -36,6 +36,7 @@ export class IdeaFetchService {
     cacheBusterObserver: merge(
       cacheBusters.AuthChanged$,
       cacheBusters.IdeaUpdated$,
+      cacheBusters.IdeaDeleted$,
     ),
   })
   public fetch(id: number): Observable<IdeaEntity> {

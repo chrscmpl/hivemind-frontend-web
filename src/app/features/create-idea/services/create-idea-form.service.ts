@@ -47,7 +47,6 @@ export class CreateIdeaFormService {
     private readonly navigationUtils: NavigationUtilsService,
     formBuilder: FormBuilder,
   ) {
-    console.log(this.constraints);
     this._form = formBuilder.group<CreateIdeaForm>({
       title: formBuilder.control<string | null>(null, {
         validators: [

@@ -11,7 +11,7 @@
     @if (!isMobile) {
       <app-back-button />
     }
-    <app-idea-card [idea]="idea" />
+    <app-idea-card [idea]="idea" (deleted)="navigationUtils.back()" />
     <div class="border-b border-border-normal"></div>
   </section>
 </section>

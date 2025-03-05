@@ -27,4 +27,10 @@ export class IdeaMutationService {
       })
       .pipe(tap(() => cacheBusters.IdeaUpdated$.next()));
   }
+
+  public delete(id: number) {
+    return this.http
+      .delete(`${environment.api}/posts/${id}`)
+      .pipe(tap(() => cacheBusters.IdeaDeleted$.next()));
+  }
 }

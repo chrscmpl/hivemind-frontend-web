@@ -7,12 +7,15 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { IdeaEntity } from '@shared/entities/idea.entity';
 import { HumanizeDurationPipe } from '@shared/pipes/humanize-duration.pipe';
 import {
+  TuiAlertService,
   TuiAppearance,
   TuiButton,
   TuiDataList,
@@ -29,6 +32,8 @@ import { VotesControlComponent } from '../votes-control/votes-control.component'
 import { AveragePipe } from '@shared/pipes/average.pipe';
 import { VotesService } from '@shared/services/votes.service';
 import { Router, RouterLink } from '@angular/router';
+import { IdeaMutationService } from '@app/shared/services/idea-mutation.service';
+import { TUI_CONFIRM } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-idea-card',
@@ -54,26 +59,38 @@ import { Router, RouterLink } from '@angular/router';
 export class IdeaCardComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private _compact: boolean = false;
+  private _isMobile = false;
+  @ViewChild('menu') menu!: TemplateRef<unknown>;
   @Output() public readonly init = new EventEmitter<void>();
+  @Output() public readonly deleted = new EventEmitter<void>();
   @Input({ required: true }) public idea!: IdeaEntity;
+
   @Input() public set compact(value: boolean | '') {
     this._compact = value !== false;
   }
-
   public get compact(): boolean {
     return this._compact;
+  }
+
+  public get isMobile(): boolean {
+    return this._isMobile;
   }
 
   private _isAuthor: boolean = false;
 
   public constructor(
-    public readonly breakpoints: BreakpointService,
     private readonly shareService: ShareService,
     private readonly votesService: VotesService,
     private readonly router: Router,
     public readonly dialogsService: TuiDialogService,
+    private readonly ideaMutation: IdeaMutationService,
+    private readonly alerts: TuiAlertService,
+    breakpoints: BreakpointService,
     auth: AuthService,
   ) {
+    effect(() => {
+      this._isMobile = breakpoints.isMobile();
+    });
     effect(() => {
       this._isAuthor =
         this.idea.user?.id !== undefined &&
@@ -112,5 +129,40 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
     if (this.compact) {
       this.router.navigate(['ideas', this.idea.id]);
     }
+  }
+
+  public openDialog(): void {
+    this.dialogsService.open(this.menu).subscribe();
+  }
+
+  public askToDeleteIdea(): void {
+    this.dialogsService
+      .open<boolean>(TUI_CONFIRM, {
+        label: 'Are you sure?',
+        data: {
+          content: 'This action is irreversible. Do you want to proceed?',
+          yes: 'Delete this idea',
+          no: 'Go back',
+        },
+      })
+      .subscribe((response) => {
+        if (response) {
+          this.deleteIdea();
+        } else if (response === false && this.isMobile) {
+          this.openDialog();
+        }
+      });
+  }
+
+  private deleteIdea() {
+    this.ideaMutation.delete(this.idea.id).subscribe(() => {
+      this.deleted.emit();
+      this.alerts
+        .open('Idea deleted successfully', {
+          appearance: 'positive',
+          label: 'Success',
+        })
+        .subscribe();
+    });
   }
 }
