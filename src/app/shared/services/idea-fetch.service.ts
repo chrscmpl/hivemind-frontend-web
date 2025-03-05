@@ -29,15 +29,17 @@ export type IdeaPaginationParams = Omit<
   providedIn: 'root',
 })
 export class IdeaFetchService {
+  private static readonly IDEAS_CACHE_BUSTER = merge(
+    cacheBusters.AuthChanged$,
+    cacheBusters.IdeaUpdated$,
+    cacheBusters.IdeaDeleted$,
+  );
+
   public constructor(private readonly http: HttpClient) {}
 
   @Cacheable({
     maxCacheCount: 32,
-    cacheBusterObserver: merge(
-      cacheBusters.AuthChanged$,
-      cacheBusters.IdeaUpdated$,
-      cacheBusters.IdeaDeleted$,
-    ),
+    cacheBusterObserver: IdeaFetchService.IDEAS_CACHE_BUSTER,
   })
   public fetch(id: number): Observable<IdeaEntity> {
     return this.http
@@ -51,7 +53,7 @@ export class IdeaFetchService {
 
   @Cacheable({
     maxCacheCount: 8,
-    cacheBusterObserver: cacheBusters.AuthChanged$,
+    cacheBusterObserver: IdeaFetchService.IDEAS_CACHE_BUSTER,
     cacheHasher: (params: IdeaPaginationParams[]) =>
       params.map((obj) => JSON.stringify(obj.query)),
   })

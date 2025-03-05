@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -7,11 +7,13 @@ import {
   Router,
 } from '@angular/router';
 import { filter, Observable, take } from 'rxjs';
+import { HISTORY } from '../tokens/history.token';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavigationUtilsService {
+  private originalHistoryLength;
   private _backAction: ((defaultFn: () => void) => void) | null = null;
 
   public readonly navigationStopped$: Observable<
@@ -22,9 +24,11 @@ export class NavigationUtilsService {
   public readonly navigationError$: Observable<NavigationError>;
 
   constructor(
+    @Inject(HISTORY) private readonly history: History,
     private readonly router: Router,
     private readonly location: Location,
   ) {
+    this.originalHistoryLength = this.history.length;
     this.navigationStopped$ = this.router.events.pipe(
       filter(
         (e) =>
@@ -54,7 +58,11 @@ export class NavigationUtilsService {
   }
 
   private onBackDefault() {
-    this.location.back();
+    if (this.history.length > this.originalHistoryLength) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   public executeIfNavigationSuccess(fn: () => void): void {
