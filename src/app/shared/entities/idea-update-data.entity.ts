@@ -1,23 +1,31 @@
+import { IdeaEntity } from './idea.entity';
+
 export class IdeaUpdateData {
-  private _id: number;
-  private _title: string;
-  private _content: string | null;
+  private _old: IdeaEntity;
+  private _newTitle: string | null;
+  private _newContent: string | null;
 
-  public constructor(data: Pick<IdeaUpdateData, 'id' | 'title' | 'content'>) {
-    this._id = data.id;
-    this._title = data.title;
-    this._content = data.content ?? null;
+  public constructor(data: {
+    old: IdeaEntity;
+    newTitle?: string | null;
+    newContent?: string | null;
+  }) {
+    this._old = data.old;
+    this._newTitle =
+      (data.newTitle === data.old.title ? null : data.newTitle) ?? null;
+    this._newContent =
+      (data.newContent === data.old.content ? null : data.newContent) ?? null;
   }
 
-  public get id(): number {
-    return this._id;
+  public get old(): IdeaEntity {
+    return this._old;
   }
 
-  public get title(): string {
-    return this._title;
+  public get newTitle(): string | null {
+    return this._newTitle;
   }
 
-  public get content(): string | null {
-    return this._content;
+  public get newContent(): string | null {
+    return this._newContent;
   }
 }

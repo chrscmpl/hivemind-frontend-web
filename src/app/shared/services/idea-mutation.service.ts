@@ -21,9 +21,9 @@ export class IdeaMutationService {
 
   public update(data: IdeaUpdateData) {
     return this.http
-      .patch(`${environment.api}/posts/${data.id}`, {
-        title: data.title,
-        content: data.content,
+      .patch(`${environment.api}/posts/${data.old.id}`, {
+        title: data.newTitle ?? undefined,
+        content: data.newContent ?? undefined,
       })
       .pipe(tap(() => cacheBusters.IdeaUpdated$.next()));
   }

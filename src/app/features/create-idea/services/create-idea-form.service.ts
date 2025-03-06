@@ -111,18 +111,26 @@ export class CreateIdeaFormService {
   }
 
   private update() {
-    this.ideaMutationService
-      .update(
-        new IdeaUpdateData({
-          id: this.ideaToUpdate!.id,
-          title: this.form.value.title!,
-          content: this.form.value.content!,
-        }),
-      )
-      .subscribe({
-        next: () => this.onSuccess('Idea updated successfully'),
-        error: (err) => this.onError(err),
-      });
+    const updateData = new IdeaUpdateData({
+      old: this.ideaToUpdate!,
+      newTitle: this.form.value.title,
+      newContent: this.form.value.content,
+    });
+
+    if (!updateData.newTitle && !updateData.newContent) {
+      this.alerts
+        .open("You must edit either the idea's title or content", {
+          appearance: 'error',
+          label: 'Error',
+        })
+        .subscribe();
+      return;
+    }
+
+    this.ideaMutationService.update(updateData).subscribe({
+      next: () => this.onSuccess('Idea updated successfully'),
+      error: (err) => this.onError(err),
+    });
   }
 
   private onSuccess(message: string) {
