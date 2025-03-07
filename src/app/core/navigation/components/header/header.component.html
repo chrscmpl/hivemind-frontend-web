@@ -20,7 +20,7 @@
     @if (isMobile) {
       <app-drawer />
     }
-    <app-logo [styleClass]="isMobile ? 'h-12 m-1' : 'h-12 m-4'" />
+    <app-logo class="w-52 h-[calc(100%+1rem)] my-[-0.5rem]" />
   }
   <hr />
   @if (!!authStatus.user) {
