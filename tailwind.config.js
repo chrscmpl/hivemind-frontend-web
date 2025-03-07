@@ -41,6 +41,7 @@ module.exports = {
           "new",
           "upvote",
           "downvote",
+          "logo",
         ].flatMap((color) => [
           [`${color}`, `var(--color-${color})`],
           [`${color}-transparent`, `var(--color-${color}-transparent)`],

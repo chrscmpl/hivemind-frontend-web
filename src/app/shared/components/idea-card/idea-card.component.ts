@@ -140,7 +140,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
       .open<boolean>(TUI_CONFIRM, {
         label: 'Are you sure?',
         data: {
-          content: 'This action is irreversible. Do you want to proceed?',
+          content: 'Are you sure you want to permanently delete your idea?',
           yes: 'Delete this idea',
           no: 'Go back',
         },

@@ -1,7 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ThemeService } from '@app/core/misc/services/theme.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-logo',
@@ -9,31 +7,14 @@ import { Subscription } from 'rxjs';
   templateUrl: './logo.component.html',
   styleUrl: './logo.component.scss',
 })
-export class LogoComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+export class LogoComponent {
+  private _styleClass = '';
 
-  private _src = 'logo.svg';
-
-  public get src(): string {
-    return this._src;
+  @Input() public set styleClass(value: string) {
+    this._styleClass = value + ' cursor-pointer';
   }
 
-  @Input() public styleClass: string = '';
-
-  public constructor(private readonly themeService: ThemeService) {}
-
-  public ngOnInit(): void {
-    this.subscriptions.push(
-      this.themeService.themeStatus$.subscribe((status) => {
-        this._src =
-          status.theme === 'dark' && status.variations.dark === 'terminal'
-            ? 'logo-terminal.svg'
-            : 'logo.svg';
-      }),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  public get styleClass(): string {
+    return this._styleClass;
   }
 }

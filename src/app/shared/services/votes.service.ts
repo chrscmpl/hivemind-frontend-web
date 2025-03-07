@@ -10,9 +10,8 @@ export class VotesService {
   constructor(private readonly http: HttpClient) {}
 
   public setVote(ideaId: number, vote: boolean | null): Observable<void> {
-    const voteStr = vote ? 'up' : vote === false ? 'down' : 'none';
     return this.http.put<void>(`${environment.api}/posts/${ideaId}/votes`, {
-      vote: voteStr,
+      vote: vote ? 'up' : vote === false ? 'down' : null,
     });
   }
 }
