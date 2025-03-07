@@ -94,6 +94,12 @@ body {
   display: none !important;
 }
 
-tui-dialog[data-size="fullscreen"] > .t-content {
-  padding-bottom: 20rem !important;
+.app-virtual-keyboard {
+  app-app-bar {
+    display: none !important;
+  }
+
+  tui-dialog[data-size="fullscreen"] > .t-content {
+    padding-bottom: 20rem !important;
+  }
 }

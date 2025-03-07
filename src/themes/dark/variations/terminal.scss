@@ -209,3 +209,7 @@ tui-dropdown[data-appearance="dropdown-navigation"] {
   border-bottom: 1px solid var(--tui-border-normal);
   background: var(--tui-background-base);
 }
+
+tui-avatar {
+  --t-radius: 0px !important;
+}

@@ -10,6 +10,7 @@ import { AppBarComponent } from './core/navigation/components/app-bar/app-bar.co
 import { AsyncPipe, DOCUMENT } from '@angular/common';
 import { NavigationUtilsService } from './core/misc/services/navigation-utils.service';
 import { take } from 'rxjs';
+import { VirtualKeyboardService } from './core/misc/services/virtual-keyboard.service';
 @Component({
   selector: 'app-root',
   imports: [
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
     public readonly themeService: ThemeService,
     private readonly navigationUtils: NavigationUtilsService,
     private readonly alerts: TuiAlertService,
+    public readonly virtualKeyboard: VirtualKeyboardService,
   ) {}
 
   public ngOnInit(): void {
