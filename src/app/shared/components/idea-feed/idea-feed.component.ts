@@ -51,8 +51,6 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
 
   public noResults: boolean = false;
 
-  private removedIdeas: number = 0;
-
   public constructor(
     public readonly breakpoints: BreakpointService,
     private readonly ideas: IdeaFetchService,
@@ -94,13 +92,7 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
   }
 
   public removeIdea(idea: IdeaEntity) {
-    const index = this.requestManager?.data.findIndex(
-      (other) => other.id === idea.id,
-    );
-    if (index !== undefined) {
-      this.requestManager?.mutableData.splice(index, 1);
-      this.removedIdeas++;
-    }
+    idea.deleted = true;
   }
 
   private reset(): void {
@@ -149,8 +141,7 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
   private shouldLoadMore(index: number) {
     return (
       this.requestManager &&
-      index + this.removedIdeas >=
-        this.requestManager.page * this.requestManager.limit - 3 &&
+      index >= this.requestManager.page * this.requestManager.limit - 3 &&
       this.requestManager.page < this.lastLoadedPage + 1
     );
   }

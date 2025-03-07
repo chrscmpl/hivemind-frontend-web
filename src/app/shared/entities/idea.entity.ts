@@ -15,6 +15,7 @@ export class IdeaEntity {
 
   private readonly _age?: number;
   private readonly _updated: boolean;
+  private _deleted: boolean;
 
   public constructor(data: IdeaDto) {
     this._id = data.id;
@@ -37,6 +38,8 @@ export class IdeaEntity {
       !!this.createdAt && !!this.updatedAt && this.updatedAt > this.createdAt;
     this._myVote =
       data.myVote === 'up' ? true : data.myVote === 'down' ? false : null;
+
+    this._deleted = false;
   }
 
   public get id(): number {
@@ -97,6 +100,14 @@ export class IdeaEntity {
 
   public get updated(): boolean {
     return this._updated;
+  }
+
+  public get deleted(): boolean {
+    return this._deleted;
+  }
+
+  public set deleted(value: boolean) {
+    this._deleted = value;
   }
 
   public setMyVoteAndUpdateCounts(value: boolean | null): void {
