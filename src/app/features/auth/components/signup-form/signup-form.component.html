@@ -9,7 +9,11 @@
   </a>
 
   <tui-textfield iconEnd="@tui.smile">
-    <label for="signup-displayName">Name</label>
+    <label
+      class="after:content-['*'] after:text-text-negative"
+      for="signup-displayName"
+      >Name</label
+    >
     <input
       tuiTextfield
       id="signup-displayName"
@@ -25,7 +29,11 @@
   />
 
   <tui-textfield iconEnd="@tui.at-sign">
-    <label for="signup-handle">Unique handle</label>
+    <label
+      class="after:content-['*'] after:text-text-negative"
+      for="signup-handle"
+      >Unique handle</label
+    >
     <input
       tuiTextfield
       id="signup-handle"
@@ -38,7 +46,11 @@
   <tui-error formControlName="handle" [error]="[] | tuiFieldError | async" />
 
   <tui-textfield iconEnd="@tui.mail">
-    <label for="signup-email">Email</label>
+    <label
+      class="after:content-['*'] after:text-text-negative"
+      for="signup-email"
+      >Email</label
+    >
     <input
       tuiTextfield
       id="signup-email"
@@ -52,7 +64,11 @@
   <tui-error formControlName="email" [error]="[] | tuiFieldError | async" />
 
   <tui-textfield>
-    <label for="signup-password">Password</label>
+    <label
+      class="after:content-['*'] after:text-text-negative"
+      for="signup-password"
+      >Password</label
+    >
     <input
       tuiTextfield
       id="signup-password"
@@ -80,7 +96,11 @@
   ></progress>
 
   <tui-textfield>
-    <label for="signup-confirm-password">Confirm password</label>
+    <label
+      class="after:content-['*'] after:text-text-negative"
+      for="signup-confirm-password"
+      >Confirm password</label
+    >
     <input
       tuiTextfield
       id="signup-confirm-password"
@@ -108,7 +128,10 @@
         form.controls.acceptTos.setValue(!form.controls.acceptTos.value)
       "
     />
-    <label for="signup-accept-tos" class="cursor-pointer">
+    <label
+      class="after:content-['*'] after:text-text-negative cursor-pointer"
+      for="signup-accept-tos"
+    >
       I accept HiveMind's
       <a tuiLink routerLink="/tos" target="_blank">Terms of Service</a>
       and
