@@ -19,6 +19,7 @@ export const EDITOR_TOOLS = new InjectionToken<TuiEditorToolType[]>(
       'subscript',
       'quote',
       'insertHorizontalRule',
+      'insertTable',
     ],
   },
 );

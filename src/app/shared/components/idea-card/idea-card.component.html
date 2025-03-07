@@ -3,7 +3,7 @@
   class="!bg-background-base hover:!bg-background-base-alt transition-colors duration-tui hover:cursor-pointer !max-w-[100vw]"
   [ngClass]="{
     '!rounded-none ![--t-space:0.8rem]  ![--t-padding:1.2rem]': isMobile,
-    'hover:cursor-pointer select-none': compact,
+    'hover:cursor-pointer select-none app-compact': compact,
   }"
   (click)="navigateToIdea()"
   (keydown.enter)="navigateToIdea()"

@@ -1,8 +1,8 @@
 export enum IdeaAgeEnum {
-  ONE_HOUR = '1 hour',
-  ONE_DAY = '1 day',
-  ONE_WEEK = '1 week',
-  ONE_MONTH = '1 month',
-  ONE_YEAR = '1 year',
+  ONE_HOUR = '1h',
+  ONE_DAY = '1d',
+  ONE_WEEK = '1w',
+  ONE_MONTH = '1mo',
+  ONE_YEAR = '1y',
   ALL_TIME = 'all',
 }
