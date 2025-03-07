@@ -93,3 +93,7 @@ body {
 [automation-id="toolbar__task-list-button"] {
   display: none !important;
 }
+
+tui-dialog[data-size="fullscreen"] > .t-content {
+  padding-bottom: 20rem !important;
+}

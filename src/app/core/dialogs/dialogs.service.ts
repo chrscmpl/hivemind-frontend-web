@@ -6,6 +6,7 @@ import { SignupFormComponent } from '@features/auth/components/signup-form/signu
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 import { Observable } from 'rxjs';
 import { SettingsDialogComponent } from '@app/features/settings/components/settings-dialog/settings-dialog.component';
+import { BreakpointService } from '../misc/services/breakpoint.service';
 
 type DialogDescriptor = {
   component: Type<unknown>;
@@ -39,10 +40,16 @@ export class DialogsService {
     },
   };
 
-  constructor(private readonly dialogs: TuiDialogService) {}
+  constructor(
+    private readonly dialogs: TuiDialogService,
+    private readonly breakpoints: BreakpointService,
+  ) {}
 
   public open(dialog: DialogEnum): Observable<boolean> {
     const { component, ...options } = this.dialogsMap[dialog];
+    if (this.breakpoints.isMobile()) {
+      options.size = 'fullscreen';
+    }
     return this.dialogs.open(new PolymorpheusComponent(component), options);
   }
 }

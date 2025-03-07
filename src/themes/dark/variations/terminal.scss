@@ -127,6 +127,10 @@
 tui-dialog > .t-content {
   border: 1px solid #00ff00;
   border-radius: 0px !important;
+
+  @media (max-width: 767px) {
+    border-width: 0px;
+  }
 }
 
 tui-segmented::before {

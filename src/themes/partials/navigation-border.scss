@@ -15,3 +15,9 @@
 [tuinavigationheader]::before {
   border-top: 1px solid var(--tui-border-normal);
 }
+
+tui-dropdowns > .ng-trigger-tuiSlideInLeft {
+  border: 1px solid var(--tui-border-normal);
+  border-left-width: 0;
+  border-bottom-width: 0;
+}
