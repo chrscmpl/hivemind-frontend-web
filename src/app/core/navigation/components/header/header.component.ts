@@ -5,7 +5,12 @@ import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { LogoComponent } from '../logo/logo.component';
 import { TuiAvatar } from '@taiga-ui/kit';
 import { AuthService } from '@core/auth/services/auth.service';
-import { TuiButton, TuiDataList, TuiDropdown } from '@taiga-ui/core';
+import {
+  TuiButton,
+  TuiDataList,
+  TuiDialogService,
+  TuiDropdown,
+} from '@taiga-ui/core';
 import { DialogsService } from '@core/dialogs/dialogs.service';
 import { DialogEnum } from '@core/dialogs/dialog.enum';
 import { UIService } from '../../services/ui.service';
@@ -37,5 +42,6 @@ export class HeaderComponent {
     public readonly dialogs: DialogsService,
     public readonly ui: UIService,
     public readonly navigationUtils: NavigationUtilsService,
+    public readonly tuiDialogs: TuiDialogService,
   ) {}
 }

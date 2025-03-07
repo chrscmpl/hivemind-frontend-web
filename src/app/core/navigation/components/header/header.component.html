@@ -31,12 +31,20 @@
       >
         {{ authStatus.user.displayName }}
       </span>
-      <tui-avatar
-        src="@tui.user"
-        class="cursor-pointer"
-        tuiDropdownOpen
-        [tuiDropdown]="content"
-      />
+      @if (isMobile) {
+        <tui-avatar
+          src="@tui.user"
+          class="cursor-pointer"
+          (click)="tuiDialogs.open(menu).subscribe()"
+        />
+      } @else {
+        <tui-avatar
+          src="@tui.user"
+          class="cursor-pointer"
+          tuiDropdownOpen
+          [tuiDropdown]="menu"
+        />
+      }
     </span>
   } @else if (authStatus.authChecked) {
     <button
@@ -56,14 +64,22 @@
   }
 </header>
 
-<ng-template #content>
-  <tui-data-list role="menu" size="s">
+<ng-template #menu let-observer>
+  @let isDialog = observer.complete !== undefined;
+  <tui-data-list
+    role="menu"
+    [size]="isDialog ? 'l' : 's'"
+    [class.pt-4]="isDialog"
+    (click)="observer.complete?.()"
+  >
     <a
+      class="!justify-start"
       tuiOption
       role="menuitem"
       (click)="auth.logout()"
       (keyup.enter)="auth.logout()"
       tabindex="0"
+      iconStart="@tui.door-open"
     >
       Log out
     </a>
