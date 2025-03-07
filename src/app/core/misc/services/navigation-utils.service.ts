@@ -67,13 +67,13 @@ export class NavigationUtilsService {
 
   public executeIfNavigationSuccess(fn: () => void): void {
     this.navigationStopped$.pipe(take(1)).subscribe((success) => {
-      if (success) fn();
+      if (success instanceof NavigationEnd) fn();
     });
   }
 
   public executeIfNavigationFailure(fn: () => void): void {
     this.navigationStopped$.pipe(take(1)).subscribe((success) => {
-      if (!success) fn();
+      if (!(success instanceof NavigationEnd)) fn();
     });
   }
 }
