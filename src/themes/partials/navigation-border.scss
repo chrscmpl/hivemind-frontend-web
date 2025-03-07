@@ -1,0 +1,17 @@
+[tuinavigationheader] {
+  box-shadow:
+    0px -1px 0px 0px var(--tui-border-normal),
+    0px 1px 0px 0px var(--tui-border-normal);
+}
+
+[tuinavigationaside] {
+  box-shadow:
+    -1px 0px 0px 0px var(--tui-border-normal),
+    1px 0px 0px 0px var(--tui-border-normal);
+  z-index: 10 !important;
+}
+
+[tuinavigationaside]::before,
+[tuinavigationheader]::before {
+  border-top: 1px solid var(--tui-border-normal);
+}
