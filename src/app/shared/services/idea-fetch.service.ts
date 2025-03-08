@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { cacheBusters } from '@app/core/misc/helpers/cache-busters.helper';
+import { CacheKeysEnum } from '@app/core/cache/enum/cache-keys.enum';
+import { cacheConfigs } from '@app/core/cache/helpers/cache-configs.helper';
 import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { IdeaDto } from '@shared/dto/idea.dto';
 import { IdeaEntity } from '@shared/entities/idea.entity';
@@ -9,7 +10,7 @@ import {
   PaginatedRequestParams,
 } from '@shared/helpers/paginated-request-manager.helper';
 import { defaults } from 'lodash-es';
-import { map, merge, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Cacheable } from 'ts-cacheable';
 
@@ -29,18 +30,9 @@ export type IdeaPaginationParams = Omit<
   providedIn: 'root',
 })
 export class IdeaFetchService {
-  private static readonly IDEAS_CACHE_BUSTER = merge(
-    cacheBusters.AuthChanged$,
-    cacheBusters.IdeaUpdated$,
-    cacheBusters.IdeaDeleted$,
-  );
-
   public constructor(private readonly http: HttpClient) {}
 
-  @Cacheable({
-    maxCacheCount: 32,
-    cacheBusterObserver: IdeaFetchService.IDEAS_CACHE_BUSTER,
-  })
+  @Cacheable(cacheConfigs[CacheKeysEnum.IDEA])
   public fetch(id: number): Observable<IdeaEntity> {
     return this.http
       .get<IdeaDto>(`${environment.api}/posts/${id}`, {
@@ -51,12 +43,7 @@ export class IdeaFetchService {
       .pipe(map((data: IdeaDto) => new IdeaEntity(data)));
   }
 
-  @Cacheable({
-    maxCacheCount: 8,
-    cacheBusterObserver: IdeaFetchService.IDEAS_CACHE_BUSTER,
-    cacheHasher: (params: IdeaPaginationParams[]) =>
-      params.map((obj) => JSON.stringify(obj.query)),
-  })
+  @Cacheable(cacheConfigs[CacheKeysEnum.IDEA_PAGINATION])
   public paginate(
     params: IdeaPaginationParams,
   ): Observable<PaginatedRequestManager<IdeaEntity>> {

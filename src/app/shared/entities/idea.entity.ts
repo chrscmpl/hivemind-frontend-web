@@ -10,12 +10,13 @@ export class IdeaEntity {
   private readonly _commentCount?: number;
   private readonly _createdAt?: Date;
   private readonly _updatedAt?: Date;
-  private readonly _user?: UserEntity;
+  private _user?: UserEntity;
   private _myVote?: boolean | null;
 
   private readonly _age?: number;
   private readonly _updated: boolean;
   private _deleted: boolean;
+  private _isComplete: boolean;
 
   public constructor(data: IdeaDto) {
     this._id = data.id;
@@ -40,6 +41,17 @@ export class IdeaEntity {
       data.myVote === 'up' ? true : data.myVote === 'down' ? false : null;
 
     this._deleted = false;
+
+    this._isComplete =
+      this._id != undefined &&
+      this._title != undefined &&
+      this._content != undefined &&
+      this._upvoteCount != undefined &&
+      this._downvoteCount != undefined &&
+      this._commentCount != undefined &&
+      this._createdAt != undefined &&
+      this._updatedAt != undefined &&
+      this._user != undefined;
   }
 
   public get id(): number {
@@ -86,6 +98,10 @@ export class IdeaEntity {
     return this._user;
   }
 
+  public set user(value: UserEntity | undefined) {
+    this._user = value;
+  }
+
   public get myVote(): boolean | null | undefined {
     return this._myVote;
   }
@@ -108,6 +124,10 @@ export class IdeaEntity {
 
   public set deleted(value: boolean) {
     this._deleted = value;
+  }
+
+  public get isComplete(): boolean {
+    return this._isComplete;
   }
 
   public setMyVoteAndUpdateCounts(value: boolean | null): void {

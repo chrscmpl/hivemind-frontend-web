@@ -17,7 +17,7 @@ import { SignupDataEntity } from '../entities/signup-data.entity';
 import { AuthStatus } from '../entities/auth-status.entity';
 import { Router } from '@angular/router';
 import { ACCESS_TOKEN_KEY } from '../token/access-token-key.token';
-import { cacheBusters } from '@app/core/misc/helpers/cache-busters.helper';
+import { CacheService } from '@app/core/cache/services/cache.service';
 
 @Injectable({
   providedIn: 'root',
@@ -56,6 +56,7 @@ export class AuthService {
     private readonly storage: LocalStorageService,
     private readonly http: HttpClient,
     private readonly router: Router,
+    private readonly cache: CacheService,
   ) {
     if (this.accessToken) {
       this.getUserData().subscribe({
@@ -121,7 +122,7 @@ export class AuthService {
       isAuthenticated: user !== null,
       authChecked: true,
     });
-    cacheBusters.AuthChanged$.next();
+    this.cache.cacheBusters.AuthChanged$.next();
   }
 
   private setAuthChecked(): void {

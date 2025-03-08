@@ -13,6 +13,11 @@ import { IdeaCreationData } from '@app/shared/entities/idea-creation-data.entity
 import { IdeaUpdateData } from '@app/shared/entities/idea-update-data.entity';
 import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
 import { take } from 'rxjs';
+import { Router } from '@angular/router';
+import { CacheService } from '@app/core/cache/services/cache.service';
+import { CacheKeysEnum } from '@app/core/cache/enum/cache-keys.enum';
+import { AuthService } from '@app/core/auth/services/auth.service';
+import { UserEntity } from '@app/shared/entities/user.entity';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +49,9 @@ export class CreateIdeaFormService {
     private readonly ideaMutationService: IdeaMutationService,
     private readonly apiErrorsService: ApiErrorsService,
     private readonly alerts: TuiAlertService,
-    private readonly navigationUtils: NavigationUtilsService,
+    private readonly router: Router,
+    private readonly cache: CacheService,
+    private readonly auth: AuthService,
     formBuilder: FormBuilder,
   ) {
     this._form = formBuilder.group<CreateIdeaForm>({
@@ -105,7 +112,7 @@ export class CreateIdeaFormService {
         }),
       )
       .subscribe({
-        next: () => this.onSuccess('Idea published successfully'),
+        next: (idea) => this.onSuccess('Idea published successfully', idea),
         error: (err) => this.onError(err),
       });
   }
@@ -128,13 +135,28 @@ export class CreateIdeaFormService {
     }
 
     this.ideaMutationService.update(updateData).subscribe({
-      next: () => this.onSuccess('Idea updated successfully'),
+      next: (idea) => this.onSuccess('Idea updated successfully', idea),
       error: (err) => this.onError(err),
     });
   }
 
-  private onSuccess(message: string) {
-    this.navigationUtils.back();
+  private onSuccess(message: string, idea: IdeaEntity) {
+    const user = this.auth.authUser();
+
+    if (user) {
+      idea.user = new UserEntity(user);
+    }
+
+    if (idea.isComplete) {
+      this.cache.manualAdd({
+        key: CacheKeysEnum.IDEA,
+        value: idea,
+        parameters: [idea.id],
+      });
+    }
+
+    this.router.navigate(['ideas', idea.id]);
+
     this.alerts
       .open(message, {
         appearance: 'positive',
@@ -142,6 +164,7 @@ export class CreateIdeaFormService {
       })
       .pipe(take(1))
       .subscribe();
+
     this.form.reset();
   }
 

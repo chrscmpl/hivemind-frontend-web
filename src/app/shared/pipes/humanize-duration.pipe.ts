@@ -6,8 +6,10 @@ import prettyMilliseconds from 'pretty-ms';
 })
 export class HumanizeDurationPipe implements PipeTransform {
   public transform(milliseconds: number): string {
-    return prettyMilliseconds(milliseconds, {
-      compact: true,
-    });
+    return milliseconds < 2000
+      ? 'now'
+      : prettyMilliseconds(milliseconds, {
+          compact: true,
+        });
   }
 }

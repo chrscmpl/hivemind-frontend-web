@@ -8,7 +8,7 @@
     "backend": "cd ../hivemind-backend-api && npm run start:dev",
     "backend:broadcast": "cd ../hivemind-backend-api && npx cross-env HOST=0.0.0.0 npm run start:dev",
     "build": "ng build && gzipper compress ./dist/hivemind-frontend-web/browser ./dist/hivemind-frontend-web/gzip",
-    "build:stats": "ng build --stats-json",
+    "build:stats": "ng build --stats-json && gzipper compress ./dist/hivemind-frontend-web/browser ./dist/hivemind-frontend-web/gzip",
     "serve": "http-server dist/hivemind-frontend-web/gzip -g -p 3000 -c-1 --proxy http://localhost:3000?",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

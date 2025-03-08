@@ -3,34 +3,45 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IdeaCreationData } from '../entities/idea-creation-data.entity';
 import { IdeaUpdateData } from '../entities/idea-update-data.entity';
-import { tap } from 'rxjs';
-import { cacheBusters } from '@app/core/misc/helpers/cache-busters.helper';
+import { map, Observable, tap } from 'rxjs';
+import { CacheService } from '@app/core/cache/services/cache.service';
+import { IdeaEntity } from '../entities/idea.entity';
+import { IdeaDto } from '../dto/idea.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IdeaMutationService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly cache: CacheService,
+  ) {}
 
-  public create(data: IdeaCreationData) {
-    return this.http.post(`${environment.api}/posts`, {
-      title: data.title,
-      content: data.content,
-    });
+  public create(data: IdeaCreationData): Observable<IdeaEntity> {
+    return this.http
+      .post<IdeaDto>(`${environment.api}/posts`, {
+        title: data.title,
+        content: data.content,
+      })
+      .pipe(map((data) => new IdeaEntity(data)));
   }
 
-  public update(data: IdeaUpdateData) {
+  public update(data: IdeaUpdateData): Observable<IdeaEntity> {
     return this.http
-      .patch(`${environment.api}/posts/${data.old.id}`, {
+      .patch<IdeaDto>(`${environment.api}/posts/${data.old.id}`, {
         title: data.newTitle ?? undefined,
         content: data.newContent ?? undefined,
       })
-      .pipe(tap(() => cacheBusters.IdeaUpdated$.next()));
+      .pipe(
+        tap(() => this.cache.cacheBusters.IdeaUpdated$.next()),
+        map((data) => new IdeaEntity(data)),
+      );
   }
 
-  public delete(id: number) {
-    return this.http
-      .delete(`${environment.api}/posts/${id}`)
-      .pipe(tap(() => cacheBusters.IdeaDeleted$.next()));
+  public delete(id: number): Observable<IdeaEntity> {
+    return this.http.delete<IdeaDto>(`${environment.api}/posts/${id}`).pipe(
+      tap(() => this.cache.cacheBusters.IdeaDeleted$.next()),
+      map((data) => new IdeaEntity(data)),
+    );
   }
 }

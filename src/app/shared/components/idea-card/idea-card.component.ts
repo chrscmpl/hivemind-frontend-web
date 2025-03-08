@@ -34,6 +34,8 @@ import { VotesService } from '@shared/services/votes.service';
 import { Router, RouterLink } from '@angular/router';
 import { IdeaMutationService } from '@app/shared/services/idea-mutation.service';
 import { TUI_CONFIRM } from '@taiga-ui/kit';
+import { CacheService } from '@app/core/cache/services/cache.service';
+import { CacheKeysEnum } from '@app/core/cache/enum/cache-keys.enum';
 
 @Component({
   selector: 'app-idea-card',
@@ -85,6 +87,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
     public readonly dialogsService: TuiDialogService,
     private readonly ideaMutation: IdeaMutationService,
     private readonly alerts: TuiAlertService,
+    private readonly cache: CacheService,
     breakpoints: BreakpointService,
     auth: AuthService,
   ) {
@@ -127,6 +130,13 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
 
   public navigateToIdea(): void {
     if (this.compact) {
+      if (this.idea.isComplete) {
+        this.cache.manualAdd({
+          key: CacheKeysEnum.IDEA,
+          value: this.idea,
+          parameters: [this.idea.id],
+        });
+      }
       this.router.navigate(['ideas', this.idea.id]);
     }
   }
