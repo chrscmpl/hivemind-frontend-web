@@ -16,8 +16,8 @@ const ideasCacheBuster = merge(
 export const cacheConfigs: Record<CacheKeysEnum, IObservableCacheConfig> = {
   [CacheKeysEnum.IDEA]: {
     cacheKey: CacheKeysEnum.IDEA,
-    maxAge: 32,
-    maxCacheCount: 2,
+    maxAge: 1000 * 60 * 5,
+    maxCacheCount: 32,
     cacheBusterObserver: ideasCacheBuster,
     cacheHasher: (params) => params.map((obj) => obj.toString()),
     cacheModifier: new Subject<cacheModifierFn>(),
