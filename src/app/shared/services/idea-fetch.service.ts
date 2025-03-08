@@ -74,7 +74,7 @@ export class IdeaFetchService {
   }
 
   public cache(idea: IdeaEntity): void {
-    if (!idea.isComplete) {
+    if (environment.cacheStrategy !== 'aggressive' || !idea.isComplete) {
       return;
     }
     this.cacheService.manualAdd({
