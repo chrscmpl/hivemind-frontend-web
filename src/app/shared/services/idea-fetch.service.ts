@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CacheKeysEnum } from '@app/core/cache/enum/cache-keys.enum';
 import { cacheConfigs } from '@app/core/cache/helpers/cache-configs.helper';
+import { CacheService } from '@app/core/cache/services/cache.service';
 import { IdeaSortEnum } from '@app/shared/enums/idea-sort.enum';
 import { IdeaDto } from '@shared/dto/idea.dto';
 import { IdeaEntity } from '@shared/entities/idea.entity';
@@ -30,7 +31,10 @@ export type IdeaPaginationParams = Omit<
   providedIn: 'root',
 })
 export class IdeaFetchService {
-  public constructor(private readonly http: HttpClient) {}
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly cacheService: CacheService,
+  ) {}
 
   @Cacheable(cacheConfigs[CacheKeysEnum.IDEA])
   public fetch(id: number): Observable<IdeaEntity> {
@@ -67,6 +71,17 @@ export class IdeaFetchService {
     );
 
     return manager.next().pipe(map(() => manager));
+  }
+
+  public cache(idea: IdeaEntity): void {
+    if (!idea.isComplete) {
+      return;
+    }
+    this.cacheService.manualAdd({
+      key: CacheKeysEnum.IDEA,
+      value: idea,
+      parameters: [idea.id],
+    });
   }
 
   private buildQuery(

@@ -11,13 +11,11 @@ import { TuiAlertService } from '@taiga-ui/core';
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { IdeaCreationData } from '@app/shared/entities/idea-creation-data.entity';
 import { IdeaUpdateData } from '@app/shared/entities/idea-update-data.entity';
-import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
-import { CacheService } from '@app/core/cache/services/cache.service';
-import { CacheKeysEnum } from '@app/core/cache/enum/cache-keys.enum';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { UserEntity } from '@app/shared/entities/user.entity';
+import { IdeaFetchService } from '@app/shared/services/idea-fetch.service';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +48,7 @@ export class CreateIdeaFormService {
     private readonly apiErrorsService: ApiErrorsService,
     private readonly alerts: TuiAlertService,
     private readonly router: Router,
-    private readonly cache: CacheService,
+    private readonly fetchService: IdeaFetchService,
     private readonly auth: AuthService,
     formBuilder: FormBuilder,
   ) {
@@ -147,13 +145,7 @@ export class CreateIdeaFormService {
       idea.user = new UserEntity(user);
     }
 
-    if (idea.isComplete) {
-      this.cache.manualAdd({
-        key: CacheKeysEnum.IDEA,
-        value: idea,
-        parameters: [idea.id],
-      });
-    }
+    this.fetchService.cache(idea);
 
     this.router.navigate(['ideas', idea.id]);
 
