@@ -1,5 +1,6 @@
 export interface IEnvironment {
   origin: string;
   api: string;
-  cacheStrategy: 'default' | 'aggressive';
+  cachingStrategy: 'default' | 'aggressive';
+  animateIdeaEntry: boolean;
 }

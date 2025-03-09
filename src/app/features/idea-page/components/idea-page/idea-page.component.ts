@@ -15,7 +15,7 @@ import { BackButtonComponent } from '../../../../shared/components/back-button/b
   styleUrl: './idea-page.component.scss',
 })
 export class IdeaPageComponent implements OnInit {
-  public animate: boolean = false;
+  public animateEntry: boolean = false;
 
   private _idea!: IdeaEntity;
 
@@ -32,7 +32,7 @@ export class IdeaPageComponent implements OnInit {
   public ngOnInit(): void {
     this.route.data.pipe(take(1)).subscribe((data) => {
       this._idea = data['idea'];
-      this.animate = data['animate'];
+      this.animateEntry = data['animateEntry'];
     });
   }
 }

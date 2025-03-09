@@ -45,7 +45,7 @@ export class CommentFetchService {
   }
 
   private deserialize(
-    data: { items: CommentDto[]; meta: CommentPaginationMetaDto },
+    data: { items: CommentDto[]; meta?: CommentPaginationMetaDto },
     manager: PaginatedRequestManager<
       CommentEntity,
       CommentPaginationMetaEntity

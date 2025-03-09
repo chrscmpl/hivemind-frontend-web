@@ -4,7 +4,7 @@
   [ngClass]="{
     '!rounded-none ![--t-space:0.8rem]  ![--t-padding:1.2rem]': isMobile,
     'hover:cursor-pointer select-none app-compact': compact,
-    'animate-pop': animate,
+    'animate-pop': animateEntry,
   }"
   (click)="navigateToIdea()"
   (keydown.enter)="navigateToIdea()"
@@ -106,7 +106,10 @@
     [ngClass]="{ 'line-clamp-2  !text-text-secondary': compact }"
   ></section>
 
-  <section class="flex items-center gap-2" [class.flex-row-reverse]="isMobile">
+  <section
+    class="flex items-center gap-2 flex-wrap"
+    [class.flex-row-reverse]="isMobile"
+  >
     <app-votes-control
       [voteTotal]="
         idea.upvoteCount !== undefined &&

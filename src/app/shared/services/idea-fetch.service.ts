@@ -78,7 +78,7 @@ export class IdeaFetchService {
   }
 
   public cache(idea: IdeaEntity): void {
-    if (environment.cacheStrategy !== 'aggressive' || !idea.isComplete) {
+    if (environment.cachingStrategy === 'default' || !idea.isComplete) {
       return;
     }
     this.cacheService.manualAdd({
@@ -89,7 +89,7 @@ export class IdeaFetchService {
   }
 
   private deserialize(
-    data: { items: IdeaDto[]; meta: IdeaPaginationMetaDto },
+    data: { items: IdeaDto[]; meta?: IdeaPaginationMetaDto },
     manager: PaginatedRequestManager<IdeaEntity, IdeaPaginationMetaEntity>,
   ) {
     if (data.meta) {
