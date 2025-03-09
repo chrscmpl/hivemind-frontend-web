@@ -11,6 +11,7 @@ export class CommentEntity {
   private readonly _age?: number;
   private readonly _updated: boolean;
   private _deleted: boolean;
+  private _collapse: boolean;
 
   public constructor(data: CommentDto) {
     this._id = data.id;
@@ -28,6 +29,7 @@ export class CommentEntity {
     this._updated =
       !!this.createdAt && !!this.updatedAt && this.updatedAt > this.createdAt;
 
+    this._collapse = false;
     this._deleted = false;
   }
 
@@ -69,5 +71,13 @@ export class CommentEntity {
 
   public set deleted(value: boolean) {
     this._deleted = value;
+  }
+
+  public get collapse(): boolean {
+    return this._collapse;
+  }
+
+  public set collapse(value: boolean) {
+    this._collapse = value;
   }
 }

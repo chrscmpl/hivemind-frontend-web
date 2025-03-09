@@ -1,0 +1,106 @@
+<div
+  tuiCardLarge
+  class="!bg-background-base hover:!bg-background-base-alt transition-colors duration-tui !max-w-[100vw]"
+  [ngClass]="{
+    '!rounded-none ![--t-space:0.4rem] ![--t-padding:1.2rem]': isMobile,
+    '!flex-row cursor-pointer select-none': collapsed,
+  }"
+  (click)="collapsed = false"
+  (keydown.enter)="collapsed = false"
+  tabindex="0"
+>
+  <section
+    tuiHeader
+    class="grid items-center h-8 content-center gap-x-2 text-text-tertiary grid-cols-[auto_1fr_auto] cursor-pointer"
+    (click)="toggleCollapsed($event)"
+    (keydown.enter)="toggleCollapsed($event)"
+    tabindex="0"
+  >
+    @if (comment.user?.handle && comment.user?.displayName) {
+      <span class="!text-text-secondary line-clamp-1 break-all">
+        <span class="text-text-primary"> {{ comment.user!.displayName }}</span>
+        <span> &commat;{{ comment.user!.handle }}</span>
+      </span>
+    }
+    @if (!collapsed) {
+      <span class="flex items-center">
+        {{ comment.age ? (comment.age | humanizeDuration) : "" }}
+        @if (comment.updated) {
+          <tui-icon
+            icon="@tui.pencil"
+            tuiHint="Edited {{ comment.updatedAt | date: 'MMM d, y, h:mm a' }}"
+            [tuiHintDirection]="isMobile ? 'top-left' : 'right'"
+            class="h-4"
+          />
+        }
+      </span>
+      <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+      <div
+        class="justify-self-end col-start-[-1]"
+        (click)="$event.stopPropagation()"
+        (keydown.enter)="$event.stopPropagation()"
+      >
+        @if (isAuthor) {
+          @if (isMobile) {
+            <button
+              appearance="outline-grayscale"
+              iconStart="@tui.ellipsis-vertical"
+              tuiIconButton
+              type="button"
+              size="s"
+              appearance="outline-grayscale"
+              class="!rounded-full before:!text-text-tertiary"
+              (click)="openDialog()"
+            >
+              More
+            </button>
+          } @else {
+            <button
+              appearance="outline-grayscale"
+              iconStart="@tui.ellipsis-vertical"
+              tuiDropdownHover
+              tuiIconButton
+              type="button"
+              [tuiDropdown]="menu"
+              size="s"
+              appearance="flat-grayscale"
+              class="!rounded-full"
+            >
+              More
+            </button>
+          }
+        }
+      </div>
+    }
+  </section>
+
+  <section
+    tuiAppearance="flat-grayscale"
+    [innerHTML]="comment.content"
+    class="min-w-0 flex-1 text-base break-words !transition-none"
+    [ngClass]="{
+      '!text-text-tertiary line-clamp-1 break-all cursor-pointer': collapsed,
+    }"
+  ></section>
+</div>
+
+<ng-template #menu let-observer>
+  @let isDialog = observer.complete !== undefined;
+  <tui-data-list
+    [size]="isDialog ? 'l' : 's'"
+    [class.pt-4]="isDialog"
+    (click)="observer.complete?.()"
+  >
+    <button tuiOption class="!justify-start" iconStart="@tui.pencil">
+      Edit
+    </button>
+    <button
+      tuiOption
+      class="!justify-start"
+      iconStart="@tui.trash"
+      (click)="askToDeleteComment()"
+    >
+      Delete
+    </button>
+  </tui-data-list>
+</ng-template>

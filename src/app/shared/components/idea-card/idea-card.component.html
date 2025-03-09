@@ -2,7 +2,7 @@
   tuiCardLarge
   class="!bg-background-base hover:!bg-background-base-alt transition-colors duration-tui hover:cursor-pointer !max-w-[100vw] origin-center app-idea-card"
   [ngClass]="{
-    '!rounded-none ![--t-space:0.8rem]  ![--t-padding:1.2rem]': isMobile,
+    '!rounded-none ![--t-space:0.8rem] ![--t-padding:1.2rem]': isMobile,
     'hover:cursor-pointer select-none app-compact': compact,
     'animate-pop': animateEntry,
   }"
@@ -46,7 +46,7 @@
       @if (idea.updated) {
         <tui-icon
           icon="@tui.pencil"
-          tuiHint="Edited {{ idea.updatedAt | date: 'medium' }}"
+          tuiHint="Edited {{ idea.updatedAt | date: 'MMM d, y, h:mm a' }}"
           [tuiHintDirection]="isMobile ? 'top-left' : 'right'"
           class="h-4"
         />
@@ -93,7 +93,7 @@
     <h2
       tuiTitle
       class="!text-2xl !font-bold break-words"
-      [ngClass]="{ 'line-clamp-3 break-words': compact }"
+      [class.line-clamp-3]="compact"
     >
       {{ idea.title }}
     </h2>

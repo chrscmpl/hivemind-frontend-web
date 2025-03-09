@@ -4,7 +4,6 @@ import {
   effect,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
@@ -25,7 +24,6 @@ import {
   TuiIcon,
 } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
-import { Subscription } from 'rxjs';
 import { ShareService } from '@core/misc/services/share.service';
 import { environment } from 'src/environments/environment';
 import { VotesControlComponent } from '../votes-control/votes-control.component';
@@ -57,13 +55,11 @@ import { IdeaFetchService } from '@app/shared/services/idea-fetch.service';
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
 })
-export class IdeaCardComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+export class IdeaCardComponent implements OnInit {
   private _compact: boolean = false;
   private _isMobile = false;
   @ViewChild('menu') menu!: TemplateRef<unknown>;
   @Output() public readonly init = new EventEmitter<void>();
-  @Output() public readonly deleted = new EventEmitter<void>();
   @Input({ required: true }) public idea!: IdeaEntity;
   @Input() public animateEntry!: boolean;
 
@@ -80,10 +76,14 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
 
   private _isAuthor: boolean = false;
 
+  public get isAuthor(): boolean {
+    return this._isAuthor;
+  }
+
   public constructor(
     private readonly shareService: ShareService,
     private readonly votesService: VotesService,
-    public readonly dialogsService: TuiDialogService,
+    private readonly dialogsService: TuiDialogService,
     private readonly ideaMutation: IdeaMutationService,
     private readonly alerts: TuiAlertService,
     private readonly fetchService: IdeaFetchService,
@@ -105,18 +105,10 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
     this.init.emit();
   }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.forEach((s) => s.unsubscribe());
-  }
-
   public onVoteChange(vote: boolean | null): void {
     this.votesService
       .setVote(this.idea.id, vote)
       .subscribe(() => this.idea.setMyVoteAndUpdateCounts(vote));
-  }
-
-  public get isAuthor(): boolean {
-    return this._isAuthor;
   }
 
   public share(): void {
@@ -162,7 +154,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
 
   private deleteIdea() {
     this.ideaMutation.delete(this.idea.id).subscribe(() => {
-      this.deleted.emit();
+      this.idea.deleted = true;
       this.alerts
         .open('Idea deleted successfully', {
           appearance: 'positive',
