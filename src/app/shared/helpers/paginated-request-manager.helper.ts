@@ -11,7 +11,10 @@ import {
   throwError,
 } from 'rxjs';
 
-type DeserializerFn<Entity> = (input: any) => Entity[];
+type DeserializerFn<Entity> = (
+  input: any,
+  manager: PaginatedRequestManager<Entity>,
+) => Entity[];
 
 export interface PaginatedRequestParams<Entity> {
   http: HttpClient;
@@ -24,13 +27,14 @@ export interface PaginatedRequestParams<Entity> {
   limitParamName?: string;
 }
 
-export class PaginatedRequestManager<Entity> {
+export class PaginatedRequestManager<Entity, Meta = any> {
   private readonly http: HttpClient;
   private readonly url: string;
   private readonly deserializer?: DeserializerFn<Entity>;
   private readonly queryParameters?: Record<string, any>;
   private readonly pageParamName: string;
   private readonly limitParamName: string;
+  private _meta: Meta | null = null;
 
   private _page: number;
   private readonly _limit: number;
@@ -65,7 +69,9 @@ export class PaginatedRequestManager<Entity> {
         },
       })
       .pipe(
-        map((data) => (this.deserializer ? this.deserializer(data) : data)),
+        map((data) =>
+          this.deserializer ? this.deserializer(data, this) : data,
+        ),
       );
   }
 
@@ -123,6 +129,14 @@ export class PaginatedRequestManager<Entity> {
 
   public get query(): Record<string, any> {
     return this.queryParameters ?? {};
+  }
+
+  public get meta(): Meta | null {
+    return this._meta;
+  }
+
+  public set meta(value: Meta | null) {
+    this._meta = value;
   }
 
   public getPage(page: number): readonly Entity[] {

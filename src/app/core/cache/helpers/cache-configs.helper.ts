@@ -37,6 +37,14 @@ export const cacheConfigs: Record<
     cacheHasher: (params) => params.map((obj) => JSON.stringify(obj.query)),
     cacheModifier: new Subject<cacheModifierFn>(),
   },
+  [CacheKeysEnum.COMMENT_PAGINATION]: {
+    cacheKey: CacheKeysEnum.IDEA_PAGINATION,
+    maxAge: 1000 * 60 * 5,
+    maxCacheCount: 16,
+    cacheBusterObserver: cacheBusters.AuthChanged$,
+    cacheHasher: (params) => params.map((obj) => JSON.stringify(obj.query)),
+    cacheModifier: new Subject<cacheModifierFn>(),
+  },
 };
 
 Object.values(cacheConfigs).forEach((config) => {

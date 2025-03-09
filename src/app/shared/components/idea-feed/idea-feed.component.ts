@@ -12,6 +12,7 @@ import { LoadingIndicatorService } from '@app/shared/services/loading-indicator.
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
 import { delayWhen } from 'rxjs';
+import { IdeaPaginationMetaEntity } from '@app/shared/entities/idea-pagination-meta.entity';
 
 @Component({
   selector: 'app-idea-feed',
@@ -45,7 +46,10 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
 
   private lastLoadedPage!: number;
 
-  public requestManager?: PaginatedRequestManager<IdeaEntity>;
+  public requestManager?: PaginatedRequestManager<
+    IdeaEntity,
+    IdeaPaginationMetaEntity
+  >;
 
   public readonly loadingIndicator: LoadingIndicator;
 
@@ -88,6 +92,7 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
   public onScrolled(index: number): void {
     if (this.shouldLoadMore(index)) {
       this.next();
+      console.log('requesting page', this.requestManager?.page ?? 0 + 1);
     }
   }
 
@@ -141,6 +146,8 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
   private shouldLoadMore(index: number) {
     return (
       this.requestManager &&
+      (!this.requestManager.meta?.totalPages ||
+        this.requestManager.page < this.requestManager.meta.totalPages) &&
       index >= this.requestManager.page * this.requestManager.limit - 3 &&
       this.requestManager.page < this.lastLoadedPage + 1
     );

@@ -14,6 +14,8 @@ import { defaults } from 'lodash-es';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Cacheable } from 'ts-cacheable';
+import { IdeaPaginationMetaDto } from '../dto/idea-pagination-meta.dto';
+import { IdeaPaginationMetaEntity } from '../entities/idea-pagination-meta.entity';
 
 export interface IdeaPaginationQuery {
   sort?: string;
@@ -50,12 +52,15 @@ export class IdeaFetchService {
   @Cacheable(cacheConfigs[CacheKeysEnum.IDEA_PAGINATION])
   public paginate(
     params: IdeaPaginationParams,
-  ): Observable<PaginatedRequestManager<IdeaEntity>> {
+  ): Observable<PaginatedRequestManager<IdeaEntity, IdeaPaginationMetaEntity>> {
     if (params.query.sort === IdeaSortEnum.NEW) {
       delete params.query.age;
     }
 
-    const manager = new PaginatedRequestManager<IdeaEntity>(
+    const manager = new PaginatedRequestManager<
+      IdeaEntity,
+      IdeaPaginationMetaEntity
+    >(
       defaults(
         {
           query: this.buildQuery(params.query),
@@ -63,8 +68,7 @@ export class IdeaFetchService {
         {
           http: this.http,
           url: `${environment.api}/posts`,
-          deserializer: (data: { items: IdeaDto[] }) =>
-            data.items.map((item: IdeaDto) => new IdeaEntity(item)),
+          deserializer: this.deserialize.bind(this),
           ...params,
         },
       ),
@@ -82,6 +86,16 @@ export class IdeaFetchService {
       value: idea,
       parameters: [idea.id],
     });
+  }
+
+  private deserialize(
+    data: { items: IdeaDto[]; meta: IdeaPaginationMetaDto },
+    manager: PaginatedRequestManager<IdeaEntity, IdeaPaginationMetaEntity>,
+  ) {
+    if (data.meta) {
+      manager.meta = data.meta;
+    }
+    return data.items.map((item) => new IdeaEntity(item));
   }
 
   private buildQuery(
