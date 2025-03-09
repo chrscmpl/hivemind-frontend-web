@@ -147,6 +147,16 @@ module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
     extend: {
+      animation: {
+        pop: "pop var(--tui-duration) ease-in-out",
+      },
+      keyframes: {
+        pop: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.05)" },
+          "100%": { transform: "scale(1)" },
+        },
+      },
       transitionDuration: {
         tui: "var(--tui-duration)",
       },

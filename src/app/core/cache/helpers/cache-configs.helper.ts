@@ -13,7 +13,14 @@ const ideasCacheBuster = merge(
   cacheBusters.IdeaDeleted$,
 );
 
-export const cacheConfigs: Record<CacheKeysEnum, IObservableCacheConfig> = {
+export const cacheConfigs: Record<
+  CacheKeysEnum,
+  IObservableCacheConfig & {
+    // required
+    maxAge: IObservableCacheConfig['maxAge'];
+    cacheHasher: IObservableCacheConfig['cacheHasher'];
+  }
+> = {
   [CacheKeysEnum.IDEA]: {
     cacheKey: CacheKeysEnum.IDEA,
     maxAge: 1000 * 60 * 5,

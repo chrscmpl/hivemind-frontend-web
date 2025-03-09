@@ -8,6 +8,7 @@ import { IdeaPageComponent } from './features/idea-page/components/idea-page/ide
 import { uiStyleGuard } from './core/navigation/guards/ui-style.guard';
 import { UIStylesEnum } from './core/navigation/enums/ui-styles.enum';
 import { confirmReloadGuard } from './core/misc/guards/confirm-reload.guard';
+import { doAnimateEntranceResolver } from './features/idea-page/resolvers/do-animate-entrance.resolver';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,7 @@ export const routes: Routes = [
         ],
         resolve: {
           idea: ideaResolver(),
+          animate: doAnimateEntranceResolver,
         },
         component: IdeaPageComponent,
       },

@@ -65,6 +65,7 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
   @Output() public readonly init = new EventEmitter<void>();
   @Output() public readonly deleted = new EventEmitter<void>();
   @Input({ required: true }) public idea!: IdeaEntity;
+  @Input() public animate!: boolean;
 
   @Input() public set compact(value: boolean | '') {
     this._compact = value !== false;
@@ -130,7 +131,9 @@ export class IdeaCardComponent implements OnInit, OnDestroy {
   public navigateToIdea(): void {
     if (this.compact) {
       this.fetchService.cache(this.idea);
-      this.router.navigate(['ideas', this.idea.id]);
+      this.router.navigate(['ideas', this.idea.id], {
+        state: { animate: true },
+      });
     }
   }
 
