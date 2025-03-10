@@ -14,7 +14,7 @@ import { LoadingIndicator } from '@app/shared/helpers/loading-indicator.helper';
 import { PaginatedRequestManager } from '@app/shared/helpers/paginated-request-manager.helper';
 import { CommentFetchService } from '@app/shared/services/comment-fetch.service';
 import { LoadingIndicatorService } from '@app/shared/services/loading-indicator.service';
-import { catchError, delayWhen } from 'rxjs';
+import { catchError, delayWhen, forkJoin, of, switchMap } from 'rxjs';
 import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { AsyncPipe } from '@angular/common';
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
@@ -91,16 +91,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
         ideaId: this.ideaId,
         includeUser: true,
       })
-      .pipe(delayWhen(() => this.auth.authChecked$))
+      .pipe(
+        delayWhen(() => this.auth.authChecked$),
+        switchMap((manager) => forkJoin([of(manager), manager.getPage(1)])),
+      )
       .subscribe({
-        next: (requestManager) => {
+        next: ([manager, data]) => {
           this.loadingIndicator.stop();
-          this.requestManager = requestManager;
-
-          setTimeout(
-            () => (this.comments = Array.from(requestManager.data)),
-            0,
-          );
+          this.requestManager = manager;
+          this.comments = data;
         },
         error: () => {
           this.loadingIndicator.stop();

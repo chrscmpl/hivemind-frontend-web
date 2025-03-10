@@ -159,9 +159,9 @@ export class PaginatedRequestManager<Entity, Meta = any> {
       pageData.length === this._limit &&
       !pageData.includes(undefined as any)
     ) {
+      this._page = page;
       return of(pageData);
     }
-
     this._page = page - 1;
 
     return this.next();
