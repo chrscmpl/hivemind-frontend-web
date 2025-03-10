@@ -13,11 +13,12 @@ import { environment } from 'src/environments/environment';
 import { CommentDto } from '../dto/comment.dto';
 import { CommentPaginationMetaDto } from '../dto/comment-pagination-meta.dto';
 import { CommentPaginationMetaEntity } from '../entities/comment-pagination-meta.entity';
+import { defaults } from 'lodash-es';
 
 export type IdeaPaginationParams = Omit<
   PaginatedRequestParams<CommentEntity>,
   'deserializer' | 'http' | 'url' | 'query'
-> & { postId: number };
+> & { ideaId: number; includeUser?: boolean };
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export type IdeaPaginationParams = Omit<
 export class CommentFetchService {
   public constructor(private readonly http: HttpClient) {}
 
-  @Cacheable(cacheConfigs[CacheKeysEnum.IDEA_PAGINATION])
+  @Cacheable(cacheConfigs[CacheKeysEnum.COMMENT_PAGINATION])
   public paginate(
     params: IdeaPaginationParams,
   ): Observable<
@@ -34,12 +35,23 @@ export class CommentFetchService {
     const manager = new PaginatedRequestManager<
       CommentEntity,
       CommentPaginationMetaEntity
-    >({
-      http: this.http,
-      url: `${environment.api}/posts/${params.postId}/comments`,
-      deserializer: this.deserialize.bind(this),
-      ...params,
-    });
+    >(
+      defaults(
+        params.includeUser
+          ? {
+              query: {
+                include: 'user',
+              },
+            }
+          : {},
+        {
+          http: this.http,
+          url: `${environment.api}/posts/${params.ideaId}/comments`,
+          deserializer: this.deserialize.bind(this),
+          ...params,
+        },
+      ),
+    );
 
     return manager.next().pipe(map(() => manager));
   }

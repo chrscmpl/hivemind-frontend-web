@@ -101,6 +101,11 @@ body {
     }
   }
 
+  :focus-visible {
+    outline: 0.125rem solid var(--tui-border-focus);
+    outline-offset: -0.125rem;
+  }
+
   @for $i from 1 through 6 {
     h#{$i} {
       font: var(--tui-font-heading-#{$i});

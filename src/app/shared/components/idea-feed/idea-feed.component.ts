@@ -92,7 +92,6 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
   public onScrolled(index: number): void {
     if (this.shouldLoadMore(index)) {
       this.next();
-      console.log('requesting page', this.requestManager?.page ?? 0 + 1);
     }
   }
 

@@ -7,10 +7,16 @@ import { IdeaCardComponent } from '@app/shared/components/idea-card/idea-card.co
 import { IdeaEntity } from '@app/shared/entities/idea.entity';
 import { take } from 'rxjs';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
+import { CommentListComponent } from '@app/shared/components/comment-list/comment-list.component';
 
 @Component({
   selector: 'app-idea-page',
-  imports: [IdeaCardComponent, NgClass, BackButtonComponent],
+  imports: [
+    IdeaCardComponent,
+    NgClass,
+    BackButtonComponent,
+    CommentListComponent,
+  ],
   templateUrl: './idea-page.component.html',
   styleUrl: './idea-page.component.scss',
 })

@@ -76,8 +76,16 @@ export class PaginatedRequestManager<Entity, Meta = any> {
   }
 
   private emitData(data: Entity[]): void {
+    // used a for loop so indexes are preserved and
+    // empty spaces are inserted in case of a page jump
+    for (
+      let i = (this._page - 1) * this._limit, j = 0;
+      j < data.length;
+      i++, j++
+    ) {
+      this._data[i] = data[j];
+    }
     this._data$.next(data);
-    this._data = this._data.concat(data);
   }
 
   private emitError(err: any): void {
@@ -85,8 +93,8 @@ export class PaginatedRequestManager<Entity, Meta = any> {
     this._completed = true;
   }
 
-  public next(): Observable<Entity[] | null> {
-    if (this.completed) return of(null);
+  public next(): Observable<Entity[]> {
+    if (this.completed) return of([]);
     this._page++;
     return this.newRequest().pipe(
       take(1),
@@ -139,8 +147,23 @@ export class PaginatedRequestManager<Entity, Meta = any> {
     this._meta = value;
   }
 
-  public getPage(page: number): readonly Entity[] {
+  public getPage(page: number): Observable<Entity[]> {
     if (page < 1) throw new Error('Page number must be greater than 0');
-    return this._data.slice((page - 1) * this._limit, page * this._limit);
+
+    const pageData = this._data.slice(
+      (page - 1) * this._limit,
+      page * this._limit,
+    );
+
+    if (
+      pageData.length === this._limit &&
+      !pageData.includes(undefined as any)
+    ) {
+      return of(pageData);
+    }
+
+    this._page = page - 1;
+
+    return this.next();
   }
 }

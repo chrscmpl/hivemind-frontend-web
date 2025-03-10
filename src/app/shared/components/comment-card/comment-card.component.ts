@@ -7,7 +7,6 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { CommentEntity } from '@app/shared/entities/comment.entity';
@@ -29,7 +28,6 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   selector: 'app-comment-card',
   imports: [
     NgClass,
-    RouterLink,
     TuiCardLarge,
     TuiButton,
     TuiIcon,

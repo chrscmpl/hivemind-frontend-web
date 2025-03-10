@@ -3,7 +3,7 @@
   class="!bg-background-base hover:!bg-background-base-alt transition-colors duration-tui !max-w-[100vw]"
   [ngClass]="{
     '!rounded-none ![--t-space:0.4rem] ![--t-padding:1.2rem]': isMobile,
-    '!flex-row cursor-pointer select-none': collapsed,
+    '!flex-row cursor-pointer select-none ![--t-space:0.3rem]': collapsed,
   }"
   (click)="collapsed = false"
   (keydown.enter)="collapsed = false"
@@ -11,7 +11,7 @@
 >
   <section
     tuiHeader
-    class="grid items-center h-8 content-center gap-x-2 text-text-tertiary grid-cols-[auto_1fr_auto] cursor-pointer"
+    class="grid items-center h-8 content-center gap-x-2 text-text-tertiary grid-cols-[auto_auto_1fr_auto] cursor-pointer"
     (click)="toggleCollapsed($event)"
     (keydown.enter)="toggleCollapsed($event)"
     tabindex="0"
@@ -22,10 +22,13 @@
         <span> &commat;{{ comment.user!.handle }}</span>
       </span>
     }
-    @if (!collapsed) {
-      <span class="flex items-center">
-        {{ comment.age ? (comment.age | humanizeDuration) : "" }}
-        @if (comment.updated) {
+    <span>&bull;</span>
+    <span class="flex items-center">
+      {{ comment.age ? (comment.age | humanizeDuration) : "" }}
+      @if (comment.updated) {
+        @if (collapsed) {
+          <tui-icon icon="@tui.pencil" class="h-4" />
+        } @else {
           <tui-icon
             icon="@tui.pencil"
             tuiHint="Edited {{ comment.updatedAt | date: 'MMM d, y, h:mm a' }}"
@@ -33,7 +36,10 @@
             class="h-4"
           />
         }
-      </span>
+      }
+    </span>
+
+    @if (!collapsed) {
       <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
       <div
         class="justify-self-end col-start-[-1]"
