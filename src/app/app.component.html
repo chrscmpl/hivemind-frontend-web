@@ -4,7 +4,7 @@
   [class.app-virtual-keyboard]="virtualKeyboard.isPotentiallyOpen$ | async"
   [attr.tuiTheme]="
     (themeService.themeStatus$ | async)?.theme ??
-    document.body.getAttribute('data-theme')
+    document.documentElement.getAttribute('data-theme')
   "
 >
   <div

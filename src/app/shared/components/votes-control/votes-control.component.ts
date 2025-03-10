@@ -4,6 +4,7 @@ import {
   effect,
   EventEmitter,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -25,11 +26,20 @@ import { Subscription } from 'rxjs';
 export class VotesControlComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription[] = [];
   @Input() public voteTotal: number | null = null;
-  @Input() public vote: boolean | null = null;
+  @Input() public set vote(value: boolean | null) {
+    this.ignoreValueChange = true;
+    this.upvoteControl.setValue(value === true);
+    this.downvoteControl.setValue(value === false);
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.ignoreValueChange = false;
+      }, 50);
+    });
+  }
   @Output() public readonly voteChange = new EventEmitter<boolean | null>();
 
   private isAuthenticated: boolean = false;
-  private cbRunning: boolean = false;
+  private ignoreValueChange: boolean = false;
   public readonly upvoteControl = new FormControl<boolean | null>(null);
   public readonly downvoteControl = new FormControl<boolean | null>(null);
 
@@ -37,6 +47,7 @@ export class VotesControlComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly dialogs: DialogsService,
+    private readonly zone: NgZone,
     auth: AuthService,
   ) {
     effect(() => {
@@ -45,9 +56,6 @@ export class VotesControlComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.upvoteControl.setValue(this.vote === true);
-    this.downvoteControl.setValue(this.vote === false);
-
     this.subscriptions.push(
       this.upvoteControl.valueChanges.subscribe(
         this.exclusiveCb((value) => this.onUpvoteChangeEvent(value)),
@@ -66,12 +74,12 @@ export class VotesControlComponent implements OnInit, OnDestroy {
     event: (value: boolean | null) => void,
   ): (value: boolean | null) => void {
     return (value: boolean | null) => {
-      if (this.cbRunning) {
+      if (this.ignoreValueChange) {
         return;
       }
-      this.cbRunning = true;
+      this.ignoreValueChange = true;
       event(value);
-      this.cbRunning = false;
+      this.ignoreValueChange = false;
     };
   }
 

@@ -21,4 +21,4 @@ link.href = `./theme-${theme}${
 }.css`;
 link.className = "theme-link";
 document.head.appendChild(link);
-document.body.setAttribute("data-theme", theme);
+document.documentElement.setAttribute("data-theme", theme);

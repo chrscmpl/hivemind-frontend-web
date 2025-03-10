@@ -160,8 +160,6 @@ export class PaginatedRequestManager<Entity, Meta = any> {
       page * this._limit,
     );
 
-    console.log(this._lastPage, page);
-
     if (
       (pageData.length === this._limit &&
         !pageData.includes(undefined as any)) ||

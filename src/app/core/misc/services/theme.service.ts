@@ -209,15 +209,21 @@ export class ThemeService {
       .pipe(take(1))
       .subscribe(() => {
         this.destroyOldStyleSheets(themeLink);
-        this.onThemeLoad();
+        this.onThemeLoad(theme);
       });
 
     this.renderer.setAttribute(themeLink, 'href', href);
   }
 
-  private onThemeLoad(): void {
+  private onThemeLoad(theme?: string): void {
     this.updateThemeColor();
     this._themeLoading$.next(false);
+    if (theme) {
+      this.document.documentElement.setAttribute(
+        'data-theme',
+        theme.startsWith('light') ? 'light' : 'dark',
+      );
+    }
   }
 
   private updateThemeColor(): void {
