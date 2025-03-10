@@ -116,12 +116,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
   public jumpToPage(page: number): void {
     this.loadingIndicator.start();
 
-    this.requestManager!.getPage(page)
+    this.scroller.scroll({
+      anchor: `comment-list-${this.ideaId}`,
+      smooth: true,
+    });
+
+    this.requestManager
+      ?.getPage(page)
       .pipe(catchError(() => []))
       .subscribe((data) => {
         this.comments = data;
         this.loadingIndicator.stop();
-        this.scroller.scroll({ coordinates: { x: 0, y: 0 } });
       });
   }
 }
