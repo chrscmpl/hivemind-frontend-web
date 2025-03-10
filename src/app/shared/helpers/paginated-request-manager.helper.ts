@@ -35,6 +35,7 @@ export class PaginatedRequestManager<Entity, Meta = any> {
   private readonly pageParamName: string;
   private readonly limitParamName: string;
   private _meta: Meta | null = null;
+  private _lastPage: number | null = null;
 
   private _page: number;
   private readonly _limit: number;
@@ -76,6 +77,10 @@ export class PaginatedRequestManager<Entity, Meta = any> {
   }
 
   private emitData(data: Entity[]): void {
+    if (data.length < this._limit) {
+      this._lastPage = this._page;
+    }
+
     // used a for loop so indexes are preserved and
     // empty spaces are inserted in case of a page jump
     for (
@@ -155,9 +160,12 @@ export class PaginatedRequestManager<Entity, Meta = any> {
       page * this._limit,
     );
 
+    console.log(this._lastPage, page);
+
     if (
-      pageData.length === this._limit &&
-      !pageData.includes(undefined as any)
+      (pageData.length === this._limit &&
+        !pageData.includes(undefined as any)) ||
+      (this._lastPage === page && pageData.some((item) => item != undefined))
     ) {
       this._page = page;
       return of(pageData);
