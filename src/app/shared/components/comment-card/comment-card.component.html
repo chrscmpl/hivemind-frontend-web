@@ -1,6 +1,7 @@
 <div
   tuiCardLarge
-  class="!bg-background-base hover:!bg-background-base-alt transition-colors duration-tui !max-w-[100vw]"
+  id="comment-{{ comment.id }}"
+  class="!relative !bg-background-base hover:!bg-background-base-alt transition-colors duration-tui !max-w-[100vw]"
   [ngClass]="{
     '!rounded-none ![--t-space:0.4rem] ![--t-padding:1.2rem]': isMobile,
     '!flex-row cursor-pointer select-none ![--t-space:0.3rem]': collapsed,
@@ -9,6 +10,12 @@
   (keydown.enter)="collapsed = false"
   tabindex="0"
 >
+  <div
+    class="absolute top-6 left-2 z-10 h-[calc(100%-3rem)] border-l-2 border-border-normal border-solid"
+    [ngClass]="{
+      '!top-4 !h-[calc(100%-2rem)]': isMobile,
+    }"
+  ></div>
   <section
     tuiHeader
     class="grid items-center h-8 content-center gap-x-2 text-text-tertiary grid-cols-[auto_auto_1fr_auto] cursor-pointer"

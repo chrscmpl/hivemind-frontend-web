@@ -3,12 +3,18 @@
   [class.gap-2]="!breakpoints.isMobile()"
   [class.pt-2]="!breakpoints.isMobile()"
 >
-  @if (requestManager) {
+  @if (requestManager && comments.length) {
     @for (comment of comments; track comment.id) {
       @if (!comment.deleted) {
         <app-comment-card [comment]="comment" />
       }
     }
+    <tui-pagination
+      [length]="requestManager.meta?.totalPages ?? 1"
+      [index]="requestManager.page - 1"
+      (indexChange)="jumpToPage($event + 1)"
+      size="l"
+    />
   }
   @if (loadingIndicator.isLoading$ | async) {
     <tui-loader
@@ -20,7 +26,7 @@
   }
   @if (requestManager?.meta?.itemCount === 0) {
     <div class="self-center mt-8 flex flex-col items-center gap-2">
-      <tui-icon icon="@tui.circle-alert" class="text-5xl"></tui-icon>
+      <tui-icon icon="@tui.brain" class="text-5xl"></tui-icon>
       <span class="font-tui-text-l">Be the first to comment</span>
     </div>
   }

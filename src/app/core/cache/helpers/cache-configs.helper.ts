@@ -4,6 +4,8 @@ import { CacheKeysEnum } from '../enum/cache-keys.enum';
 import { cacheBusters } from './cache-busters.helper';
 import { GlobalCacheConfig, ICachePair } from 'ts-cacheable';
 import { merge, Subject } from 'rxjs';
+import { IdeaPaginationParams } from '@app/shared/services/idea-fetch.service';
+import { CommentPaginationParams } from '@app/shared/services/comment-fetch.service';
 
 type cacheModifierFn = (cachePairs: ICachePair<any>[]) => ICachePair<any>[];
 
@@ -34,7 +36,8 @@ export const cacheConfigs: Record<
     maxAge: 1000 * 60 * 10,
     maxCacheCount: 8,
     cacheBusterObserver: ideasCacheBuster,
-    cacheHasher: (params) => params.map((obj) => JSON.stringify(obj.query)),
+    cacheHasher: (params) =>
+      params.map((obj: IdeaPaginationParams) => JSON.stringify(obj.query)),
     cacheModifier: new Subject<cacheModifierFn>(),
   },
   [CacheKeysEnum.COMMENT_PAGINATION]: {
@@ -42,7 +45,8 @@ export const cacheConfigs: Record<
     maxAge: 1000 * 60 * 5,
     maxCacheCount: 16,
     cacheBusterObserver: cacheBusters.AuthChanged$,
-    cacheHasher: (params) => params.map((obj) => JSON.stringify(obj.query)),
+    cacheHasher: (params) =>
+      params.map((obj: CommentPaginationParams) => new String(obj.ideaId)),
     cacheModifier: new Subject<cacheModifierFn>(),
   },
 };

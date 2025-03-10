@@ -15,7 +15,7 @@ import { CommentPaginationMetaDto } from '../dto/comment-pagination-meta.dto';
 import { CommentPaginationMetaEntity } from '../entities/comment-pagination-meta.entity';
 import { defaults } from 'lodash-es';
 
-export type IdeaPaginationParams = Omit<
+export type CommentPaginationParams = Omit<
   PaginatedRequestParams<CommentEntity>,
   'deserializer' | 'http' | 'url' | 'query'
 > & { ideaId: number; includeUser?: boolean };
@@ -28,7 +28,7 @@ export class CommentFetchService {
 
   @Cacheable(cacheConfigs[CacheKeysEnum.COMMENT_PAGINATION])
   public paginate(
-    params: IdeaPaginationParams,
+    params: CommentPaginationParams,
   ): Observable<
     PaginatedRequestManager<CommentEntity, CommentPaginationMetaEntity>
   > {

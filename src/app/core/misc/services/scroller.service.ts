@@ -1,5 +1,5 @@
-import { ViewportScroller } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { GET_APP_SCROLL_CONTAINER } from '../tokens/get-app-scroll-container.token';
 
 type ScrollOptions = {
   smooth?: boolean;
@@ -18,7 +18,10 @@ type ScrollOptions = {
   providedIn: 'root',
 })
 export class ScrollerService {
-  public constructor(private readonly viewportScroller: ViewportScroller) {}
+  public constructor(
+    @Inject(GET_APP_SCROLL_CONTAINER)
+    private readonly getAppScrollContainer: () => Element | null,
+  ) {}
 
   public scroll(options: ScrollOptions): void {
     if (!options.coordinates && !options.anchor) {
@@ -44,12 +47,21 @@ export class ScrollerService {
 
   private executeScroll(options: ScrollOptions): void {
     if (options.coordinates) {
-      this.viewportScroller.scrollToPosition([
-        options.coordinates.x,
-        options.coordinates.y,
-      ]);
+      const appScrollContainer = this.getAppScrollContainer();
+      if (appScrollContainer) {
+        appScrollContainer.scrollTo({
+          top: options.coordinates.y,
+          left: options.coordinates.x,
+          behavior: options.smooth ? 'smooth' : 'instant',
+        });
+      }
     } else if (options.anchor) {
-      this.viewportScroller.scrollToAnchor(options.anchor);
+      const anchor = document.getElementById(options.anchor);
+      if (anchor) {
+        anchor.scrollIntoView({
+          behavior: options.smooth ? 'smooth' : 'instant',
+        });
+      }
     }
   }
 

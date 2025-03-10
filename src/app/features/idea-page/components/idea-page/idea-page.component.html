@@ -5,7 +5,7 @@
     class="flex flex-col items-stretch w-full"
     [ngClass]="{
       'max-w-3xl gap-4 py-4': !isMobile,
-      'pb-16': isMobile,
+      'pb-4': isMobile,
     }"
   >
     @if (!isMobile) {
@@ -20,4 +20,3 @@
     <app-comment-list [ideaId]="idea.id" />
   </section>
 </section>
-]

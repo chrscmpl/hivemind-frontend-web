@@ -12,7 +12,11 @@
   >
     <app-header class="col-span-2" />
     <app-sidebar />
-    <tui-scrollbar [hidden]="isMobile" class="app-scrollbar w-full min-h-0">
+    <tui-scrollbar
+      id="app-scroll-container"
+      [hidden]="isMobile"
+      class="w-full min-h-0"
+    >
       <main
         class="flex-1 grid items-stretch justify-stretch content-stretch justify-items-stretch"
         [class.!pb-12]="isMobile"

@@ -122,11 +122,11 @@ body {
   outline-offset: -0.125rem !important;
 }
 
-.app-scrollbar > .t-bars > .t-bar {
+#app-scroll-container > .t-bars > .t-bar {
   top: 10px !important;
 }
 
-.app-scrollbar > .t-content {
+#app-scroll-container > .t-content {
   min-height: 100% !important;
   display: flex !important;
   flex-direction: column !important;

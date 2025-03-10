@@ -11,10 +11,12 @@ import { catchError, delayWhen } from 'rxjs';
 import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { AsyncPipe } from '@angular/common';
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
+import { TuiPagination } from '@taiga-ui/kit';
+import { ScrollerService } from '@app/core/misc/services/scroller.service';
 
 @Component({
   selector: 'app-comment-list',
-  imports: [CommentCardComponent, AsyncPipe, TuiLoader, TuiIcon],
+  imports: [CommentCardComponent, AsyncPipe, TuiLoader, TuiIcon, TuiPagination],
   templateUrl: './comment-list.component.html',
   styleUrl: './comment-list.component.scss',
 })
@@ -34,8 +36,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   public constructor(
     public readonly breakpoints: BreakpointService,
-    private readonly commentsFechService: CommentFetchService,
+    private readonly commentsFetchService: CommentFetchService,
     private readonly auth: AuthService,
+    private readonly scroller: ScrollerService,
     loadingIndicatorService: LoadingIndicatorService,
   ) {
     this.loadingIndicator = loadingIndicatorService.getLoadingIndicator(
@@ -68,7 +71,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private reset(): void {
     this.requestManager = undefined;
     this.loadingIndicator.start();
-    this.commentsFechService
+    this.commentsFetchService
       .paginate({
         page: 1,
         limit: 10,
@@ -88,7 +91,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
   }
 
-  private jumpToPage(page: number): void {
+  public jumpToPage(page: number): void {
     this.loadingIndicator.start();
 
     this.requestManager!.getPage(page)
@@ -96,6 +99,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.comments = data;
         this.loadingIndicator.stop();
+        this.scroller.scroll({ coordinates: { x: 0, y: 0 } });
       });
   }
 }
