@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, effect, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  effect,
+  Input,
+  Inject,
+} from '@angular/core';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { CommentPaginationMetaEntity } from '@app/shared/entities/comment-pagination-meta.entity';
@@ -13,6 +20,7 @@ import { AsyncPipe } from '@angular/common';
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
 import { TuiPagination } from '@taiga-ui/kit';
 import { ScrollerService } from '@app/core/misc/services/scroller.service';
+import { MATH } from '@app/shared/tokens/math.token';
 
 @Component({
   selector: 'app-comment-list',
@@ -23,7 +31,8 @@ import { ScrollerService } from '@app/core/misc/services/scroller.service';
 export class CommentListComponent implements OnInit, OnDestroy {
   private static readonly LOADING_INDICATOR_START_DELAY = 200;
 
-  @Input({ required: true }) ideaId!: number;
+  @Input({ required: true }) public ideaId!: number;
+  @Input() public commentCount: number | null = null;
 
   public requestManager?: PaginatedRequestManager<
     CommentEntity,
@@ -35,6 +44,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   public comments: CommentEntity[] = [];
 
   public constructor(
+    @Inject(MATH) private readonly math: Math,
     public readonly breakpoints: BreakpointService,
     private readonly commentsFetchService: CommentFetchService,
     private readonly auth: AuthService,
@@ -70,6 +80,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private reset(): void {
     this.requestManager = undefined;
+    if (this.commentCount === 0) {
+      return;
+    }
     this.loadingIndicator.start();
     this.commentsFetchService
       .paginate({
@@ -89,6 +102,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.loadingIndicator.stop();
         },
       });
+  }
+
+  public get totalPages(): number {
+    return (
+      this.requestManager?.meta?.totalPages ??
+      (this.requestManager && this.commentCount
+        ? this.math.ceil(this.commentCount / this.requestManager.limit)
+        : 1)
+    );
   }
 
   public jumpToPage(page: number): void {

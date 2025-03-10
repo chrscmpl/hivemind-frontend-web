@@ -40,9 +40,9 @@
           &commat;{{ idea.user!.handle }}</span
         >
       </span>
-      <span [class.opacity-0]="!compact">&bull;</span>
+      <span class="select-none" [class.opacity-0]="!compact">&bull;</span>
     }
-    <span class="flex items-center">
+    <span class="flex items-center select-none">
       {{ idea.age ? (idea.age | humanizeDuration) : "" }}
       @if (idea.updated) {
         <tui-icon

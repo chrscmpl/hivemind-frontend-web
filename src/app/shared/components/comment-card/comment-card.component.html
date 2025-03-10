@@ -14,6 +14,7 @@
     class="absolute top-6 left-2 z-10 h-[calc(100%-3rem)] border-l-2 border-border-normal border-solid"
     [ngClass]="{
       '!top-4 !h-[calc(100%-2rem)]': isMobile,
+      'border-text-action opacity-60': isAuthor,
     }"
   ></div>
   <section
@@ -29,8 +30,8 @@
         <span> &commat;{{ comment.user!.handle }}</span>
       </span>
     }
-    <span>&bull;</span>
-    <span class="flex items-center">
+    <span class="select-none">&bull;</span>
+    <span class="flex items-center select-none">
       {{ comment.age ? (comment.age | humanizeDuration) : "" }}
       @if (comment.updated) {
         @if (collapsed) {

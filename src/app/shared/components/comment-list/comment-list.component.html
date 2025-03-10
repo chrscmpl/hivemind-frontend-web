@@ -10,7 +10,7 @@
       }
     }
     <tui-pagination
-      [length]="requestManager.meta?.totalPages ?? 1"
+      [length]="totalPages"
       [index]="requestManager.page - 1"
       (indexChange)="jumpToPage($event + 1)"
       size="l"
@@ -24,7 +24,7 @@
       class="text-background-neutral-1"
     />
   }
-  @if (requestManager?.meta?.itemCount === 0) {
+  @if (requestManager?.meta?.itemCount === 0 || commentCount === 0) {
     <div class="self-center mt-8 flex flex-col items-center gap-2">
       <tui-icon icon="@tui.brain" class="text-5xl"></tui-icon>
       <span class="font-tui-text-l">Be the first to comment</span>
