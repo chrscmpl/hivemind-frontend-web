@@ -29,7 +29,7 @@ import { MATH } from '@app/shared/tokens/math.token';
   styleUrl: './comment-list.component.scss',
 })
 export class CommentListComponent implements OnInit, OnDestroy {
-  private static readonly LOADING_INDICATOR_START_DELAY = 200;
+  private static readonly LOADING_INDICATOR_START_DELAY = 400;
 
   @Input({ required: true }) public ideaId!: number;
   @Input() public commentCount: number | null = null;

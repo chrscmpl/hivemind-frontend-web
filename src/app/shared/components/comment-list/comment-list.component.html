@@ -4,10 +4,21 @@
   [class.gap-2]="!breakpoints.isMobile()"
   [class.pt-2]="!breakpoints.isMobile()"
 >
+  @if (loadingIndicator.isLoading$ | async) {
+    <tui-loader
+      [showLoader]="true"
+      size="xxl"
+      [inheritColor]="true"
+      class="text-background-neutral-1"
+    />
+  }
   @if (requestManager && comments.length) {
     @for (comment of comments; track comment.id) {
       @if (!comment.deleted) {
-        <app-comment-card [comment]="comment" />
+        <app-comment-card
+          [class.opacity-0]="loadingIndicator.isLoading$ | async"
+          [comment]="comment"
+        />
       }
     }
     <tui-pagination
@@ -15,14 +26,6 @@
       [index]="requestManager.page - 1"
       (indexChange)="jumpToPage($event + 1)"
       size="l"
-    />
-  }
-  @if (loadingIndicator.isLoading$ | async) {
-    <tui-loader
-      [showLoader]="true"
-      size="xxl"
-      [inheritColor]="true"
-      class="text-background-neutral-1"
     />
   }
   @if (requestManager?.meta?.itemCount === 0 || commentCount === 0) {

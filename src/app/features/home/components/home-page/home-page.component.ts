@@ -80,6 +80,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
       this.ageControl.valueChanges.subscribe((age) => {
         this.setQuery({ age: age });
+        this.homePageService.lastAge = age;
       }),
 
       this.route.queryParams.subscribe((params) => {
