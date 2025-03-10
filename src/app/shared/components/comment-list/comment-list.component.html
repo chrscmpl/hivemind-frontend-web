@@ -1,7 +1,7 @@
 <div
   id="comment-list-{{ ideaId }}"
   class="flex flex-col"
-  [class.gap-2]="!breakpoints.isMobile()"
+  [class.gap-1]="!breakpoints.isMobile()"
   [class.pt-2]="!breakpoints.isMobile()"
 >
   @if (loadingIndicator.isLoading$ | async) {
@@ -22,6 +22,7 @@
       }
     }
     <tui-pagination
+      class="mt-2"
       [length]="totalPages"
       [index]="requestManager.page - 1"
       (indexChange)="jumpToPage($event + 1)"

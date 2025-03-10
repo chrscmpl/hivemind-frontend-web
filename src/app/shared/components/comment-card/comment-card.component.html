@@ -1,9 +1,9 @@
 <div
   tuiCardLarge
   id="comment-{{ comment.id }}"
-  class="!relative !bg-background-base hover:!bg-background-base-alt transition-colors duration-tui !max-w-[100vw]"
+  class="!relative !bg-background-base hover:!bg-background-base-alt transition-colors duration-tui !max-w-[100vw] ![--t-space:0.4rem] ![--t-padding:0.5rem] !px-6"
   [ngClass]="{
-    '!rounded-none ![--t-space:0.4rem] ![--t-padding:1.2rem]': isMobile,
+    '!rounded-none ![--t-padding:0.2rem]': isMobile,
     '!flex-row cursor-pointer select-none ![--t-space:0.3rem]': collapsed,
   }"
   (click)="collapsed = false"
@@ -11,9 +11,8 @@
   tabindex="0"
 >
   <div
-    class="absolute top-6 left-2 z-10 h-[calc(100%-3rem)] border-l-2 border-border-normal border-solid"
+    class="absolute top-3 left-3 z-10 h-[calc(100%-1.5rem)] border-l-2 border-border-normal border-solid"
     [ngClass]="{
-      '!top-4 !h-[calc(100%-2rem)]': isMobile,
       'border-text-action opacity-60': isAuthor,
     }"
   ></div>

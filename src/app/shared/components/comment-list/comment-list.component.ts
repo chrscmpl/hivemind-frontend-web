@@ -96,7 +96,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
         next: (requestManager) => {
           this.loadingIndicator.stop();
           this.requestManager = requestManager;
-          this.comments = Array.from(requestManager.data);
+
+          setTimeout(
+            () => (this.comments = Array.from(requestManager.data)),
+            0,
+          );
         },
         error: () => {
           this.loadingIndicator.stop();
