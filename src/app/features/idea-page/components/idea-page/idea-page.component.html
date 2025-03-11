@@ -17,7 +17,10 @@
       [animateEntry]="animateEntry"
     />
     <div class="border-b border-border-normal"></div>
-    <app-comment-editor [ideaId]="idea.id" />
+    <app-comment-editor
+      [ideaId]="idea.id"
+      (posted)="idea.commentCount = (idea.commentCount ?? 0) + 1"
+    />
     <app-comment-list
       [ideaId]="idea.id"
       [commentCount]="idea.commentCount ?? null"

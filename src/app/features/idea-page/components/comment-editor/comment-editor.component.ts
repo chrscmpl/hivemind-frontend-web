@@ -1,5 +1,12 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -52,6 +59,7 @@ interface CommentForm {
 })
 export class CommentEditorComponent implements OnInit {
   @Input({ required: true }) public ideaId!: number;
+  @Output() public readonly posted = new EventEmitter<void>();
   public form!: FormGroup<CommentForm>;
 
   private _isOpen = false;
@@ -135,6 +143,7 @@ export class CommentEditorComponent implements OnInit {
   public onSuccess(message: string) {
     this.form.reset();
     this.isOpen = false;
+    this.posted.emit();
 
     this.alerts
       .open(message, {

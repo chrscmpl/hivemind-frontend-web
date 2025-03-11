@@ -7,7 +7,7 @@ export class IdeaEntity {
   private readonly _content?: string;
   private _upvoteCount?: number;
   private _downvoteCount?: number;
-  private readonly _commentCount?: number;
+  private _commentCount?: number;
   private readonly _createdAt?: Date;
   private readonly _updatedAt?: Date;
   private _user?: UserEntity;
@@ -84,6 +84,10 @@ export class IdeaEntity {
 
   public get commentCount(): number | undefined {
     return this._commentCount;
+  }
+
+  public set commentCount(value: number | undefined) {
+    this._commentCount = value;
   }
 
   public get createdAt(): Date | undefined {
