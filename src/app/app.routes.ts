@@ -14,54 +14,60 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home',
+    redirectTo: 'ideas',
   },
+
   {
-    path: 'home',
-    title: 'HiveMind',
-    canActivate: [
-      uiStyleGuard(UIStylesEnum.DEFAULT),
-      confirmReloadGuard(false),
-    ],
-    component: HomePageComponent,
-  },
-  {
-    path: 'ideas/new',
-    title: 'Post Idea',
-    canActivate: [
-      authGuard,
-      uiStyleGuard(UIStylesEnum.BACK),
-      confirmReloadGuard(true),
-    ],
-    component: CreateIdeaPageComponent,
-  },
-  {
-    path: 'ideas/:id',
+    path: 'ideas',
     children: [
       {
         path: '',
-        title: 'Idea',
+        title: 'HiveMind',
         canActivate: [
-          uiStyleGuard(UIStylesEnum.BACK),
+          uiStyleGuard(UIStylesEnum.DEFAULT),
           confirmReloadGuard(false),
         ],
-        resolve: {
-          idea: ideaResolver(),
-          animateEntry: doAnimateEntryResolver,
-        },
-        component: IdeaPageComponent,
+        component: HomePageComponent,
       },
       {
-        path: 'edit',
-        title: 'Edit Idea',
-        component: CreateIdeaPageComponent,
+        path: 'submit',
+        title: 'Post Idea',
         canActivate: [
+          authGuard,
           uiStyleGuard(UIStylesEnum.BACK),
           confirmReloadGuard(true),
         ],
-        resolve: {
-          updateIdea: ideaResolver({ requireIsAuthor: true }),
-        },
+        component: CreateIdeaPageComponent,
+      },
+      {
+        path: ':id',
+        children: [
+          {
+            path: '',
+            title: 'Idea',
+            canActivate: [
+              uiStyleGuard(UIStylesEnum.BACK),
+              confirmReloadGuard(false),
+            ],
+            resolve: {
+              idea: ideaResolver(),
+              animateEntry: doAnimateEntryResolver,
+            },
+            component: IdeaPageComponent,
+          },
+          {
+            path: 'edit',
+            title: 'Edit Idea',
+            component: CreateIdeaPageComponent,
+            canActivate: [
+              uiStyleGuard(UIStylesEnum.BACK),
+              confirmReloadGuard(true),
+            ],
+            resolve: {
+              updateIdea: ideaResolver({ requireIsAuthor: true }),
+            },
+          },
+        ],
       },
     ],
   },

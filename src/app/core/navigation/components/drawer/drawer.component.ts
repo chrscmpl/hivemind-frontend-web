@@ -33,12 +33,12 @@ export class DrawerComponent {
         {
           title: 'Home',
           icon: '@tui.home',
-          routerLink: '/home',
+          routerLink: '/ideas',
         },
         {
           title: 'Post Idea',
           icon: '@tui.plus',
-          routerLink: '/ideas/new',
+          routerLink: '/ideas/submit',
         },
       ],
     },

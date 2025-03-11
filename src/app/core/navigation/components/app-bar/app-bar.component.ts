@@ -19,12 +19,12 @@ export class AppBarComponent implements OnInit, OnDestroy {
   public readonly tabs = [
     {
       label: 'Home',
-      routerLink: '/home',
+      routerLink: '/ideas',
       icon: '@tui.home',
     },
     {
       label: 'Create',
-      routerLink: '/ideas/new',
+      routerLink: '/ideas/submit',
       icon: '@tui.circle-plus',
     },
     {
