@@ -11,6 +11,7 @@ import { CommentListComponent } from '@app/shared/components/comment-list/commen
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { IdeaFetchService } from '@app/shared/services/idea-fetch.service';
 import { CommentEditorComponent } from '../comment-editor/comment-editor.component';
+import { ScrollerService } from '@app/core/misc/services/scroller.service';
 
 @Component({
   selector: 'app-idea-page',
@@ -27,6 +28,8 @@ import { CommentEditorComponent } from '../comment-editor/comment-editor.compone
 export class IdeaPageComponent implements OnInit {
   public animateEntry: boolean = false;
 
+  public commentEditorOpen: boolean = false;
+
   private _idea!: IdeaEntity;
 
   public get idea(): IdeaEntity {
@@ -37,6 +40,7 @@ export class IdeaPageComponent implements OnInit {
     private readonly route: ActivatedRoute,
     public readonly breakpoints: BreakpointService,
     public readonly navigationUtils: NavigationUtilsService,
+    private readonly scroller: ScrollerService,
     auth: AuthService,
     ideas: IdeaFetchService,
   ) {
@@ -61,7 +65,22 @@ export class IdeaPageComponent implements OnInit {
   public ngOnInit(): void {
     this.route.data.pipe(take(1)).subscribe((data) => {
       this._idea = data['idea'];
-      this.animateEntry = data['animateEntry'];
+      this.animateEntry = data['animateEntry'] ?? false;
+      if (data['openCommentEditor']) {
+        this.openCommentEditor();
+      }
     });
+  }
+
+  public openCommentEditor(): void {
+    this.commentEditorOpen = true;
+    setTimeout(
+      () =>
+        this.scroller.scroll({
+          anchor: 'comment-editor-editor',
+          smooth: true,
+        }),
+      200,
+    );
   }
 }

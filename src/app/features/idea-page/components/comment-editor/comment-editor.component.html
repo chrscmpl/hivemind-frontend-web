@@ -14,11 +14,12 @@
   } @else {
     <div class="relative">
       <tui-editor
+        id="comment-editor-editor"
         [tools]="tools"
         [maxlength]="constraints.content.maxLength"
         formControlName="content"
         appFocusOnEntry=".ProseMirror"
-        [appFocusOnEntryDelay]="150"
+        [appFocusOnEntryDelay]="200"
         class="!pb-6"
         [ngClass]="{
           '!min-h-52 !max-w-[calc(100dvw-2rem)]': isMobile,

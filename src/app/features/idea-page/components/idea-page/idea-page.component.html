@@ -13,13 +13,15 @@
     }
     <app-idea-card
       [idea]="idea"
-      (deleted)="navigationUtils.back()"
       [animateEntry]="animateEntry"
+      (deleted)="navigationUtils.back()"
+      (commentBtnClick)="openCommentEditor()"
     />
     <div class="border-b border-border-normal"></div>
     <app-comment-editor
       [ideaId]="idea.id"
       (posted)="idea.commentCount = (idea.commentCount ?? 0) + 1"
+      [isOpen]="commentEditorOpen"
     />
     <app-comment-list
       [ideaId]="idea.id"

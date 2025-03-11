@@ -60,6 +60,7 @@ export class IdeaCardComponent implements OnInit {
   private _isMobile = false;
   @ViewChild('menu') menu!: TemplateRef<unknown>;
   @Output() public readonly init = new EventEmitter<void>();
+  @Output() public readonly commentBtnClick = new EventEmitter<void>();
   @Input({ required: true }) public idea!: IdeaEntity;
   @Input() public animateEntry!: boolean;
 
@@ -120,11 +121,19 @@ export class IdeaCardComponent implements OnInit {
     });
   }
 
-  public navigateToIdea(): void {
+  public onCommentButtonClick(event: Event): void {
+    event.stopPropagation();
+    this.commentBtnClick.emit();
+    if (this.compact) {
+      this.navigateToIdea(true);
+    }
+  }
+
+  public navigateToIdea(openCommentEditor: boolean = false): void {
     if (this.compact) {
       this.fetchService.cache(this.idea);
       this.router.navigate(['ideas', this.idea.id], {
-        state: { animateEntry: true },
+        state: { animateEntry: true, openCommentEditor },
       });
     }
   }

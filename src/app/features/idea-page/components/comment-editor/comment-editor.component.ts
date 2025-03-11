@@ -62,14 +62,8 @@ export class CommentEditorComponent implements OnInit {
   @Output() public readonly posted = new EventEmitter<void>();
   public form!: FormGroup<CommentForm>;
 
-  private _isOpen = false;
-  public get isOpen(): boolean {
-    return this._isOpen;
-  }
-
-  private set isOpen(value: boolean) {
-    this._isOpen = value;
-  }
+  @Input() public isOpen: boolean = false;
+  @Output() public isOpenChange = new EventEmitter<boolean>();
 
   public constructor(
     @Inject(COMMENT_EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],
@@ -104,16 +98,16 @@ export class CommentEditorComponent implements OnInit {
     if (!this.auth.isAuthenticated()) {
       this.dialogs.open(DialogEnum.LOGIN).subscribe((logged) => {
         if (logged) {
-          this.isOpen = true;
+          this.setIsOpen(true);
         }
       });
       return;
     }
-    this.isOpen = true;
+    this.setIsOpen(true);
   }
 
   public close(): void {
-    this.isOpen = false;
+    this.setIsOpen(false);
   }
 
   public submit(): void {
@@ -142,7 +136,7 @@ export class CommentEditorComponent implements OnInit {
 
   public onSuccess(message: string) {
     this.form.reset();
-    this.isOpen = false;
+    this.setIsOpen(false);
     this.posted.emit();
 
     this.alerts
@@ -156,5 +150,10 @@ export class CommentEditorComponent implements OnInit {
 
   private onError(err: unknown) {
     this.apiErrorsService.displayErrors(err);
+  }
+
+  private setIsOpen(isOpen: boolean) {
+    this.isOpen = isOpen;
+    this.isOpenChange.emit(isOpen);
   }
 }

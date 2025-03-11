@@ -9,6 +9,7 @@ import { uiStyleGuard } from './core/navigation/guards/ui-style.guard';
 import { UIStylesEnum } from './core/navigation/enums/ui-styles.enum';
 import { confirmReloadGuard } from './core/misc/guards/confirm-reload.guard';
 import { doAnimateEntryResolver } from './features/idea-page/resolvers/do-animate-entry.resolver';
+import { doOpenCommentEditorResolver } from './features/idea-page/resolvers/do-open-comment-editor.resolver';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,7 @@ export const routes: Routes = [
             resolve: {
               idea: ideaResolver(),
               animateEntry: doAnimateEntryResolver,
+              openCommentEditor: doOpenCommentEditorResolver,
             },
             component: IdeaPageComponent,
           },

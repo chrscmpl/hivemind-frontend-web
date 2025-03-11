@@ -130,8 +130,8 @@
       tuiButton
       appearance="outline-grayscale"
       class="!bg-background-base !rounded-full !flex !items-center !w-min !h-10 !gap-3 !px-4 active:!bg-background-neutral-1"
-      (click)="$event.stopPropagation()"
-      (keydown.enter)="$event.stopPropagation()"
+      (click)="onCommentButtonClick($event)"
+      (keydown.enter)="onCommentButtonClick($event)"
     >
       <tui-icon
         icon="@tui.message-square-text"
