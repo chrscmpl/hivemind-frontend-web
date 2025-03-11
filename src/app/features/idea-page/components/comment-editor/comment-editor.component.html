@@ -20,20 +20,23 @@
         formControlName="content"
         appFocusOnEntry=".ProseMirror"
         [appFocusOnEntryDelay]="200"
-        class="!pb-6"
+        class="!pb-8"
         [ngClass]="{
           '!min-h-52 !max-w-[calc(100dvw-2rem)]': isMobile,
         }"
       >
       </tui-editor>
-      <a
-        tuiLink
-        class="!absolute !bottom-2 !right-4 !font-tui-text-l"
+      <button
+        tuiButton
+        iconEnd="@tui.send-horizontal"
+        class="!absolute !bottom-2 !right-2"
+        size="s"
         (click)="submit()"
         (keydown.enter)="submit()"
         tabindex="0"
-        >Post</a
       >
+        <span class="-translate-y-[0.1rem]">Post</span>
+      </button>
     </div>
     <tui-error formControlName="content" [error]="[] | tuiFieldError | async" />
   }

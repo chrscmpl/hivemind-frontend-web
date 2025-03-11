@@ -29,8 +29,8 @@ import { COMMENT_CREATION_CONSTRAINTS } from '@app/shared/tokens/comment-creatio
 import { COMMENT_EDITOR_TOOLS } from '@app/shared/tokens/comment-editor-tools.token';
 import {
   TuiAlertService,
+  TuiButton,
   TuiError,
-  TuiLink,
   TuiTextfield,
 } from '@taiga-ui/core';
 import { TuiEditor, TuiEditorToolType } from '@taiga-ui/editor';
@@ -47,11 +47,11 @@ interface CommentForm {
     ReactiveFormsModule,
     TuiEditor,
     TuiTextfield,
-    TuiLink,
     FocusOnEntryDirective,
     NgClass,
     TuiFieldErrorPipe,
     TuiError,
+    TuiButton,
     AsyncPipe,
   ],
   templateUrl: './comment-editor.component.html',
