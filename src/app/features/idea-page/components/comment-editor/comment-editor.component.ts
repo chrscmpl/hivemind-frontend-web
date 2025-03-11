@@ -7,6 +7,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '@app/core/auth/services/auth.service';
+import { DialogEnum } from '@app/core/dialogs/dialog.enum';
+import { DialogsService } from '@app/core/dialogs/dialogs.service';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { FocusOnEntryDirective } from '@app/shared/directives/focus-on-entry.directive';
 import { CommentCreationConstraintsEntity } from '@app/shared/entities/comment-creation-constraints.entity';
@@ -48,9 +51,17 @@ interface CommentForm {
   styleUrl: './comment-editor.component.scss',
 })
 export class CommentEditorComponent implements OnInit {
-  public isOpen = false;
-  public form!: FormGroup<CommentForm>;
   @Input({ required: true }) public ideaId!: number;
+  public form!: FormGroup<CommentForm>;
+
+  private _isOpen = false;
+  public get isOpen(): boolean {
+    return this._isOpen;
+  }
+
+  private set isOpen(value: boolean) {
+    this._isOpen = value;
+  }
 
   public constructor(
     @Inject(COMMENT_EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],
@@ -62,6 +73,8 @@ export class CommentEditorComponent implements OnInit {
     private readonly commentMutation: CommentMutationService,
     private readonly alerts: TuiAlertService,
     private readonly apiErrorsService: ApiErrorsService,
+    private readonly auth: AuthService,
+    private readonly dialogs: DialogsService,
   ) {}
 
   public ngOnInit(): void {
@@ -73,6 +86,26 @@ export class CommentEditorComponent implements OnInit {
         updateOn: 'blur',
       }),
     });
+  }
+
+  public open(event?: Event): void {
+    if (event) {
+      (event.target as HTMLElement)?.blur?.();
+    }
+
+    if (!this.auth.isAuthenticated()) {
+      this.dialogs.open(DialogEnum.LOGIN).subscribe((logged) => {
+        if (logged) {
+          this.isOpen = true;
+        }
+      });
+      return;
+    }
+    this.isOpen = true;
+  }
+
+  public close(): void {
+    this.isOpen = false;
   }
 
   public submit(): void {
