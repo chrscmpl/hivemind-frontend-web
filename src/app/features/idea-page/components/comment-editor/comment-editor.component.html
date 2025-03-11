@@ -25,7 +25,15 @@
         }"
       >
       </tui-editor>
-      <a tuiLink class="!absolute !bottom-2 !right-4 !font-tui-text-l">Post</a>
+      <a
+        tuiLink
+        class="!absolute !bottom-2 !right-4 !font-tui-text-l"
+        (click)="submit()"
+        (keydown.enter)="submit()"
+        tabindex="0"
+        >Post</a
+      >
     </div>
+    <tui-error formControlName="content" [error]="[] | tuiFieldError | async" />
   }
 </form>

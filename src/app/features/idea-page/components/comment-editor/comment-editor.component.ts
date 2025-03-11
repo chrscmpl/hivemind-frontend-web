@@ -1,18 +1,31 @@
-import { NgClass } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { FocusOnEntryDirective } from '@app/shared/directives/focus-on-entry.directive';
 import { CommentCreationConstraintsEntity } from '@app/shared/entities/comment-creation-constraints.entity';
+import { CommentCreationData } from '@app/shared/entities/comment-creation-data.entity';
+import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
+import { ApiErrorsService } from '@app/shared/services/api-errors.service';
+import { CommentMutationService } from '@app/shared/services/comment-mutation.service';
+import { ReactiveFormsUtilsService } from '@app/shared/services/reactive-forms-utils.service';
 import { COMMENT_CREATION_CONSTRAINTS } from '@app/shared/tokens/comment-creation-constraints.token';
 import { COMMENT_EDITOR_TOOLS } from '@app/shared/tokens/comment-editor-tools.token';
-import { TuiLink, TuiTextfield } from '@taiga-ui/core';
+import {
+  TuiAlertService,
+  TuiError,
+  TuiLink,
+  TuiTextfield,
+} from '@taiga-ui/core';
 import { TuiEditor, TuiEditorToolType } from '@taiga-ui/editor';
+import { TuiFieldErrorPipe } from '@taiga-ui/kit';
+import { take } from 'rxjs';
 
 interface CommentForm {
   content: FormControl<string | null>;
@@ -27,6 +40,9 @@ interface CommentForm {
     TuiLink,
     FocusOnEntryDirective,
     NgClass,
+    TuiFieldErrorPipe,
+    TuiError,
+    AsyncPipe,
   ],
   templateUrl: './comment-editor.component.html',
   styleUrl: './comment-editor.component.scss',
@@ -34,6 +50,7 @@ interface CommentForm {
 export class CommentEditorComponent implements OnInit {
   public isOpen = false;
   public form!: FormGroup<CommentForm>;
+  @Input({ required: true }) public ideaId!: number;
 
   public constructor(
     @Inject(COMMENT_EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],
@@ -41,11 +58,61 @@ export class CommentEditorComponent implements OnInit {
     public readonly constraints: CommentCreationConstraintsEntity,
     private readonly formBuilder: FormBuilder,
     public readonly breakpoints: BreakpointService,
+    private readonly formUtils: ReactiveFormsUtilsService,
+    private readonly commentMutation: CommentMutationService,
+    private readonly alerts: TuiAlertService,
+    private readonly apiErrorsService: ApiErrorsService,
   ) {}
 
   public ngOnInit(): void {
     this.form = this.formBuilder.group<CommentForm>({
-      content: this.formBuilder.control<string | null>(null),
+      content: this.formBuilder.control<string | null>(null, {
+        validators: customValidationErrors(Validators.required, {
+          required: 'Your comment cannot be empty',
+        }),
+        updateOn: 'blur',
+      }),
     });
+  }
+
+  public submit(): void {
+    this.form.controls.content.setValue(
+      this.form.controls.content.value?.replace(/^<p>\s*<\/p>$/, '') ?? null,
+    );
+
+    if (this.form.invalid) {
+      this.formUtils.markAllAsTouched(this.form);
+      this.formUtils.forceValidation(this.form);
+      return;
+    }
+
+    this.commentMutation
+      .create(
+        new CommentCreationData({
+          ideaId: this.ideaId,
+          content: this.form.controls.content.value,
+        }),
+      )
+      .subscribe({
+        next: () => this.onSuccess('Comment posted successfully'),
+        error: (err) => this.onError(err),
+      });
+  }
+
+  public onSuccess(message: string) {
+    this.form.reset();
+    this.isOpen = false;
+
+    this.alerts
+      .open(message, {
+        appearance: 'positive',
+        label: 'Success',
+      })
+      .pipe(take(1))
+      .subscribe();
+  }
+
+  private onError(err: unknown) {
+    this.apiErrorsService.displayErrors(err);
   }
 }

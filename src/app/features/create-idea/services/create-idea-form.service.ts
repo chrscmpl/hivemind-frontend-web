@@ -88,6 +88,12 @@ export class CreateIdeaFormService {
   }
 
   public submit() {
+    this.form.setValue({
+      title: this.form.controls.title.value?.trim() ?? null,
+      content:
+        this.form.controls.content.value?.replace(/^<p>\s*<\/p>$/, '') ?? null,
+    });
+
     if (this.form.invalid) {
       this.formUtils.markAllAsTouched(this.form);
       this.formUtils.forceValidation(this.form);
@@ -110,7 +116,7 @@ export class CreateIdeaFormService {
         }),
       )
       .subscribe({
-        next: (idea) => this.onSuccess('Idea published successfully', idea),
+        next: (idea) => this.onSuccess('Idea posted successfully', idea),
         error: (err) => this.onError(err),
       });
   }

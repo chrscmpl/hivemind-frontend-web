@@ -45,6 +45,10 @@ body {
     padding-left: 2rem;
   }
 
+  ::marker {
+    color: var(--tui-text-tertiary);
+  }
+
   blockquote {
     padding: 0.2rem 1rem;
     margin: 0.5rem 0;

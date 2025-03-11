@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 const _AuthChanged$ = new Subject<void>();
 const _IdeaUpdated$ = new Subject<void>();
 const _IdeaDeleted$ = new Subject<void>();
+const _CommentCreated$ = new Subject<void>();
 
 export const cacheBusters = {
   get AuthChanged$() {
@@ -15,5 +16,9 @@ export const cacheBusters = {
 
   get IdeaDeleted$() {
     return _IdeaDeleted$;
+  },
+
+  get CommentCreated$() {
+    return _CommentCreated$;
   },
 };

@@ -15,6 +15,11 @@ const ideasCacheBuster = merge(
   cacheBusters.IdeaDeleted$,
 );
 
+const commentsCacheBuster = merge(
+  cacheBusters.AuthChanged$,
+  cacheBusters.CommentCreated$,
+);
+
 export const cacheConfigs: Record<
   CacheKeysEnum,
   IObservableCacheConfig & {
@@ -44,7 +49,7 @@ export const cacheConfigs: Record<
     cacheKey: CacheKeysEnum.IDEA_PAGINATION,
     maxAge: 1000 * 60 * 5,
     maxCacheCount: 16,
-    cacheBusterObserver: cacheBusters.AuthChanged$,
+    cacheBusterObserver: commentsCacheBuster,
     cacheHasher: (params) =>
       params.map((obj: CommentPaginationParams) => new String(obj.ideaId)),
     cacheModifier: new Subject<cacheModifierFn>(),

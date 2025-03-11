@@ -14,13 +14,21 @@ import { LoadingIndicator } from '@app/shared/helpers/loading-indicator.helper';
 import { PaginatedRequestManager } from '@app/shared/helpers/paginated-request-manager.helper';
 import { CommentFetchService } from '@app/shared/services/comment-fetch.service';
 import { LoadingIndicatorService } from '@app/shared/services/loading-indicator.service';
-import { catchError, delayWhen, forkJoin, of, switchMap } from 'rxjs';
+import {
+  catchError,
+  delayWhen,
+  forkJoin,
+  of,
+  Subscription,
+  switchMap,
+} from 'rxjs';
 import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { AsyncPipe } from '@angular/common';
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
 import { TuiPagination } from '@taiga-ui/kit';
 import { ScrollerService } from '@app/core/misc/services/scroller.service';
 import { MATH } from '@app/shared/tokens/math.token';
+import { CacheService } from '@app/core/cache/services/cache.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -30,6 +38,7 @@ import { MATH } from '@app/shared/tokens/math.token';
 })
 export class CommentListComponent implements OnInit, OnDestroy {
   private static readonly LOADING_INDICATOR_START_DELAY = 400;
+  private readonly subscriptions: Subscription[] = [];
 
   @Input({ required: true }) public ideaId!: number;
   @Input() public commentCount: number | null = null;
@@ -50,6 +59,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private readonly auth: AuthService,
     private readonly scroller: ScrollerService,
     loadingIndicatorService: LoadingIndicatorService,
+    cache: CacheService,
   ) {
     this.loadingIndicator = loadingIndicatorService.getLoadingIndicator(
       CommentListComponent.LOADING_INDICATOR_START_DELAY,
@@ -68,6 +78,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
       lastIsAuthenticated = isAuthenticated;
     });
+    this.subscriptions.push(
+      cache.cacheBusters.CommentCreated$.subscribe(() =>
+        setTimeout(() => this.reset(), 0),
+      ),
+    );
   }
 
   public ngOnInit(): void {
@@ -76,6 +91,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.loadingIndicator.complete();
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
   private reset(): void {
