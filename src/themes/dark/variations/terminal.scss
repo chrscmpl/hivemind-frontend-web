@@ -1,13 +1,18 @@
-@use "../base";
 @use "../../partials/navigation-border.scss";
 @use "../../fonts/Modeseven-L3n5.scss";
 
-[tuiTheme] {
-  --tui-text-primary: #00ff00;
-  --tui-text-secondary: #00ff00;
-  --tui-text-tertiary: #00ff00;
+$primary: #00ff00;
+$action: #ffff00;
+$action2: #0000ff;
+$negative: #ff0000;
+$info: #00ffff;
 
-  --color-logo: #00ff00;
+[tuiTheme] {
+  --tui-text-primary: #{$primary};
+  --tui-text-secondary: #{$primary};
+  --tui-text-tertiary: #{$primary};
+
+  --color-logo: #{$primary};
   --logo-url: url("/logo-terminal.svg");
 
   --tui-background-base: #000000;
@@ -26,23 +31,23 @@
   --tui-background-elevation-2: #001a00;
   --tui-background-elevation-3: #002100;
 
-  --tui-service-selection-background: rgba(0, 255, 0, 0.1);
+  --tui-service-selection-background: #{rgba($primary, 0.1)};
 
-  --tui-background-accent-1: #00ff00;
-  --tui-background-accent-1-hover: #00ff00;
-  --tui-background-accent-1-pressed: #00ff00;
+  --tui-background-accent-1: #{$primary};
+  --tui-background-accent-1-hover: #{$primary};
+  --tui-background-accent-1-pressed: #{$primary};
 
-  --tui-background-accent-2: #00ff00;
-  --tui-background-accent-2-hover: #00ff00;
-  --tui-background-accent-2-pressed: #00ff00;
+  --tui-background-accent-2: #{$primary};
+  --tui-background-accent-2-hover: #{$primary};
+  --tui-background-accent-2-pressed: #{$primary};
 
-  --tui-border-normal: #00ff00;
-  --tui-border-hover: #00ff00;
-  --tui-border-focus: #00ff00;
+  --tui-border-normal: #{$primary};
+  --tui-border-hover: #{$primary};
+  --tui-border-focus: #{$primary};
 
-  --tui-status-neutral: #00ff00;
+  --tui-status-neutral: #{$primary};
 
-  --tui-service-autofill-background: rgba(0, 255, 0, 0.1);
+  --tui-service-autofill-background: #{rgba($primary, 0.1)};
 
   --tui-radius-xs: 0px;
   --tui-radius-s: 0px;
@@ -50,50 +55,50 @@
   --tui-radius-l: 0px;
   --tui-radius-xl: 0px;
 
-  --color-upvote: #ffff00;
-  --color-downvote: #0000ff;
+  --color-upvote: #{$action};
+  --color-downvote: #{$action2};
 
-  --tui-text-action: #ffff00;
-  --tui-text-action-hover: #ffff00;
-  --tui-text-negative: #ff0000;
-  --tui-text-negative-hover: #ff0000;
-  --tui-text-positive: #00ff00;
-  --tui-text-positive-hover: #00ff00;
+  --tui-text-action: #{$action};
+  --tui-text-action-hover: #{$action};
+  --tui-text-negative: #{$negative};
+  --tui-text-negative-hover: #{$negative};
+  --tui-text-positive: #{$primary};
+  --tui-text-positive-hover: #{$primary};
 
   --tui-text-primary-on-accent-1: #000000;
   --tui-text-primary-on-accent-2: #000000;
 
-  --tui-status-positive: #00ff00;
-  --tui-status-positive-pale: #00ff00;
-  --tui-status-positive-pale-hover: #00ff00;
+  --tui-status-positive: #{$primary};
+  --tui-status-positive-pale: #{$primary};
+  --tui-status-positive-pale-hover: #{$primary};
 
-  --tui-status-negative: #ff0000;
-  --tui-status-negative-pale: #ff0000;
-  --tui-status-negative-pale-hover: #ff0000;
+  --tui-status-negative: #{$negative};
+  --tui-status-negative-pale: #{$negative};
+  --tui-status-negative-pale-hover: #{$negative};
 
-  --tui-status-warning: #ffff00;
-  --tui-status-warning-pale: #ffff00;
-  --tui-status-warning-pale-hover: #ffff00;
+  --tui-status-warning: #{$action};
+  --tui-status-warning-pale: #{$action};
+  --tui-status-warning-pale-hover: #{$action};
 
-  --tui-status-info: #00ffff;
-  --tui-status-info-pale: #00ffff;
-  --tui-status-info-pale-hover: #00ffff;
+  --tui-status-info: #{$info};
+  --tui-status-info-pale: #{$info};
+  --tui-status-info-pale-hover: #{$info};
 
-  --color-controversial: #00ff00;
-  --color-controversial-transparent: rgba(0, 255, 0, 0.1);
-  --color-controversial-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-controversial: #{$primary};
+  --color-controversial-transparent: #{rgba($primary, 0.1)};
+  --color-controversial-transparent-pressed: #{rgba($primary, 0.2)};
 
-  --color-popular: #00ff00;
-  --color-popular-transparent: rgba(0, 255, 0, 0.1);
-  --color-popular-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-popular: #{$primary};
+  --color-popular-transparent: #{rgba($primary, 0.1)};
+  --color-popular-transparent-pressed: #{rgba($primary, 0.2)};
 
-  --color-unpopular: #00ff00;
-  --color-unpopular-transparent: rgba(0, 255, 0, 0.1);
-  --color-unpopular-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-unpopular: #{$primary};
+  --color-unpopular-transparent: #{rgba($primary, 0.1)};
+  --color-unpopular-transparent-pressed: #{rgba($primary, 0.2)};
 
-  --color-new: #00ff00;
-  --color-new-transparent: rgba(0, 255, 0, 0.1);
-  --color-new-transparent-pressed: rgba(0, 255, 0, 0.1);
+  --color-new: #{$primary};
+  --color-new-transparent: #{rgba($primary, 0.1)};
+  --color-new-transparent-pressed: #{rgba($primary, 0.2)};
 
   --tui-font-heading: "Modeseven-L3n5", monospace;
   --tui-font-heading-1: normal 3.125rem/3.5rem "Modeseven-L3n5", monospace;
@@ -105,7 +110,7 @@
 
   --tui-font-text: normal 1.0625rem/1.75rem "Modeseven-L3n5", monospace;
   --tui-font-text-xl: normal 1.1875rem/1.75rem "Modeseven-L3n5", monospace;
-  --tui-font-text-l: "Modeseven-L3n5", monospace;
+  --tui-font-text-l: normal 1.0625rem/1.75rem "Modeseven-L3n5", monospace;
   --tui-font-text-m: normal 1rem/1.5rem "Modeseven-L3n5", monospace;
   --tui-font-text-s: normal 0.8125rem/1.25rem "Modeseven-L3n5", monospace;
   --tui-font-text-xs: normal 0.6875rem/1rem "Modeseven-L3n5", monospace;
@@ -125,7 +130,7 @@
 }
 
 tui-dialog > .t-content {
-  border: 1px solid #00ff00;
+  border: 1px solid #{$primary};
   border-radius: 0px !important;
 
   @media (max-width: 767px) {
@@ -163,11 +168,11 @@ tui-hint {
 
 button[data-appearance="primary"] {
   background: transparent !important;
-  color: #00ff00 !important;
-  border: 2px solid #00ff00 !important;
+  color: #{$primary} !important;
+  border: 2px solid #{$primary} !important;
 
   &:hover {
-    background: rgba(0, 255, 0, 0.1) !important;
+    background: #{rgba($primary, 0.1)} !important;
   }
 }
 

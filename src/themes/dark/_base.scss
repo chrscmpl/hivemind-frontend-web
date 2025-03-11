@@ -1,10 +1,55 @@
+@use "variables";
+@use "sass:color";
+
 [tuiTheme="dark"] {
   --tui-background-base: #121212;
   --tui-background-base-alt: #181818;
   --tui-theme-color: #09090b;
-
-  --tui-text-negative: #ff4f40;
-  --tui-status-negative: #ff4f40;
-
   --color-logo: #ffffff;
+
+  --color-upvote: #{variables.$upvoteColor};
+  --color-downvote: #{variables.$downvoteColor};
+  --tui-text-action: #{variables.$upvoteColor};
+  --tui-text-action-hover: #{color.adjust(
+      variables.$upvoteColor,
+      $lightness: -5%
+    )};
+
+  --tui-background-accent-1: #{variables.$upvoteColor};
+  --tui-background-accent-1-hover: #{color.adjust(
+      variables.$upvoteColor,
+      $lightness: 4%
+    )};
+  --tui-background-accent-1-pressed: #{color.adjust(
+      variables.$upvoteColor,
+      $lightness: -2%
+    )};
+
+  --tui-background-accent-2: #{variables.$downvoteColor};
+  --tui-background-accent-2-hover: #{color.adjust(
+      variables.$downvoteColor,
+      $lightness: 4%
+    )};
+  --tui-background-accent-2-pressed: #{color.adjust(
+      variables.$downvoteColor,
+      $lightness: -2%
+    )};
+
+  --tui-service-autofill-background: #{rgba(variables.$upvoteColor, 0.2)};
+  --tui-service-selection-background: #{rgba(variables.$downvoteColor, 0.2)};
+
+  --tui-text-negative: #{variables.$negativeColor};
+  --tui-text-negative-hover: #{color.adjust(
+      variables.$negativeColor,
+      $lightness: 4%
+    )};
+  --tui-status-negative: #{variables.$negativeColor};
+  --tui-status-negative-pale: #{color.adjust(
+      variables.$negativeColor,
+      $lightness: 4%
+    )};
+  --tui-status-negative-pale-hover: #{color.adjust(
+      variables.$negativeColor,
+      $lightness: 8%
+    )};
 }
