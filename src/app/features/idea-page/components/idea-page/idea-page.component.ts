@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { NavigationUtilsService } from '@app/core/misc/services/navigation-utils.service';
@@ -37,6 +37,7 @@ export class IdeaPageComponent implements OnInit {
   }
 
   public constructor(
+    private readonly element: ElementRef,
     private readonly route: ActivatedRoute,
     public readonly breakpoints: BreakpointService,
     public readonly navigationUtils: NavigationUtilsService,
@@ -73,6 +74,10 @@ export class IdeaPageComponent implements OnInit {
   }
 
   public openCommentEditor(): void {
+    if (this.commentEditorOpen) {
+      this.element.nativeElement.querySelector('.ProseMirror')?.focus?.();
+    }
+
     this.commentEditorOpen = true;
     setTimeout(
       () =>
