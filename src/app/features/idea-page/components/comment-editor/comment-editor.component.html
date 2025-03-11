@@ -1,0 +1,31 @@
+@let isMobile = breakpoints.isMobile();
+
+<form [formGroup]="form" [class.m-4]="isMobile">
+  @if (!isOpen) {
+    <tui-textfield iconEnd="@tui.message-square-text">
+      <label for="comment-input">Write a comment</label>
+      <input
+        tuiTextfield
+        id="comment-input"
+        type="text"
+        (click)="isOpen = true"
+      />
+    </tui-textfield>
+  } @else {
+    <div class="relative">
+      <tui-editor
+        [tools]="tools"
+        [maxlength]="constraints.content.maxLength"
+        formControlName="content"
+        appFocusOnEntry=".ProseMirror"
+        [appFocusOnEntryDelay]="150"
+        class="!pb-6"
+        [ngClass]="{
+          '!min-h-52 !max-w-[calc(100dvw-2rem)]': isMobile,
+        }"
+      >
+      </tui-editor>
+      <a tuiLink class="!absolute !bottom-2 !right-4 !font-tui-text-l">Post</a>
+    </div>
+  }
+</form>

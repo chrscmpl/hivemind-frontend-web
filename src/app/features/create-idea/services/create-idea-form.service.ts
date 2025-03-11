@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IdeaCreationConstraintsEntity } from '@app/shared/entities/idea-creation-contraints.entity';
+import { IdeaCreationConstraintsEntity } from '@app/shared/entities/idea-creation-constraints.entity';
 import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
 import { IDEA_CREATION_CONSTRAINTS } from '@app/shared/tokens/idea-creation-constraints.token';
 import { CreateIdeaForm } from '../forms/create-idea.form';

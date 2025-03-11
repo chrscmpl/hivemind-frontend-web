@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { BackButtonComponent } from '@app/shared/components/back-button/back-button.component';
 import { UpdateOnEnterDirective } from '@app/shared/directives/update-on-enter.directive';
-import { EDITOR_TOOLS } from '@app/shared/tokens/editor-tools.token';
+import { IDEA_EDITOR_TOOLS } from '@app/shared/tokens/idea-editor-tools.token';
 import { TuiButton, TuiError, TuiTextfield } from '@taiga-ui/core';
 import { TuiEditor, TuiEditorToolType } from '@taiga-ui/editor';
 import { TuiFieldErrorPipe } from '@taiga-ui/kit';
@@ -31,7 +31,7 @@ import { CreateIdeaFormService } from '../../services/create-idea-form.service';
 })
 export class CreateIdeaPageComponent implements OnInit {
   public constructor(
-    @Inject(EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],
+    @Inject(IDEA_EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],
     private readonly route: ActivatedRoute,
     public readonly formService: CreateIdeaFormService,
     public readonly breakpoints: BreakpointService,

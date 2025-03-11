@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { IdeaCreationConstraintsEntity } from '../entities/idea-creation-contraints.entity';
+import { IdeaCreationConstraintsEntity } from '../entities/idea-creation-constraints.entity';
 
 export const IDEA_CREATION_CONSTRAINTS =
   new InjectionToken<IdeaCreationConstraintsEntity>(

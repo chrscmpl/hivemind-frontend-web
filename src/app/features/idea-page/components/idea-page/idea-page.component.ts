@@ -10,6 +10,7 @@ import { BackButtonComponent } from '../../../../shared/components/back-button/b
 import { CommentListComponent } from '@app/shared/components/comment-list/comment-list.component';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { IdeaFetchService } from '@app/shared/services/idea-fetch.service';
+import { CommentEditorComponent } from '../comment-editor/comment-editor.component';
 
 @Component({
   selector: 'app-idea-page',
@@ -18,6 +19,7 @@ import { IdeaFetchService } from '@app/shared/services/idea-fetch.service';
     NgClass,
     BackButtonComponent,
     CommentListComponent,
+    CommentEditorComponent,
   ],
   templateUrl: './idea-page.component.html',
   styleUrl: './idea-page.component.scss',
