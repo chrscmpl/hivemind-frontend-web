@@ -2,8 +2,10 @@ import { DatePipe, NgClass } from '@angular/common';
 import {
   Component,
   effect,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -48,6 +50,7 @@ export class CommentCardComponent implements OnInit {
   @ViewChild('menu') menu!: TemplateRef<unknown>;
   @Input({ required: true }) public comment!: CommentEntity;
   @Input() public ideaId: number | null = null;
+  @Output() public readonly update = new EventEmitter<void>();
 
   public get isMobile(): boolean {
     return this._isMobile;

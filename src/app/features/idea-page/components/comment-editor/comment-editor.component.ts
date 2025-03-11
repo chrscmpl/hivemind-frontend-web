@@ -21,6 +21,8 @@ import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { FocusOnEntryDirective } from '@app/shared/directives/focus-on-entry.directive';
 import { CommentCreationConstraintsEntity } from '@app/shared/entities/comment-creation-constraints.entity';
 import { CommentCreationData } from '@app/shared/entities/comment-creation-data.entity';
+import { CommentUpdateData } from '@app/shared/entities/comment-update-data.entity';
+import { CommentEntity } from '@app/shared/entities/comment.entity';
 import { customValidationErrors } from '@app/shared/helpers/custom-validation-errors.helper';
 import { ApiErrorsService } from '@app/shared/services/api-errors.service';
 import { CommentMutationService } from '@app/shared/services/comment-mutation.service';
@@ -64,6 +66,14 @@ export class CommentEditorComponent implements OnInit {
 
   @Input() public isOpen: boolean = false;
   @Output() public isOpenChange = new EventEmitter<boolean>();
+
+  private _commentToUpdate: CommentEntity | null = null;
+  @Input() public set update(value: CommentEntity | null) {
+    this._commentToUpdate = value;
+    if (value) {
+      this.form.controls.content.setValue(value.content ?? null);
+    }
+  }
 
   public constructor(
     @Inject(COMMENT_EDITOR_TOOLS) public readonly tools: TuiEditorToolType[],
@@ -121,6 +131,14 @@ export class CommentEditorComponent implements OnInit {
       return;
     }
 
+    if (this._commentToUpdate) {
+      this.updateComment();
+    } else {
+      this.createComment();
+    }
+  }
+
+  private createComment(): void {
     this.commentMutation
       .create(
         new CommentCreationData({
@@ -134,7 +152,32 @@ export class CommentEditorComponent implements OnInit {
       });
   }
 
-  public onSuccess(message: string) {
+  private updateComment(): void {
+    if (!this._commentToUpdate) {
+      return;
+    }
+
+    if (this._commentToUpdate.content === this.form.controls.content.value) {
+      this.form.controls.content.setErrors({ content: 'No changes detected' });
+      return;
+    }
+
+    this.commentMutation
+      .update(
+        new CommentUpdateData({
+          old: this._commentToUpdate,
+          ideaId: this.ideaId,
+          newContent: this.form.controls.content.value,
+        }),
+      )
+      .subscribe({
+        next: () => this.onSuccess('Comment updated successfully'),
+        error: (err) => this.onError(err),
+      });
+  }
+
+  private onSuccess(message: string) {
+    this._commentToUpdate = null;
     this.form.reset();
     this.setIsOpen(false);
     this.posted.emit();

@@ -12,6 +12,7 @@ import { AuthService } from '@app/core/auth/services/auth.service';
 import { IdeaFetchService } from '@app/shared/services/idea-fetch.service';
 import { CommentEditorComponent } from '../comment-editor/comment-editor.component';
 import { ScrollerService } from '@app/core/misc/services/scroller.service';
+import { CommentEntity } from '@app/shared/entities/comment.entity';
 
 @Component({
   selector: 'app-idea-page',
@@ -29,6 +30,8 @@ export class IdeaPageComponent implements OnInit {
   public animateEntry: boolean = false;
 
   public commentEditorOpen: boolean = false;
+
+  public commentToUpdate: CommentEntity | null = null;
 
   private _idea!: IdeaEntity;
 
@@ -87,5 +90,10 @@ export class IdeaPageComponent implements OnInit {
         }),
       200,
     );
+  }
+
+  public updateComment(comment: CommentEntity): void {
+    this.commentToUpdate = comment;
+    this.openCommentEditor();
   }
 }

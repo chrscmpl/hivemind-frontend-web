@@ -22,10 +22,12 @@
       [ideaId]="idea.id"
       (posted)="idea.commentCount = (idea.commentCount ?? 0) + 1"
       [isOpen]="commentEditorOpen"
+      [update]="commentToUpdate"
     />
     <app-comment-list
       [ideaId]="idea.id"
       [commentCount]="idea.commentCount ?? null"
+      (update)="updateComment($event)"
     />
   </section>
 </section>

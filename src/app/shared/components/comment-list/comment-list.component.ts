@@ -5,6 +5,8 @@ import {
   effect,
   Input,
   Inject,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
@@ -43,6 +45,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   @Input({ required: true }) public ideaId!: number;
   @Input() public commentCount: number | null = null;
+  @Output() public readonly update = new EventEmitter<CommentEntity>();
 
   public requestManager?: PaginatedRequestManager<
     CommentEntity,

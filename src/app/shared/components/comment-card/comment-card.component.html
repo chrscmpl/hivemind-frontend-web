@@ -104,7 +104,12 @@
     [class.pt-4]="isDialog"
     (click)="observer.complete?.()"
   >
-    <button tuiOption class="!justify-start" iconStart="@tui.pencil">
+    <button
+      tuiOption
+      class="!justify-start"
+      iconStart="@tui.pencil"
+      (click)="update.emit()"
+    >
       Edit
     </button>
     @if (ideaId !== null) {
