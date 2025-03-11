@@ -18,6 +18,7 @@ import {
   catchError,
   delayWhen,
   forkJoin,
+  merge,
   of,
   Subscription,
   switchMap,
@@ -79,9 +80,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
       lastIsAuthenticated = isAuthenticated;
     });
     this.subscriptions.push(
-      cache.cacheBusters.CommentCreated$.subscribe(() =>
-        setTimeout(() => this.reset(), 0),
-      ),
+      merge(
+        cache.cacheBusters.CommentCreated$,
+        cache.cacheBusters.CommentUpdated$,
+        cache.cacheBusters.CommentDeleted$,
+      ).subscribe(() => setTimeout(() => this.reset(), 0)),
     );
   }
 

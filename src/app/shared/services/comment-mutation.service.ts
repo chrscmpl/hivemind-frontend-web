@@ -6,6 +6,7 @@ import { CommentEntity } from '../entities/comment.entity';
 import { CommentDto } from '../dto/comment.dto';
 import { environment } from 'src/environments/environment';
 import { CommentCreationData } from '../entities/comment-creation-data.entity';
+import { CommentDeletionData } from '../entities/comment-deletion-data.entity';
 
 @Injectable({
   providedIn: 'root',
@@ -39,10 +40,14 @@ export class CommentMutationService {
   //     );
   // }
 
-  // public delete(id: number): Observable<IdeaEntity> {
-  //   return this.http.delete<IdeaDto>(`${environment.api}/posts/${id}`).pipe(
-  //     tap(() => this.cache.cacheBusters.IdeaDeleted$.next()),
-  //     map((data) => new IdeaEntity(data)),
-  //   );
-  // }
+  public delete(data: CommentDeletionData): Observable<CommentEntity> {
+    return this.http
+      .delete<CommentDto>(
+        `${environment.api}/posts/${data.ideaId}/comments/${data.commentId}`,
+      )
+      .pipe(
+        tap(() => this.cache.cacheBusters.CommentDeleted$.next()),
+        map((data) => new CommentEntity(data)),
+      );
+  }
 }

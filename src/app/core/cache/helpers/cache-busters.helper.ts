@@ -4,6 +4,8 @@ const _AuthChanged$ = new Subject<void>();
 const _IdeaUpdated$ = new Subject<void>();
 const _IdeaDeleted$ = new Subject<void>();
 const _CommentCreated$ = new Subject<void>();
+const _CommentUpdated$ = new Subject<void>();
+const _CommentDeleted$ = new Subject<void>();
 
 export const cacheBusters = {
   get AuthChanged$() {
@@ -20,5 +22,13 @@ export const cacheBusters = {
 
   get CommentCreated$() {
     return _CommentCreated$;
+  },
+
+  get CommentUpdated$() {
+    return _CommentUpdated$;
+  },
+
+  get CommentDeleted$() {
+    return _CommentDeleted$;
   },
 };

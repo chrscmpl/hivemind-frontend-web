@@ -18,6 +18,8 @@ const ideasCacheBuster = merge(
 const commentsCacheBuster = merge(
   cacheBusters.AuthChanged$,
   cacheBusters.CommentCreated$,
+  cacheBusters.CommentUpdated$,
+  cacheBusters.CommentDeleted$,
 );
 
 export const cacheConfigs: Record<

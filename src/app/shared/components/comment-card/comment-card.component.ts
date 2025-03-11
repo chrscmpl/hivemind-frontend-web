@@ -9,8 +9,10 @@ import {
 } from '@angular/core';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
+import { CommentDeletionData } from '@app/shared/entities/comment-deletion-data.entity';
 import { CommentEntity } from '@app/shared/entities/comment.entity';
 import { HumanizeDurationPipe } from '@app/shared/pipes/humanize-duration.pipe';
+import { CommentMutationService } from '@app/shared/services/comment-mutation.service';
 import {
   TuiAlertService,
   TuiAppearance,
@@ -45,6 +47,7 @@ export class CommentCardComponent implements OnInit {
   private _isMobile = false;
   @ViewChild('menu') menu!: TemplateRef<unknown>;
   @Input({ required: true }) public comment!: CommentEntity;
+  @Input() public ideaId: number | null = null;
 
   public get isMobile(): boolean {
     return this._isMobile;
@@ -70,6 +73,7 @@ export class CommentCardComponent implements OnInit {
   public constructor(
     private readonly tuiDialogs: TuiDialogService,
     private readonly alerts: TuiAlertService,
+    private readonly commentMutation: CommentMutationService,
     breakpoints: BreakpointService,
     auth: AuthService,
   ) {
@@ -111,15 +115,25 @@ export class CommentCardComponent implements OnInit {
   }
 
   private deleteComment() {
-    // this.commentMutation.delete(this.comment.id).subscribe(() => {
-    //   this.comment.deleted = true;
-    //   this.alerts
-    //     .open('Idea deleted successfully', {
-    //       appearance: 'positive',
-    //       label: 'Success',
-    //     })
-    //     .subscribe();
-    // });
+    if (this.ideaId === null) {
+      return;
+    }
+    this.commentMutation
+      .delete(
+        new CommentDeletionData({
+          ideaId: this.ideaId,
+          commentId: this.comment.id,
+        }),
+      )
+      .subscribe(() => {
+        this.comment.deleted = true;
+        this.alerts
+          .open('Comment deleted successfully', {
+            appearance: 'positive',
+            label: 'Success',
+          })
+          .subscribe();
+      });
   }
 
   public toggleCollapsed(event: Event): void {

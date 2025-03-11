@@ -18,6 +18,7 @@
         <app-comment-card
           [class.opacity-0]="loadingIndicator.isLoading$ | async"
           [comment]="comment"
+          [ideaId]="ideaId"
         />
       }
     }

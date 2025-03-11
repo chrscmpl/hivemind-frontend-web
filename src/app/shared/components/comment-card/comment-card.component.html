@@ -107,13 +107,15 @@
     <button tuiOption class="!justify-start" iconStart="@tui.pencil">
       Edit
     </button>
-    <button
-      tuiOption
-      class="!justify-start"
-      iconStart="@tui.trash"
-      (click)="askToDeleteComment()"
-    >
-      Delete
-    </button>
+    @if (ideaId !== null) {
+      <button
+        tuiOption
+        class="!justify-start"
+        iconStart="@tui.trash"
+        (click)="askToDeleteComment()"
+      >
+        Delete
+      </button>
+    }
   </tui-data-list>
 </ng-template>
