@@ -11,11 +11,12 @@ import {
   PaginatedRequestParams,
 } from '@shared/helpers/paginated-request-manager.helper';
 import { defaults } from 'lodash-es';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Cacheable } from 'ts-cacheable';
 import { IdeaPaginationMetaDto } from '../dto/idea-pagination-meta.dto';
 import { IdeaPaginationMetaEntity } from '../entities/idea-pagination-meta.entity';
+import { AuthService } from '@app/core/auth/services/auth.service';
 
 export interface IdeaPaginationQuery {
   sort?: string;
@@ -36,17 +37,21 @@ export class IdeaFetchService {
   public constructor(
     private readonly http: HttpClient,
     private readonly cacheService: CacheService,
+    private readonly auth: AuthService,
   ) {}
 
   @Cacheable(cacheConfigs[CacheKeysEnum.IDEA])
   public fetch(id: number): Observable<IdeaEntity> {
-    return this.http
-      .get<IdeaDto>(`${environment.api}/posts/${id}`, {
-        params: {
-          include: 'user,myVote',
-        },
-      })
-      .pipe(map((data: IdeaDto) => new IdeaEntity(data)));
+    return this.auth.authChecked$.pipe(
+      switchMap(() =>
+        this.http.get<IdeaDto>(`${environment.api}/posts/${id}`, {
+          params: {
+            include: 'user,myVote',
+          },
+        }),
+      ),
+      map((data: IdeaDto) => new IdeaEntity(data)),
+    );
   }
 
   @Cacheable(cacheConfigs[CacheKeysEnum.IDEA_PAGINATION])
@@ -74,7 +79,10 @@ export class IdeaFetchService {
       ),
     );
 
-    return manager.next().pipe(map(() => manager));
+    return this.auth.authChecked$.pipe(
+      switchMap(() => manager.next()),
+      map(() => manager),
+    );
   }
 
   public cache(idea: IdeaEntity): void {

@@ -122,7 +122,9 @@ export class AuthService {
       isAuthenticated: user !== null,
       authChecked: true,
     });
-    this.cache.cacheBusters.AuthChanged$.next();
+    if (this.authChecked()) {
+      this.cache.cacheEvents.AuthChanged$.next();
+    }
   }
 
   private setAuthChecked(): void {

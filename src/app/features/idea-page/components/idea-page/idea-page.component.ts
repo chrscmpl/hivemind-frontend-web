@@ -93,6 +93,7 @@ export class IdeaPageComponent implements OnInit {
   }
 
   public updateComment(comment: CommentEntity): void {
+    comment.deleted = true;
     this.commentToUpdate = comment;
     this.openCommentEditor();
   }

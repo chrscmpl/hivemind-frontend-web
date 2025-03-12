@@ -21,7 +21,7 @@
     <app-comment-editor
       [ideaId]="idea.id"
       (posted)="idea.commentCount = (idea.commentCount ?? 0) + 1"
-      [isOpen]="commentEditorOpen"
+      [(isOpen)]="commentEditorOpen"
       [update]="commentToUpdate"
     />
     <app-comment-list

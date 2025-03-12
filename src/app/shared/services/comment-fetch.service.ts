@@ -8,12 +8,13 @@ import {
   PaginatedRequestParams,
 } from '../helpers/paginated-request-manager.helper';
 import { CommentEntity } from '../entities/comment.entity';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CommentDto } from '../dto/comment.dto';
 import { CommentPaginationMetaDto } from '../dto/comment-pagination-meta.dto';
 import { CommentPaginationMetaEntity } from '../entities/comment-pagination-meta.entity';
 import { defaults } from 'lodash-es';
+import { AuthService } from '@app/core/auth/services/auth.service';
 
 export type CommentPaginationParams = Omit<
   PaginatedRequestParams<CommentEntity>,
@@ -24,7 +25,10 @@ export type CommentPaginationParams = Omit<
   providedIn: 'root',
 })
 export class CommentFetchService {
-  public constructor(private readonly http: HttpClient) {}
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly auth: AuthService,
+  ) {}
 
   @Cacheable(cacheConfigs[CacheKeysEnum.COMMENT_PAGINATION])
   public paginate(
@@ -53,7 +57,10 @@ export class CommentFetchService {
       ),
     );
 
-    return manager.next().pipe(map(() => manager));
+    return this.auth.authChecked$.pipe(
+      switchMap(() => manager.next()),
+      map(() => manager),
+    );
   }
 
   private deserialize(

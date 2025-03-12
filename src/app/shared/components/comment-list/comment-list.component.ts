@@ -2,13 +2,11 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  effect,
   Input,
   Inject,
   Output,
   EventEmitter,
 } from '@angular/core';
-import { AuthService } from '@app/core/auth/services/auth.service';
 import { BreakpointService } from '@app/core/misc/services/breakpoint.service';
 import { CommentPaginationMetaEntity } from '@app/shared/entities/comment-pagination-meta.entity';
 import { CommentEntity } from '@app/shared/entities/comment.entity';
@@ -16,15 +14,7 @@ import { LoadingIndicator } from '@app/shared/helpers/loading-indicator.helper';
 import { PaginatedRequestManager } from '@app/shared/helpers/paginated-request-manager.helper';
 import { CommentFetchService } from '@app/shared/services/comment-fetch.service';
 import { LoadingIndicatorService } from '@app/shared/services/loading-indicator.service';
-import {
-  catchError,
-  delayWhen,
-  forkJoin,
-  merge,
-  of,
-  Subscription,
-  switchMap,
-} from 'rxjs';
+import { catchError, forkJoin, of, Subscription, switchMap } from 'rxjs';
 import { CommentCardComponent } from '../comment-card/comment-card.component';
 import { AsyncPipe } from '@angular/common';
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
@@ -60,7 +50,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     @Inject(MATH) private readonly math: Math,
     public readonly breakpoints: BreakpointService,
     private readonly commentsFetchService: CommentFetchService,
-    private readonly auth: AuthService,
     private readonly scroller: ScrollerService,
     loadingIndicatorService: LoadingIndicatorService,
     cache: CacheService,
@@ -68,31 +57,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.loadingIndicator = loadingIndicatorService.getLoadingIndicator(
       CommentListComponent.LOADING_INDICATOR_START_DELAY,
     );
-    let lastIsAuthenticated: boolean | null = null;
-    effect(() => {
-      if (!this.auth.authChecked()) {
-        return;
-      }
-      const isAuthenticated = this.auth.isAuthenticated();
-      if (
-        lastIsAuthenticated !== null &&
-        isAuthenticated !== lastIsAuthenticated
-      ) {
-        this.reset();
-      }
-      lastIsAuthenticated = isAuthenticated;
-    });
     this.subscriptions.push(
-      merge(
-        cache.cacheBusters.CommentCreated$,
-        cache.cacheBusters.CommentUpdated$,
-        cache.cacheBusters.CommentDeleted$,
-      ).subscribe(() => setTimeout(() => this.reset(), 0)),
+      cache.cacheBusters.comments.subscribe(() =>
+        setTimeout(() => this.reset(), 0),
+      ),
     );
   }
 
   public ngOnInit(): void {
-    this.auth.authChecked$.subscribe(() => this.reset());
+    this.reset();
   }
 
   public ngOnDestroy(): void {
@@ -113,10 +86,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         ideaId: this.ideaId,
         includeUser: true,
       })
-      .pipe(
-        delayWhen(() => this.auth.authChecked$),
-        switchMap((manager) => forkJoin([of(manager), manager.getPage(1)])),
-      )
+      .pipe(switchMap((manager) => forkJoin([of(manager), manager.getPage(1)])))
       .subscribe({
         next: ([manager, data]) => {
           this.loadingIndicator.stop();

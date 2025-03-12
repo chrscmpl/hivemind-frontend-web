@@ -24,7 +24,7 @@ export class CommentMutationService {
         content: data.content,
       })
       .pipe(
-        tap(() => this.cache.cacheBusters.CommentCreated$.next()),
+        tap(() => this.cache.cacheEvents.CommentCreated$.next()),
         map((data) => new CommentEntity(data)),
       );
   }
@@ -38,7 +38,7 @@ export class CommentMutationService {
         },
       )
       .pipe(
-        tap(() => this.cache.cacheBusters.CommentUpdated$.next()),
+        tap(() => this.cache.cacheEvents.CommentUpdated$.next()),
         map((data) => new CommentEntity(data)),
       );
   }
@@ -49,7 +49,7 @@ export class CommentMutationService {
         `${environment.api}/posts/${data.ideaId}/comments/${data.commentId}`,
       )
       .pipe(
-        tap(() => this.cache.cacheBusters.CommentDeleted$.next()),
+        tap(() => this.cache.cacheEvents.CommentDeleted$.next()),
         map((data) => new CommentEntity(data)),
       );
   }

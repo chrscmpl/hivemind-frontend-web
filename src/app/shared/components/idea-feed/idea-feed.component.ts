@@ -1,4 +1,4 @@
-import { Component, effect, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IdeaFetchService } from '../../services/idea-fetch.service';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
 import { PaginatedRequestManager } from '@shared/helpers/paginated-request-manager.helper';
@@ -6,13 +6,13 @@ import { IdeaEntity } from '@shared/entities/idea.entity';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { IdeaCardComponent } from '../idea-card/idea-card.component';
 import { UtilsService } from '@app/shared/services/utils.service';
-import { AuthService } from '@app/core/auth/services/auth.service';
 import { LoadingIndicator } from '@app/shared/helpers/loading-indicator.helper';
 import { LoadingIndicatorService } from '@app/shared/services/loading-indicator.service';
 import { TuiIcon, TuiLoader } from '@taiga-ui/core';
 import { AsyncPipe } from '@angular/common';
-import { delayWhen } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IdeaPaginationMetaEntity } from '@app/shared/entities/idea-pagination-meta.entity';
+import { CacheService } from '@app/core/cache/services/cache.service';
 
 @Component({
   selector: 'app-idea-feed',
@@ -22,6 +22,7 @@ import { IdeaPaginationMetaEntity } from '@app/shared/entities/idea-pagination-m
 })
 export class IdeaFeedComponent implements OnInit, OnDestroy {
   private static readonly LOADING_INDICATOR_START_DELAY = 200;
+  private readonly subscriptions: Subscription[] = [];
 
   @Input() includeOwnVotes: boolean | '' = false;
   @Input() includeUsers: boolean | '' = false;
@@ -59,34 +60,26 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
     public readonly breakpoints: BreakpointService,
     private readonly ideas: IdeaFetchService,
     private readonly utils: UtilsService,
-    private readonly auth: AuthService,
     loadingIndicatorService: LoadingIndicatorService,
+    cache: CacheService,
   ) {
     this.loadingIndicator = loadingIndicatorService.getLoadingIndicator(
       IdeaFeedComponent.LOADING_INDICATOR_START_DELAY,
     );
-    let lastIsAuthenticated: boolean | null = null;
-    effect(() => {
-      if (!this.auth.authChecked()) {
-        return;
-      }
-      const isAuthenticated = this.auth.isAuthenticated();
-      if (
-        lastIsAuthenticated !== null &&
-        isAuthenticated !== lastIsAuthenticated
-      ) {
-        this.reset();
-      }
-      lastIsAuthenticated = isAuthenticated;
-    });
+    this.subscriptions.push(
+      cache.cacheBusters.auth.subscribe(() =>
+        setTimeout(() => this.reset(), 0),
+      ),
+    );
   }
 
   public ngOnInit(): void {
-    this.auth.authChecked$.subscribe(() => this.reset());
+    this.reset();
   }
 
   public ngOnDestroy(): void {
     this.loadingIndicator.complete();
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
   public onScrolled(index: number): void {
@@ -110,7 +103,6 @@ export class IdeaFeedComponent implements OnInit, OnDestroy {
           includeUsers: this.includeUsers !== false,
         },
       })
-      .pipe(delayWhen(() => this.auth.authChecked$))
       .subscribe({
         next: (requestManager) => {
           this.loadingIndicator.stop();

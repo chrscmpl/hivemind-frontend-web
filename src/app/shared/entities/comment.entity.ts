@@ -3,13 +3,13 @@ import { CommentDto } from '../dto/comment.dto';
 
 export class CommentEntity {
   private readonly _id: number;
-  private readonly _content?: string;
+  private _content?: string;
   private readonly _createdAt?: Date;
-  private readonly _updatedAt?: Date;
+  private _updatedAt?: Date;
   private _user?: UserEntity;
 
-  private readonly _age?: number;
-  private readonly _updated: boolean;
+  private _age?: number;
+  private _updated: boolean;
   private _deleted: boolean;
   private _collapse: boolean;
 
@@ -41,12 +41,25 @@ export class CommentEntity {
     return this._content;
   }
 
+  public set content(value: string | undefined) {
+    this._content = value;
+  }
+
   public get createdAt(): Date | undefined {
     return this._createdAt;
   }
 
   public get updatedAt(): Date | undefined {
     return this._updatedAt;
+  }
+
+  public set updatedAt(value: Date | undefined) {
+    this._updatedAt = value;
+    this._updated =
+      (this._updatedAt &&
+        this._createdAt &&
+        this._updatedAt > this._createdAt) ??
+      false;
   }
 
   public get user(): UserEntity | undefined {

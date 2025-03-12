@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { cacheBusters } from '../helpers/cache-busters.helper';
+import { cacheEvents } from '../helpers/cache-events.helper';
 import { ManualCacheItem } from '../entities/manual-cache-item.entity';
 import { cacheConfigs } from '../helpers/cache-configs.helper';
 import { DEFAULT_HASHER, ICachePair } from 'ts-cacheable';
 import { isEqual } from 'lodash-es';
 import { IObservableCacheConfig } from 'ts-cacheable/dist/cjs/common/IObservableCacheConfig';
+import { cacheBusters } from '../helpers/cache-busters.helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CacheService {
+  public readonly cacheEvents = cacheEvents;
   public readonly cacheBusters = cacheBusters;
 
   public manualAdd(itemToAdd: ManualCacheItem) {
@@ -41,7 +43,7 @@ export class CacheService {
   }
 
   public clear(): void {
-    Object.values(this.cacheBusters).forEach((buster) => buster.next());
+    Object.values(this.cacheEvents).forEach((buster) => buster.next());
   }
 
   private hash(

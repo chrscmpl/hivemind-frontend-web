@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointService } from '@core/misc/services/breakpoint.service';
 import { IdeaSortEnum } from '@shared/enums/idea-sort.enum';
@@ -50,7 +50,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     public readonly breakpoints: BreakpointService,
     private readonly homePageService: HomePageService,
-    private readonly element: ElementRef,
   ) {}
 
   public ngOnInit(): void {

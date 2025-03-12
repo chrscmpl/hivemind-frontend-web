@@ -33,14 +33,14 @@ export class IdeaMutationService {
         content: data.newContent ?? undefined,
       })
       .pipe(
-        tap(() => this.cache.cacheBusters.IdeaUpdated$.next()),
+        tap(() => this.cache.cacheEvents.IdeaUpdated$.next()),
         map((data) => new IdeaEntity(data)),
       );
   }
 
   public delete(id: number): Observable<IdeaEntity> {
     return this.http.delete<IdeaDto>(`${environment.api}/posts/${id}`).pipe(
-      tap(() => this.cache.cacheBusters.IdeaDeleted$.next()),
+      tap(() => this.cache.cacheEvents.IdeaDeleted$.next()),
       map((data) => new IdeaEntity(data)),
     );
   }

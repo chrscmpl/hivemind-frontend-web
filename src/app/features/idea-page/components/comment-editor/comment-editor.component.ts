@@ -177,7 +177,13 @@ export class CommentEditorComponent implements OnInit {
   }
 
   private onSuccess(message: string) {
-    this._commentToUpdate = null;
+    if (this._commentToUpdate) {
+      this._commentToUpdate.content =
+        this.form.controls.content.value ?? undefined;
+      this._commentToUpdate.updatedAt = new Date();
+      this._commentToUpdate.deleted = false;
+      this._commentToUpdate = null;
+    }
     this.form.reset();
     this.setIsOpen(false);
     this.posted.emit();

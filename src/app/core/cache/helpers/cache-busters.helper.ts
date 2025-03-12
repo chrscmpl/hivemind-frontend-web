@@ -1,34 +1,28 @@
-import { Subject } from 'rxjs';
+import { merge } from 'rxjs';
+import { cacheEvents } from './cache-events.helper';
 
-const _AuthChanged$ = new Subject<void>();
-const _IdeaUpdated$ = new Subject<void>();
-const _IdeaDeleted$ = new Subject<void>();
-const _CommentCreated$ = new Subject<void>();
-const _CommentUpdated$ = new Subject<void>();
-const _CommentDeleted$ = new Subject<void>();
+const authCacheBuster = cacheEvents.AuthChanged$;
+
+const ideasCacheBuster = merge(
+  cacheEvents.AuthChanged$,
+  cacheEvents.IdeaUpdated$,
+  cacheEvents.IdeaDeleted$,
+);
+
+const commentsCacheBuster = merge(
+  cacheEvents.AuthChanged$,
+  cacheEvents.CommentCreated$,
+  cacheEvents.CommentDeleted$,
+);
 
 export const cacheBusters = {
-  get AuthChanged$() {
-    return _AuthChanged$;
+  get ideas() {
+    return ideasCacheBuster;
   },
-
-  get IdeaUpdated$() {
-    return _IdeaUpdated$;
+  get comments() {
+    return commentsCacheBuster;
   },
-
-  get IdeaDeleted$() {
-    return _IdeaDeleted$;
-  },
-
-  get CommentCreated$() {
-    return _CommentCreated$;
-  },
-
-  get CommentUpdated$() {
-    return _CommentUpdated$;
-  },
-
-  get CommentDeleted$() {
-    return _CommentDeleted$;
+  get auth() {
+    return authCacheBuster;
   },
 };
