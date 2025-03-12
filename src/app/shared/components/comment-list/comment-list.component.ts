@@ -65,6 +65,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    if (this.commentCount === 0) {
+      return;
+    }
     this.reset();
   }
 
@@ -75,9 +78,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private reset(): void {
     this.requestManager = undefined;
-    if (this.commentCount === 0) {
-      return;
-    }
     this.loadingIndicator.start();
     this.commentsFetchService
       .paginate({
