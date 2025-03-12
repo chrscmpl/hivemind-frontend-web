@@ -6,11 +6,16 @@ It is a responsive, progressive web application which can be used on many differ
 
 ## Build instructions
 
-To build the application in production mode, and serve it gzipped on `http://localhost:3000/`, run:
+To build the application in production mode, and serve it on `http://localhost:3000/`, run:
 
 ```bash
-npm run build
-npm run serve
+npm run build-and-serve
+```
+
+If you want to compress the static files to gzip before serving them, do it by running:
+
+```bash
+npm run build-and-serve:gzip
 ```
 
 To start a local development server, hosted on `http://localhost:4200/`, run:
