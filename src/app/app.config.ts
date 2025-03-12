@@ -3,7 +3,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   ApplicationConfig,
   Injector,
-  provideZoneChangeDetection,
+  provideZoneChangeDetection, isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -16,6 +16,7 @@ import {
   TUI_EDITOR_EXTENSIONS,
   setup,
 } from '@taiga-ui/editor';
+import { provideServiceWorker } from '@angular/service-worker';
 
 numbro.setLanguage('en-US');
 
@@ -33,6 +34,9 @@ export const appConfig: ApplicationConfig = {
         ...TUI_EDITOR_DEFAULT_EXTENSIONS,
         setup({ injector }),
       ],
-    },
+    }, provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          }),
   ],
 };
