@@ -1,4 +1,4 @@
-# Hivemind Frontend
+# HiveMind Frontend
 
 This repository contains the source code for the HiveMind client application, developed as part of a student project for the Web Technologies course in the Computer Science degree program at the University of Naples Federico II.
 
