@@ -14,7 +14,7 @@
   }
   @if (requestManager && comments.length) {
     @for (comment of comments; track comment.id) {
-      @if (!comment.deleted) {
+      @if (!comment.hidden) {
         <app-comment-card
           [class.opacity-0]="loadingIndicator.isLoading$ | async"
           [comment]="comment"

@@ -14,6 +14,7 @@ import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
 import {
   TUI_EDITOR_DEFAULT_EXTENSIONS,
   TUI_EDITOR_EXTENSIONS,
+  setup,
 } from '@taiga-ui/editor';
 
 numbro.setLanguage('en-US');
@@ -30,7 +31,7 @@ export const appConfig: ApplicationConfig = {
       deps: [Injector],
       useFactory: (injector: Injector) => [
         ...TUI_EDITOR_DEFAULT_EXTENSIONS,
-        import('@taiga-ui/editor').then(({ setup }) => setup({ injector })),
+        setup({ injector }),
       ],
     },
   ],

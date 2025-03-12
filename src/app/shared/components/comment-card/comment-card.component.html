@@ -4,10 +4,11 @@
   class="!relative !bg-background-base hover:!bg-background-base-alt transition-colors duration-tui !max-w-[100vw] ![--t-space:0.4rem] ![--t-padding:0.5rem] !px-6"
   [ngClass]="{
     '!rounded-none ![--t-padding:0.2rem]': isMobile,
-    '!flex-row cursor-pointer select-none ![--t-space:0.3rem]': collapsed,
+    '!flex-row cursor-pointer select-none ![--t-space:0.3rem]':
+      comment.collapsed,
   }"
-  (click)="collapsed = false"
-  (keydown.enter)="collapsed = false"
+  (click)="comment.collapsed = false"
+  (keydown.enter)="comment.collapsed = false"
   tabindex="0"
 >
   <div
@@ -33,7 +34,7 @@
     <span class="flex items-center select-none">
       {{ comment.age ? (comment.age | humanizeDuration) : "" }}
       @if (comment.updated) {
-        @if (collapsed) {
+        @if (comment.collapsed) {
           <tui-icon icon="@tui.pencil" class="h-4" />
         } @else {
           <tui-icon
@@ -46,7 +47,7 @@
       }
     </span>
 
-    @if (!collapsed) {
+    @if (!comment.collapsed) {
       <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
       <div
         class="justify-self-end col-start-[-1]"
@@ -92,7 +93,8 @@
     [innerHTML]="comment.content"
     class="min-w-0 flex-1 text-base break-words !transition-none"
     [ngClass]="{
-      '!text-text-tertiary line-clamp-1 break-all cursor-pointer': collapsed,
+      '!text-text-tertiary line-clamp-1 break-all cursor-pointer':
+        comment.collapsed,
     }"
   ></section>
 </div>

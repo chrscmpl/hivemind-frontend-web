@@ -10,8 +10,8 @@ export class CommentEntity {
 
   private _age?: number;
   private _updated: boolean;
-  private _deleted: boolean;
-  private _collapse: boolean;
+  private _hidden: boolean;
+  private _collapsed: boolean;
 
   public constructor(data: CommentDto) {
     this._id = data.id;
@@ -29,8 +29,8 @@ export class CommentEntity {
     this._updated =
       !!this.createdAt && !!this.updatedAt && this.updatedAt > this.createdAt;
 
-    this._collapse = false;
-    this._deleted = false;
+    this._collapsed = false;
+    this._hidden = false;
   }
 
   public get id(): number {
@@ -78,19 +78,19 @@ export class CommentEntity {
     return this._updated;
   }
 
-  public get deleted(): boolean {
-    return this._deleted;
+  public get hidden(): boolean {
+    return this._hidden;
   }
 
-  public set deleted(value: boolean) {
-    this._deleted = value;
+  public set hidden(value: boolean) {
+    this._hidden = value;
   }
 
-  public get collapse(): boolean {
-    return this._collapse;
+  public get collapsed(): boolean {
+    return this._collapsed;
   }
 
-  public set collapse(value: boolean) {
-    this._collapse = value;
+  public set collapsed(value: boolean) {
+    this._collapsed = value;
   }
 }

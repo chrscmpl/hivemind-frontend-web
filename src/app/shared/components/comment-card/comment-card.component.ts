@@ -4,7 +4,6 @@ import {
   effect,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -45,7 +44,7 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   templateUrl: './comment-card.component.html',
   styleUrl: './comment-card.component.scss',
 })
-export class CommentCardComponent implements OnInit {
+export class CommentCardComponent {
   private _isMobile = false;
   @ViewChild('menu') menu!: TemplateRef<unknown>;
   @Input({ required: true }) public comment!: CommentEntity;
@@ -60,17 +59,6 @@ export class CommentCardComponent implements OnInit {
 
   public get isAuthor(): boolean {
     return this._isAuthor;
-  }
-
-  private _collapsed: boolean = false;
-
-  public get collapsed(): boolean {
-    return this._collapsed;
-  }
-
-  public set collapsed(value: boolean) {
-    this.comment.collapse = value;
-    this._collapsed = value;
   }
 
   public constructor(
@@ -88,10 +76,6 @@ export class CommentCardComponent implements OnInit {
         this.comment.user?.id !== undefined &&
         this.comment.user?.id === auth.authUser()?.id;
     });
-  }
-
-  public ngOnInit(): void {
-    this.collapsed = this.comment.collapse;
   }
 
   public openDialog(): void {
@@ -129,7 +113,7 @@ export class CommentCardComponent implements OnInit {
         }),
       )
       .subscribe(() => {
-        this.comment.deleted = true;
+        this.comment.hidden = true;
         this.alerts
           .open('Comment deleted successfully', {
             appearance: 'positive',
@@ -141,6 +125,6 @@ export class CommentCardComponent implements OnInit {
 
   public toggleCollapsed(event: Event): void {
     event.stopPropagation();
-    this.collapsed = !this.collapsed;
+    this.comment.collapsed = !this.comment.collapsed;
   }
 }

@@ -181,7 +181,7 @@ export class CommentEditorComponent implements OnInit {
       this._commentToUpdate.content =
         this.form.controls.content.value ?? undefined;
       this._commentToUpdate.updatedAt = new Date();
-      this._commentToUpdate.deleted = false;
+      this._commentToUpdate.hidden = false;
       this._commentToUpdate = null;
     }
     this.form.reset();
