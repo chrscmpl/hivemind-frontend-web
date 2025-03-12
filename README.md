@@ -1,59 +1,40 @@
-# HivemindFrontendWeb
+# Hivemind Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
+This repository contains the source code for the HiveMind client application, developed as part of a student project for the Web Technologies course in the Computer Science degree program at the University of Naples Federico II.
 
-## Development server
+It is a responsive, progressive web application which can be used on many different browsers and devices and even installed. It also allows users to personalize their experience by offering multiple themes to choose from.
 
-To start a local development server, run:
+## Build instructions
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+To build the application in production mode, and serve it gzipped on `http://localhost:3000/`, run:
 
 ```bash
-ng generate component component-name
+npm run build
+npm run serve
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+To start a local development server, hosted on `http://localhost:4200/`, run:
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+\*note: The application will only be installable as a PWA on some browsers if built and served in production mode
 
-To build the project run:
+## Technologies
 
-```bash
-ng build
-```
+- The **[TypeScript](https://www.typescriptlang.org/)** programming language and the **[Angular (v19)](https://angular.dev/)** framework were used for the development of the application.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- The **[Taiga UI](https://taiga-ui.dev/)** library was used for its many pre-built components
 
-## Running unit tests
+- The **[TailwindCSS](https://tailwindcss.com/)** CSS framework was used for most of the styles
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Other important packages used for the project include **[rxjs](https://rxjs.dev/)**, **[ts-cacheable](https://www.npmjs.com/package/ts-cacheable)** and **[lodash-es](https://www.npmjs.com/package/lodash-es)**
 
-```bash
-ng test
-```
+## Other credits
 
-## Running end-to-end tests
+- SVG icons used in the UI are offered by **[Lucide](https://lucide.dev/)**
 
-For end-to-end (e2e) testing, run:
+- Brain svg icon used in logo, favicon and icon is offered by by Saputra from **[Noun Project](https://thenounproject.com/browse/icons/term/brain/)** (CC BY 3.0)
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Modeseven-L3n5 font is offered by Andrew Bulhak from **[fontspace.com](https://www.fontspace.com/modeseven-font-f2369)** under a Freeware license
