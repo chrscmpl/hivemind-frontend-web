@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -59,7 +60,7 @@ interface CommentForm {
   templateUrl: './comment-editor.component.html',
   styleUrl: './comment-editor.component.scss',
 })
-export class CommentEditorComponent implements OnInit {
+export class CommentEditorComponent implements OnInit, OnDestroy {
   @Input({ required: true }) public ideaId!: number;
   @Output() public readonly posted = new EventEmitter<void>();
   public form!: FormGroup<CommentForm>;
@@ -98,6 +99,12 @@ export class CommentEditorComponent implements OnInit {
         updateOn: 'blur',
       }),
     });
+  }
+
+  public ngOnDestroy(): void {
+    if (this._commentToUpdate) {
+      this._commentToUpdate.hidden = false;
+    }
   }
 
   public open(event?: Event): void {
