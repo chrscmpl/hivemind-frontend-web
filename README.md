@@ -6,15 +6,13 @@ It is a responsive, progressive web application which can be used on many differ
 
 ## Build instructions
 
-To build the application in production mode, and serve it on `http://localhost:3000/`, run:
+To build the application in production mode, and serve it on `http://localhost:3000/`, run one of the following commands:
 
 ```bash
+# without compressing
 npm run build-and-serve
-```
 
-If you want to compress the static files to gzip before serving them, do it by running:
-
-```bash
+# compress to gzip
 npm run build-and-serve:gzip
 ```
 
