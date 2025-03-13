@@ -1,4 +1,11 @@
-# HiveMind Frontend
+<p align="center">
+  <a href="https://www.typescriptlang.org/" target="blank"><img src="readme-assets/ts-logo-512.svg" width="120" alt="TypeScript Logo" style="margin-right:10px"></a>
+  <a href="https://angular.dev/" target="blank"><img src="readme-assets/angular_gradient.png" width="120" alt="Angular Logo" style="margin-right:10px"></a>
+  <a href="https://taiga-ui.dev/" target="blank"><img src="readme-assets/taiga-ui.svg" width="120" alt="Taiga UI Logo" style="margin-right:10px"></a>
+  <a href="https://tailwindcss.com/" target="blank"><img src="readme-assets/tailwindcss-mark.svg" width="120" alt="TailwindCSS Logo"></a>
+</p>
+
+<h1 align="Center">HiveMind Frontend</h1>
 
 This repository contains the source code for the HiveMind client application, developed as part of a student project for the Web Technologies course in the Computer Science degree program at the University of Naples Federico II.
 
