@@ -13,7 +13,7 @@ export default defineConfig({
       },
     },
     {
-      name: 'desktop Chrome',
+      name: 'Desktop Chrome',
       testDir: './e2e/tests',
       use: {
         baseURL: 'http://localhost:4200',
@@ -37,5 +37,6 @@ export default defineConfig({
       dependencies: ['setup'],
     },
   ],
-  reporter: 'html',
+  reporter: [['html', { outputFolder: 'playwright/report' }]],
+  outputDir: 'playwright/results',
 });

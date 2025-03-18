@@ -8,6 +8,9 @@
 
 /test-results
 /playwright-report
+
+/playwright/results
+/playwright/report
 /playwright
 
 # Node

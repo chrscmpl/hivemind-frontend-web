@@ -5,16 +5,12 @@ test.beforeEach(async ({ page }) => {
 
   if (await page.locator('#app-aside').isVisible()) {
     await page.locator('#aside-toggle').click();
-    await page.waitForTimeout(500);
     await page.locator('#aside-settings').click();
-    await page.waitForTimeout(500);
     await page.locator('#aside-settings-theme').click();
   } else {
     await page.locator('#app-drawer').click();
-    await page.waitForTimeout(500);
     await page.locator('#drawer-settings').click();
   }
-  await page.waitForTimeout(500);
 });
 
 test('should open settings', async ({ page }) => {
@@ -34,7 +30,6 @@ test('should have set the right theme', async ({ page }) => {
 
 test('should be able to set theme', async ({ page }) => {
   await page.locator('#theme-dark').click();
-  await page.waitForTimeout(500);
   expect(await page.locator('#theme-dark').isChecked()).toBeTruthy();
   expect(await page.locator('#theme-light').isChecked()).toBeFalsy();
   expect(await page.locator('#theme-system').isChecked()).toBeFalsy();
@@ -43,12 +38,10 @@ test('should be able to set theme', async ({ page }) => {
 
 test('should be able to set theme variation', async ({ page }) => {
   await page.locator('#theme-dark').click();
-  await page.waitForTimeout(500);
   await page.locator('#theme-variation').click();
-  await page.waitForTimeout(500);
   await page.locator('#theme-variation-terminal').click();
-  await page.waitForTimeout(500);
   await page.locator('#theme-variation').click();
+
   await page.waitForTimeout(500);
 
   expect(
