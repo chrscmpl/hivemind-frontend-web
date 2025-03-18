@@ -1,11 +1,41 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './e2e',
-  use: {
-    baseURL: 'http://localhost:4200',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
-  },
+  projects: [
+    {
+      name: 'setup',
+      testDir: './e2e/setup',
+      testMatch: /.*\.setup\.ts/,
+      use: {
+        baseURL: 'http://localhost:4200',
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+      },
+    },
+    {
+      name: 'desktop Chrome',
+      testDir: './e2e/tests',
+      use: {
+        baseURL: 'http://localhost:4200',
+        ...devices['Desktop Chrome'],
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'],
+    },
+    {
+      name: 'Galaxy S9+',
+      testDir: './e2e/tests',
+      use: {
+        baseURL: 'http://localhost:4200',
+        ...devices['Galaxy S9+'],
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'],
+    },
+  ],
   reporter: 'html',
 });

@@ -2,11 +2,18 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
-  await page.locator('#aside-toggle').click();
-  await page.waitForTimeout(500);
-  await page.locator('#aside-settings').click();
-  await page.waitForTimeout(500);
-  await page.locator('#aside-settings-theme').click();
+
+  if (await page.locator('#app-aside').isVisible()) {
+    await page.locator('#aside-toggle').click();
+    await page.waitForTimeout(500);
+    await page.locator('#aside-settings').click();
+    await page.waitForTimeout(500);
+    await page.locator('#aside-settings-theme').click();
+  } else {
+    await page.locator('#app-drawer').click();
+    await page.waitForTimeout(500);
+    await page.locator('#drawer-settings').click();
+  }
   await page.waitForTimeout(500);
 });
 

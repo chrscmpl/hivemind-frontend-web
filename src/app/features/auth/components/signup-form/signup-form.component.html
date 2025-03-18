@@ -1,5 +1,6 @@
 <form tuiForm="l" [formGroup]="form" (ngSubmit)="submit()" autocomplete="off">
   <a
+    id="signup-login"
     tuiLink
     class="w-fit"
     (click)="goToLogin()"
@@ -11,12 +12,12 @@
   <tui-textfield iconEnd="@tui.smile">
     <label
       class="after:content-['*'] after:text-text-negative"
-      for="signup-displayName"
+      for="signup-display-name"
       >Name</label
     >
     <input
       tuiTextfield
-      id="signup-displayName"
+      id="signup-display-name"
       name="displayName"
       type="text"
       formControlName="displayName"
@@ -141,6 +142,8 @@
   <tui-error formControlName="acceptTos" [error]="[] | tuiFieldError | async" />
 
   <footer>
-    <button tuiButton type="submit" class="w-full">Sign Up</button>
+    <button id="signup-submit" tuiButton type="submit" class="w-full">
+      Sign Up
+    </button>
   </footer>
 </form>

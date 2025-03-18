@@ -1,5 +1,6 @@
 <form tuiForm="l" [formGroup]="form" (ngSubmit)="submit()">
   <a
+    id="login-signup"
     tuiLink
     class="w-fit"
     (click)="goToSignup()"
@@ -35,6 +36,8 @@
   <tui-error formControlName="password" [error]="[] | tuiFieldError | async" />
 
   <footer>
-    <button tuiButton type="submit" class="w-full">Log In</button>
+    <button id="login-submit" tuiButton type="submit" class="w-full">
+      Log In
+    </button>
   </footer>
 </form>

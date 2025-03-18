@@ -1,4 +1,5 @@
 <button
+  id="app-drawer"
   title="Menu"
   tuiIconButton
   tuiNavigationDrawer
@@ -12,6 +13,7 @@
         <tui-opt-group>
           @for (item of group.items; track $index) {
             <button
+              id="drawer-{{ item.id }}"
               tuiOption
               type="button"
               (click)="onButtonClick(item.action)"

@@ -8,6 +8,7 @@
 
 /test-results
 /playwright-report
+/playwright
 
 # Node
 /node_modules

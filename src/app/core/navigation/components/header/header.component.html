@@ -6,6 +6,7 @@
 >
   @if (isMobile && ui.UIStyle() === UIStyleEnum.BACK) {
     <button
+      id="header-back"
       tuiButton
       appearance="secondary-grayscale"
       type="button"
@@ -20,7 +21,7 @@
     @if (isMobile) {
       <app-drawer />
     }
-    <app-logo class="w-52 h-[calc(100%+1rem)] my-[-0.5rem]" />
+    <app-logo id="header-logo" class="w-52 h-[calc(100%+1rem)] my-[-0.5rem]" />
   }
   <hr />
   @if (!!authStatus.user) {
@@ -33,12 +34,14 @@
       </span>
       @if (isMobile) {
         <tui-avatar
+          id="header-avatar"
           src="@tui.user"
           class="cursor-pointer"
           (click)="tuiDialogs.open(menu).subscribe()"
         />
       } @else {
         <tui-avatar
+          id="header-avatar"
           src="@tui.user"
           class="cursor-pointer"
           tuiDropdownHover
@@ -48,6 +51,7 @@
     </span>
   } @else if (authStatus.authChecked) {
     <button
+      id="header-login"
       tuiButton
       appearance="textfield"
       (click)="dialogs.open(DialogEnum.LOGIN).subscribe()"
@@ -55,6 +59,7 @@
       Log In
     </button>
     <button
+      id="header-signup"
       tuiButton
       appearance="primary"
       (click)="dialogs.open(DialogEnum.SIGNUP).subscribe()"
@@ -73,6 +78,7 @@
     (click)="observer.complete?.()"
   >
     <a
+      id="header-logout"
       class="!justify-start"
       tuiOption
       role="menuitem"

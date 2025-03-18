@@ -7,6 +7,7 @@ import { TuiButton, TuiDataList } from '@taiga-ui/core';
 import { TuiNavigation } from '@taiga-ui/layout';
 
 interface item {
+  id: string;
   title: string;
   icon: string;
   routerLink?: string;
@@ -31,11 +32,13 @@ export class DrawerComponent {
     {
       items: [
         {
+          id: 'home',
           title: 'Home',
           icon: '@tui.home',
           routerLink: '/ideas',
         },
         {
+          id: 'submit',
           title: 'Post Idea',
           icon: '@tui.plus',
           routerLink: '/ideas/submit',
@@ -45,6 +48,7 @@ export class DrawerComponent {
     {
       items: [
         {
+          id: 'settings',
           title: 'Settings',
           icon: '@tui.settings',
           action: () => this.dialogs.open(DialogEnum.SETTINGS).subscribe(),
@@ -54,16 +58,19 @@ export class DrawerComponent {
     {
       items: [
         {
+          id: 'tos',
           title: 'Terms of Service',
           icon: '@tui.scroll-text',
           routerLink: '/tos',
         },
         {
+          id: 'privacy-policy',
           title: 'Privacy Policy',
           icon: '@tui.shield',
           routerLink: '/privacy-policy',
         },
         {
+          id: 'credits',
           title: 'Credits',
           icon: '@tui.signature',
           routerLink: '/credits',
@@ -74,6 +81,7 @@ export class DrawerComponent {
       display: false,
       items: [
         {
+          id: 'logout',
           title: 'Logout',
           icon: '@tui.door-open',
           action: () => this.auth.logout(),
