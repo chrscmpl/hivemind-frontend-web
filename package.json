@@ -16,7 +16,11 @@
     "build-and-serve:gzip": "npm run build:gzip && npm run serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed",
+    "e2e:ui": "playwright test --ui",
+    "e2e-report": "playwright show-report"
   },
   "private": true,
   "dependencies": {
@@ -50,6 +54,7 @@
     "@angular-devkit/build-angular": "^19.2.1",
     "@angular/cli": "^19.2.1",
     "@angular/compiler-cli": "^19.2.1",
+    "@playwright/test": "^1.51.1",
     "@types/jasmine": "~5.1.0",
     "@types/lodash-es": "^4.17.12",
     "angular-eslint": "19.0.1",
@@ -63,6 +68,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "playwright": "^1.51.1",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "renamer": "^5.0.2",

@@ -5,6 +5,7 @@
   >
     <header>
       <button
+        id="aside-{{ IdeaSortEnum.CONTROVERSIAL }}"
         iconStart="@tui.flame"
         tuiAsideItem
         type="button"
@@ -15,6 +16,7 @@
         <span>Controversial</span>
       </button>
       <button
+        id="aside-{{ IdeaSortEnum.POPULAR }}"
         iconStart="@tui.trophy"
         tuiAsideItem
         type="button"
@@ -25,6 +27,7 @@
         <span>Popular</span>
       </button>
       <button
+        id="aside-{{ IdeaSortEnum.UNPOPULAR }}"
         iconStart="@tui.frown"
         tuiAsideItem
         type="button"
@@ -35,6 +38,7 @@
         <span>Unpopular</span>
       </button>
       <button
+        id="aside-{{ IdeaSortEnum.NEW }}"
         iconStart="@tui.clock"
         tuiAsideItem
         type="button"
@@ -47,6 +51,7 @@
     </header>
 
     <button
+      id="aside-submit"
       iconStart="@tui.plus"
       tuiAsideItem
       type="button"
@@ -57,6 +62,7 @@
 
     <tui-aside-group>
       <button
+        id="aside-settings"
         automation-id="setting"
         iconStart="@tui.settings"
         tuiAsideItem
@@ -67,6 +73,7 @@
         Settings
         <ng-template>
           <button
+            id="aside-settings-theme"
             tuiAsideItem
             iconStart="@tui.palette"
             type="button"
@@ -80,6 +87,7 @@
     </tui-aside-group>
     <tui-aside-group>
       <button
+        id="aside-more"
         automation-id="more"
         iconStart="@tui.ellipsis"
         tuiAsideItem
@@ -89,6 +97,7 @@
         More
         <ng-template>
           <button
+            id="aside-more-tos"
             tuiAsideItem
             iconStart="@tui.scroll-text"
             type="button"
@@ -97,6 +106,7 @@
             Terms of Service
           </button>
           <button
+            id="aside-more-privacy-policy"
             tuiAsideItem
             iconStart="@tui.shield"
             type="button"
@@ -105,6 +115,7 @@
             Privacy Policy
           </button>
           <button
+            id="aside-more-credits"
             tuiAsideItem
             iconStart="@tui.signature"
             type="button"
@@ -117,6 +128,7 @@
     </tui-aside-group>
     <footer>
       <button
+        id="aside-toggle"
         [iconStart]="
           sidebarService.expanded() ? '@tui.arrow-left' : '@tui.arrow-right'
         "

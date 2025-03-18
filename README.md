@@ -1,8 +1,9 @@
 <p align="center">
   <a href="https://www.typescriptlang.org/" target="blank"><img src="readme-assets/ts-logo-512.svg" width="120" alt="TypeScript Logo" style="margin-right:10px"></a>
-  <a href="https://angular.dev/" target="blank"><img src="readme-assets/angular_gradient.png" width="120" alt="Angular Logo" style="margin-right:10px"></a>
   <a href="https://taiga-ui.dev/" target="blank"><img src="readme-assets/taiga-ui.svg" width="120" alt="Taiga UI Logo" style="margin-right:10px"></a>
+  <a href="https://angular.dev/" target="blank"><img src="readme-assets/angular_gradient.png" width="120" alt="Angular Logo" style="margin-right:10px"></a>
   <a href="https://tailwindcss.com/" target="blank"><img src="readme-assets/tailwindcss-mark.svg" width="120" alt="TailwindCSS Logo"></a>
+   <a href="https://playwright.dev/" target="blank"><img src="readme-assets/playwright.svg" width="120" alt="Playwright Logo"></a>
 </p>
 
 <h1 align="Center">HiveMind Frontend</h1>
@@ -38,6 +39,8 @@ npm start
 - The **[Taiga UI](https://taiga-ui.dev/)** library was used for its many pre-built components
 
 - The **[TailwindCSS](https://tailwindcss.com/)** CSS framework was used for most of the styles
+
+- **[Playwright](https://playwright.dev/)** was used to implement E2E tests.
 
 - Other important packages used for the project include **[rxjs](https://rxjs.dev/)**, **[ts-cacheable](https://www.npmjs.com/package/ts-cacheable)** and **[lodash-es](https://www.npmjs.com/package/lodash-es)**
 

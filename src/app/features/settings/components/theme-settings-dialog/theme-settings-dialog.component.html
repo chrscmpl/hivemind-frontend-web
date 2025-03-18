@@ -44,6 +44,7 @@
         currentTheme && themeVariationOptions[currentTheme].options.length > 1
       ) {
         <button
+          id="theme-variation"
           class="w-fit"
           tuiButton
           tuiChevron
@@ -74,6 +75,7 @@
       @let option = themeVariationOptions[currentTheme];
       @for (item of option.options; track $index) {
         <button
+          id="theme-variation-{{ item }}"
           tuiOption
           [tuiAppearance]="
             option.control.value === item ? 'flat' : 'flat-grayscale'
