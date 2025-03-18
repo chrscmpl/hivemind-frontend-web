@@ -22,16 +22,19 @@ async function submitLogin(page: Page) {
 setup('authenticate', async ({ page }) => {
   await page.goto('/');
 
-  if (!(await page.evaluate(() => localStorage.getItem('accessToken')))) {
-    await page.locator('#header-signup').click();
+  const avatar = page.locator('#header-avatar');
+  if (await avatar.isVisible()) {
+    await avatar.click();
+    await page.locator('#header-logout').click();
+  }
 
-    await submitSignup(page);
+  await page.locator('#header-signup').click();
+  await submitSignup(page);
+  await page.waitForTimeout(500);
 
-    if (await page.locator('app-signup-form')?.isVisible()) {
-      await page.locator('#signup-login').click();
-      await submitLogin(page);
-    }
-
+  if (await page.locator('app-signup-form')?.isVisible()) {
+    await page.locator('#signup-login').click();
+    await submitLogin(page);
     await page.waitForTimeout(500);
   }
 

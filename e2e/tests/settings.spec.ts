@@ -47,8 +47,8 @@ test('should be able to set theme variation', async ({ page }) => {
   expect(
     await page
       .locator('#theme-variation-terminal')
-      .getAttribute('ng-reflect-icon-end'),
-  ).toBe('@tui.check');
+      .getAttribute('data-checked'),
+  ).toBe('true');
   expect(
     await page.evaluate(() => localStorage.getItem('dark-theme-variation')),
   ).toBe('terminal');

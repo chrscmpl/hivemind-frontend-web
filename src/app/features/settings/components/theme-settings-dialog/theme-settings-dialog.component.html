@@ -74,13 +74,13 @@
     @if (currentTheme) {
       @let option = themeVariationOptions[currentTheme];
       @for (item of option.options; track $index) {
+        @let checked = option.control.value === item;
         <button
           id="theme-variation-{{ item }}"
           tuiOption
-          [tuiAppearance]="
-            option.control.value === item ? 'flat' : 'flat-grayscale'
-          "
-          [iconEnd]="option.control.value === item ? '@tui.check' : ''"
+          [attr.data-checked]="checked"
+          [tuiAppearance]="checked ? 'flat' : 'flat-grayscale'"
+          [iconEnd]="checked ? '@tui.check' : ''"
           type="button"
           class="!font-bold after:!m-0"
           (click)="option.control.setValue(item)"
