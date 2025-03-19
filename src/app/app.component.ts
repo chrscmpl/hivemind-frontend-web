@@ -2,7 +2,7 @@ import { TuiAlertService, TuiRoot, TuiScrollbar } from '@taiga-ui/core';
 import { Component, Inject, OnInit } from '@angular/core';
 import { HeaderComponent } from './core/navigation/components/header/header.component';
 import { SidebarComponent } from './core/navigation/components/sidebar/sidebar.component';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { BreakpointService } from './core/misc/services/breakpoint.service';
 import { ThemeService } from './core/misc/services/theme.service';
 import { CreateButtonComponent } from './core/navigation/components/create-button/create-button.component';
@@ -34,12 +34,18 @@ export class AppComponent implements OnInit {
     private readonly navigationUtils: NavigationUtilsService,
     private readonly alerts: TuiAlertService,
     public readonly virtualKeyboard: VirtualKeyboardService,
+    private readonly router: Router,
   ) {}
 
   public ngOnInit(): void {
     this.navigationUtils.navigationError$.subscribe((error) => {
       if (error.error.message) {
         this.displayError(error.error.message);
+      }
+    });
+    this.navigationUtils.navigationStopped$.pipe(take(1)).subscribe((e) => {
+      if (!(e instanceof NavigationEnd)) {
+        this.router.navigate(['/']);
       }
     });
   }

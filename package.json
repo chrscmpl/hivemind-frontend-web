@@ -19,6 +19,7 @@
     "lint": "ng lint",
     "e2e": "playwright test",
     "e2e:headed": "playwright test --headed",
+    "e2e:headed:sequential": "playwright test --headed --workers=1",
     "e2e:ui": "playwright test --ui",
     "e2e-report": "playwright show-report playwright/report"
   },

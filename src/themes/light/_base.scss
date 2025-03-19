@@ -54,11 +54,11 @@
   --tui-status-negative: #{variables.$negativeColor};
   --tui-status-negative-pale: #{color.adjust(
       variables.$negativeColor,
-      $lightness: 4%
+      $lightness: 17%
     )};
   --tui-status-negative-pale-hover: #{color.adjust(
       variables.$negativeColor,
-      $lightness: 8%
+      $lightness: 15%
     )};
 }
 

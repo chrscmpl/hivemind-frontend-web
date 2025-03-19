@@ -46,10 +46,15 @@
   --tui-status-negative: #{variables.$negativeColor};
   --tui-status-negative-pale: #{color.adjust(
       variables.$negativeColor,
-      $lightness: 4%
+      $lightness: -10%
     )};
   --tui-status-negative-pale-hover: #{color.adjust(
       variables.$negativeColor,
-      $lightness: 8%
+      $lightness: -12%
     )};
+}
+
+tui-notification::before {
+  color: var(--tui-text-primary) !important;
+  opacity: 0.5 !important;
 }

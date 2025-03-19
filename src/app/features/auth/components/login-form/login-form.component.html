@@ -19,7 +19,11 @@
       appUpdateOnEnter
     />
   </tui-textfield>
-  <tui-error formControlName="email" [error]="[] | tuiFieldError | async" />
+  <tui-error
+    id="login-email-error"
+    formControlName="email"
+    [error]="[] | tuiFieldError | async"
+  />
 
   <tui-textfield>
     <label for="login-password">Password</label>
@@ -33,7 +37,11 @@
     />
     <tui-icon tuiPassword />
   </tui-textfield>
-  <tui-error formControlName="password" [error]="[] | tuiFieldError | async" />
+  <tui-error
+    id="login-password-error"
+    formControlName="password"
+    [error]="[] | tuiFieldError | async"
+  />
 
   <footer>
     <button id="login-submit" tuiButton type="submit" class="w-full">

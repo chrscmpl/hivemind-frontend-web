@@ -25,6 +25,7 @@
     />
   </tui-textfield>
   <tui-error
+    id="signup-display-name-error"
     formControlName="displayName"
     [error]="[] | tuiFieldError | async"
   />
@@ -44,7 +45,11 @@
       appUpdateOnEnter
     />
   </tui-textfield>
-  <tui-error formControlName="handle" [error]="[] | tuiFieldError | async" />
+  <tui-error
+    id="signup-handle-error"
+    formControlName="handle"
+    [error]="[] | tuiFieldError | async"
+  />
 
   <tui-textfield iconEnd="@tui.mail">
     <label
@@ -62,7 +67,11 @@
       appUpdateOnEnter
     />
   </tui-textfield>
-  <tui-error formControlName="email" [error]="[] | tuiFieldError | async" />
+  <tui-error
+    id="signup-email-error"
+    formControlName="email"
+    [error]="[] | tuiFieldError | async"
+  />
 
   <tui-textfield>
     <label
@@ -81,7 +90,11 @@
     />
     <tui-icon tuiPassword />
   </tui-textfield>
-  <tui-error formControlName="password" [error]="[] | tuiFieldError | async" />
+  <tui-error
+    id="signup-password-error"
+    formControlName="password"
+    [error]="[] | tuiFieldError | async"
+  />
 
   <progress
     max="100"
@@ -114,6 +127,7 @@
     <tui-icon tuiPassword />
   </tui-textfield>
   <tui-error
+    id="signup-confirm-password-error"
     formControlName="confirmPassword"
     [error]="[] | tuiFieldError | async"
   />
@@ -139,7 +153,11 @@
       <a tuiLink routerLink="/privacy-policy" target="_blank">Privacy Policy</a>
     </label>
   </section>
-  <tui-error formControlName="acceptTos" [error]="[] | tuiFieldError | async" />
+  <tui-error
+    id="signup-accept-tos-error"
+    formControlName="acceptTos"
+    [error]="[] | tuiFieldError | async"
+  />
 
   <footer>
     <button id="signup-submit" tuiButton type="submit" class="w-full">

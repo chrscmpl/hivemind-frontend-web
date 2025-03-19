@@ -36,7 +36,11 @@
           appUpdateOnEnter
         />
       </tui-textfield>
-      <tui-error formControlName="title" [error]="[] | tuiFieldError | async" />
+      <tui-error
+        id="create-idea-title-error"
+        formControlName="title"
+        [error]="[] | tuiFieldError | async"
+      />
     </section>
     <section class="flex flex-col items-stretch" [class.flex-1]="isMobile">
       <tui-editor
@@ -50,6 +54,7 @@
         Idea content
       </tui-editor>
       <tui-error
+        id="create-idea-content-error"
         formControlName="content"
         [error]="[] | tuiFieldError | async"
       />

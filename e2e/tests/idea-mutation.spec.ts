@@ -33,10 +33,14 @@ test('should open idea creation page from create button', async ({ page }) => {
 test('should enforce idea creation constraints', async ({ page }) => {
   await page.goto('/ideas/submit');
   await page.locator('#create-idea-submit').click();
-  expect(page.locator('tui-error > .t-message-text')).toBeVisible();
+  expect(
+    page.locator('#create-idea-title-error > .t-message-text'),
+  ).toBeVisible();
   await page.locator('#create-idea-title').fill('A');
   await page.locator('#create-idea-submit').click();
-  expect(page.locator('tui-error > .t-message-text')).toBeVisible();
+  expect(
+    page.locator('#create-idea-title-error > .t-message-text'),
+  ).toBeVisible();
 });
 
 test('should be able to create an idea', async ({ page }) => {
@@ -62,10 +66,14 @@ test('should enforce idea editing constraints', async ({ page }) => {
 
   await page.locator('#create-idea-title').fill('');
   await page.locator('#create-idea-submit').click();
-  expect(page.locator('tui-error > .t-message-text')).toBeVisible();
+  expect(
+    page.locator('#create-idea-title-error > .t-message-text'),
+  ).toBeVisible();
   await page.locator('#create-idea-title').fill('A');
   await page.locator('#create-idea-submit').click();
-  expect(page.locator('tui-error > .t-message-text')).toBeVisible();
+  expect(
+    page.locator('#create-idea-title-error > .t-message-text'),
+  ).toBeVisible();
 });
 
 test('should be able to edit an idea', async ({ page }) => {
@@ -78,8 +86,11 @@ test('should be able to edit an idea', async ({ page }) => {
   await page.locator('#create-idea-title').fill('Edited Idea');
   await page.locator('#create-idea-submit').click();
   expect(
-    (await page.locator('[id^="idea-"] .idea-title').textContent())?.trim(),
+    (
+      await page.locator(`#idea-${createdIdeaId} .idea-title`).textContent()
+    )?.trim(),
   ).toBe('Edited Idea');
+  expect(page.locator(`#idea-${createdIdeaId} .idea-edited`)).toBeVisible();
 });
 
 test('should be able to delete an idea', async ({ page }) => {
@@ -90,5 +101,5 @@ test('should be able to delete an idea', async ({ page }) => {
   await page.locator(`#idea-${createdIdeaId}-delete`).click();
   await page.getByText('Delete this idea').click();
   await page.waitForTimeout(500);
-  expect(page.url().split('?')[0]?.split('/').pop()).toBe('ideas');
+  expect(page.url().includes(`ideas/${createdIdeaId}`)).toBeFalsy();
 });

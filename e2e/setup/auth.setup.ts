@@ -21,6 +21,7 @@ async function submitLogin(page: Page) {
 
 setup('authenticate', async ({ page }) => {
   await page.goto('/');
+  await page.waitForTimeout(500);
 
   const avatar = page.locator('#header-avatar');
   if (await avatar.isVisible()) {
