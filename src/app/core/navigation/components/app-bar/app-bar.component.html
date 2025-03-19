@@ -1,10 +1,12 @@
 <nav
+  id="app-app-bar"
   tuiTabBar
   [(activeItemIndex)]="activeItemIndex"
   class="!absolute bottom-0 right-0 w-screen select-none"
 >
   @for (tab of tabs; track $index) {
     <button
+      id="app-bar-{{ tab.id }}"
       type="button"
       tuiTabBarItem
       routerLinkActive

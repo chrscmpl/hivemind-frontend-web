@@ -19,7 +19,7 @@
   >
     @if (idea.user?.handle && idea.user?.displayName) {
       <span
-        class="!text-text-secondary"
+        class="idea-user !text-text-secondary"
         [ngClass]="{
           'line-clamp-1 break-all': compact,
         }"
@@ -42,14 +42,14 @@
       </span>
       <span class="select-none" [class.opacity-0]="!compact">&bull;</span>
     }
-    <span class="flex items-center select-none">
+    <span class="idea-age flex items-center select-none">
       {{ idea.age ? (idea.age | humanizeDuration) : "" }}
       @if (idea.updated) {
         <tui-icon
           icon="@tui.pencil"
           tuiHint="Edited {{ idea.updatedAt | date: 'MMM d, y, h:mm a' }}"
           [tuiHintDirection]="isMobile ? 'top-left' : 'right'"
-          class="h-4"
+          class="idea-edited h-4"
         />
       }
     </span>
@@ -67,7 +67,7 @@
           type="button"
           size="s"
           [appearance]="compact ? 'flat-grayscale' : 'outline-grayscale'"
-          class="!rounded-full before:!text-text-tertiary"
+          class="idea-more !rounded-full before:!text-text-tertiary"
           (click)="openDialog()"
         >
           More
@@ -82,7 +82,7 @@
           [tuiDropdown]="menu"
           size="s"
           appearance="flat-grayscale"
-          class="!rounded-full"
+          class="idea-more !rounded-full"
         >
           More
         </button>
@@ -93,7 +93,7 @@
   <section>
     <h2
       tuiTitle
-      class="!text-2xl !font-bold break-words"
+      class="idea-title !text-2xl !font-bold break-words"
       [class.line-clamp-3]="compact"
     >
       {{ idea.title }}
@@ -103,7 +103,7 @@
   <section
     tuiAppearance="flat-grayscale"
     [innerHTML]="idea.content"
-    class="text-base break-words"
+    class="idea-content text-base break-words"
     [ngClass]="{ 'line-clamp-2  !text-text-secondary': compact }"
   ></section>
 
@@ -129,7 +129,7 @@
     <button
       tuiButton
       appearance="outline-grayscale"
-      class="!bg-background-base !rounded-full !flex !items-center !w-min !h-10 !gap-3 !px-4 active:!bg-background-neutral-1"
+      class="idea-comment-btn !bg-background-base !rounded-full !flex !items-center !w-min !h-10 !gap-3 !px-4 active:!bg-background-neutral-1"
       (click)="onCommentButtonClick($event)"
       (keydown.enter)="onCommentButtonClick($event)"
     >
@@ -153,6 +153,7 @@
     (click)="observer.complete?.()"
   >
     <button
+      id="idea-{{ idea.id }}-share"
       tuiOption
       class="!justify-start"
       iconStart="@tui.share-2"
@@ -162,6 +163,7 @@
     </button>
     @if (isAuthor) {
       <button
+        id="idea-{{ idea.id }}-edit"
         tuiOption
         class="!justify-start"
         iconStart="@tui.pencil"
@@ -170,6 +172,7 @@
         Edit
       </button>
       <button
+        id="idea-{{ idea.id }}-delete"
         tuiOption
         class="!justify-start"
         iconStart="@tui.trash"

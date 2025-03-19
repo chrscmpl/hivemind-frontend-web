@@ -4,4 +4,5 @@ test('should load homepage', async ({ page }) => {
   await page.goto('/');
   const title = await page.title();
   expect(title).toBe('HiveMind');
+  expect(page.locator('app-home-page')).toBeVisible();
 });

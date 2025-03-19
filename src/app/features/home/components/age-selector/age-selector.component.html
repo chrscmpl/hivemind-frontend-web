@@ -1,4 +1,5 @@
 <button
+  id="app-age-selector"
   class="w-full !p-0"
   tuiButton
   [appearance]="buttonAppearance"
@@ -16,6 +17,7 @@
   <tui-data-list tuiDataListDropdownManager size="l" class="min-w-52">
     @for (option of options; track $index) {
       <button
+        id="age-selector-{{ option.value }}"
         tuiOption
         class="font-semibold"
         [tuiAppearance]="

@@ -40,6 +40,7 @@
     </section>
     <section class="flex flex-col items-stretch" [class.flex-1]="isMobile">
       <tui-editor
+        id="create-idea-content"
         [tools]="tools"
         [maxlength]="formService.constraints.content.maxLength"
         formControlName="content"
@@ -54,6 +55,7 @@
       />
     </section>
     <button
+      id="create-idea-submit"
       tuiButton
       type="submit"
       size="l"

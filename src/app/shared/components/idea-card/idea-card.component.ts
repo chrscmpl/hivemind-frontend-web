@@ -164,6 +164,9 @@ export class IdeaCardComponent implements OnInit {
   private deleteIdea() {
     this.ideaMutation.delete(this.idea.id).subscribe(() => {
       this.idea.deleted = true;
+      if (!this.compact) {
+        this.router.navigate(['/']);
+      }
       this.alerts
         .open('Idea deleted successfully', {
           appearance: 'positive',

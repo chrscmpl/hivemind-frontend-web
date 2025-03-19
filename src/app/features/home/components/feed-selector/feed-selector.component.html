@@ -1,4 +1,5 @@
 <button
+  id="app-feed-selector"
   class="w-full !p-0"
   tuiButton
   [appearance]="buttonAppearance"
@@ -16,6 +17,7 @@
   <tui-data-list tuiDataListDropdownManager size="l">
     @for (option of options; track $index) {
       <button
+        id="feed-selector-{{ option.value }}"
         tuiOption
         class="font-semibold !justify-start"
         [iconStart]="option.icon ?? ''"

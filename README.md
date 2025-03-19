@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://www.typescriptlang.org/" target="blank"><img src="readme-assets/ts-logo-512.svg" width="120" alt="TypeScript Logo" style="margin-right:10px"></a>
-  <a href="https://taiga-ui.dev/" target="blank"><img src="readme-assets/taiga-ui.svg" width="120" alt="Taiga UI Logo" style="margin-right:10px"></a>
-  <a href="https://angular.dev/" target="blank"><img src="readme-assets/angular_gradient.png" width="120" alt="Angular Logo" style="margin-right:10px"></a>
-  <a href="https://tailwindcss.com/" target="blank"><img src="readme-assets/tailwindcss-mark.svg" width="120" alt="TailwindCSS Logo"></a>
-   <a href="https://playwright.dev/" target="blank"><img src="readme-assets/playwright.svg" width="120" alt="Playwright Logo"></a>
+  <a href="https://www.typescriptlang.org/" target="_blank"><img src="readme-assets/ts-logo-512.svg" width="120" alt="TypeScript Logo" style="margin-right:10px"></a>
+  <a href="https://taiga-ui.dev/" target="_blank"><img src="readme-assets/taiga-ui.svg" width="120" alt="Taiga UI Logo" style="margin-right:10px"></a>
+  <a href="https://angular.dev/" target="_blank"><img src="readme-assets/angular_gradient.png" width="120" alt="Angular Logo" style="margin-right:10px"></a>
+  <a href="https://tailwindcss.com/" target="_blank"><img src="readme-assets/tailwindcss-mark.svg" width="120" alt="TailwindCSS Logo"></a>
+   <a href="https://playwright.dev/" target="_blank"><img src="readme-assets/playwright.svg" width="120" alt="Playwright Logo"></a>
 </p>
 
 <h1 align="Center">HiveMind Frontend</h1>
