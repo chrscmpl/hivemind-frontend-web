@@ -148,6 +148,7 @@
 <ng-template #menu let-observer>
   @let isDialog = observer.complete !== undefined;
   <tui-data-list
+    id="idea-{{ idea.id }}-menu"
     [size]="isDialog ? 'l' : 's'"
     [class.pt-4]="isDialog"
     (click)="observer.complete?.()"

@@ -3,10 +3,10 @@
 <form [formGroup]="form" [class.m-4]="isMobile">
   @if (!isOpen) {
     <tui-textfield iconEnd="@tui.message-square-text">
-      <label for="comment-input">Write a comment</label>
+      <label for="comment-editor-input">Write a comment</label>
       <input
         tuiTextfield
-        id="comment-input"
+        id="comment-editor-input"
         type="text"
         (click)="open($event)"
       />
@@ -14,7 +14,7 @@
   } @else {
     <div class="relative">
       <tui-editor
-        id="comment-editor-editor"
+        id="comment-editor-content"
         [tools]="tools"
         [maxlength]="constraints.content.maxLength"
         formControlName="content"
@@ -27,6 +27,7 @@
       >
       </tui-editor>
       <button
+        id="comment-editor-submit"
         tuiButton
         iconEnd="@tui.send-horizontal"
         class="!absolute !bottom-2 !right-2"
@@ -38,6 +39,10 @@
         Post
       </button>
     </div>
-    <tui-error formControlName="content" [error]="[] | tuiFieldError | async" />
+    <tui-error
+      id="comment-editor-content-error"
+      formControlName="content"
+      [error]="[] | tuiFieldError | async"
+    />
   }
 </form>

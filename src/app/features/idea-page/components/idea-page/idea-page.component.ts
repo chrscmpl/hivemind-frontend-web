@@ -85,7 +85,7 @@ export class IdeaPageComponent implements OnInit {
     setTimeout(
       () =>
         this.scroller.scroll({
-          anchor: 'comment-editor-editor',
+          anchor: 'comment-editor-content',
           smooth: true,
         }),
       200,

@@ -54,6 +54,7 @@ test('should be able to create an idea', async ({ page }) => {
   ).toBe('Test idea');
   await page.locator('#create-idea-submit').click();
   expect(await page.locator('[id^="idea-"] s').textContent()).toBe('Test idea');
+  await page.waitForTimeout(500);
   createdIdeaId = Number(page.url().split('/').pop()?.replace(/\?.*/, '') ?? 0);
 });
 
