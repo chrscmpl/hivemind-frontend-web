@@ -65,6 +65,7 @@ test('should enforce idea editing constraints', async ({ page }) => {
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
   await more.click();
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   await page.locator(`#idea-${createdIdeaId}-edit`).click();
 
   await page.locator('#create-idea-title').fill('');
@@ -85,6 +86,7 @@ test('should be able to edit an idea', async ({ page }) => {
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
   await more.click();
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   await page.locator(`#idea-${createdIdeaId}-edit`).click();
 
   await page.locator('#create-idea-title').fill('Edited Idea');
@@ -103,6 +105,7 @@ test('should be able to delete an idea', async ({ page }) => {
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
   await more.click();
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   await page.locator(`#idea-${createdIdeaId}-delete`).click();
   await page.getByText('Delete this idea').click();
   await page.waitForTimeout(E2ETimeouts.LONG);

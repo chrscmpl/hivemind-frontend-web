@@ -8,6 +8,7 @@ test.beforeEach(async ({ page }) => {
   const avatar = page.locator('#header-avatar');
   if (await avatar.isVisible()) {
     avatar.click();
+    await page.waitForTimeout(E2ETimeouts.MEDIUM);
     await page.locator('#header-logout').click();
   }
   expect(page.locator('#header-signup')).toBeVisible();

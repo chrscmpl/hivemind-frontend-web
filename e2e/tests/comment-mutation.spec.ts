@@ -79,10 +79,11 @@ test('should enforce comment editing constraints', async ({ page }) => {
   ) {
     page.waitForTimeout(E2ETimeouts.MEDIUM);
   }
-  page.reload();
+  await page.reload();
   const more = page.locator(`#comment-${createdCommentId} .comment-more`);
   expect(more).toBeVisible();
   await more.click();
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   await page.locator(`#comment-${createdCommentId}-edit`).click();
   await page.waitForTimeout(E2ETimeouts.EXTRA_LONG);
   await page.keyboard.press('Control+A');
@@ -101,10 +102,11 @@ test('should be able to edit comment', async ({ page }) => {
   ) {
     page.waitForTimeout(E2ETimeouts.MEDIUM);
   }
-  page.reload();
+  await page.reload();
   const more = page.locator(`#comment-${createdCommentId} .comment-more`);
   expect(more).toBeVisible();
   await more.click();
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   await page.locator(`#comment-${createdCommentId}-edit`).click();
   await page.waitForTimeout(E2ETimeouts.EXTRA_LONG);
   await page.keyboard.press('Control+A');
@@ -127,10 +129,11 @@ test('should be able to delete comment', async ({ page }) => {
   ) {
     page.waitForTimeout(E2ETimeouts.MEDIUM);
   }
-  page.reload();
+  await page.reload();
   const more = page.locator(`#comment-${createdCommentId} .comment-more`);
   expect(more).toBeVisible();
   await more.click();
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   await page.locator(`#comment-${createdCommentId}-delete`).click();
   await page.getByText('Delete this comment').click();
   await page.waitForTimeout(E2ETimeouts.LONG);
