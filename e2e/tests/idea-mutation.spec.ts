@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { E2ETimeouts } from 'e2e/config/e2e.config';
 
 let createdIdeaId: number = 0;
 
@@ -11,7 +12,7 @@ test('should open idea creation page from aside or app bar', async ({
   } else {
     await page.locator('#app-bar-submit').click();
   }
-  await page.waitForTimeout(100);
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   expect(page.locator('app-create-idea-page')).toBeVisible();
   expect(await page.title()).toBe('Post Idea');
   expect(page.url()).toContain('/ideas/submit');
@@ -24,7 +25,7 @@ test('should open idea creation page from create button', async ({ page }) => {
     return;
   }
   await button.click();
-  await page.waitForTimeout(100);
+  await page.waitForTimeout(E2ETimeouts.MEDIUM);
   expect(page.locator('app-create-idea-page')).toBeVisible();
   expect(await page.title()).toBe('Post Idea');
   expect(page.url()).toContain('/ideas/submit');
@@ -54,15 +55,19 @@ test('should be able to create an idea', async ({ page }) => {
   ).toBe('Test idea');
   await page.locator('#create-idea-submit').click();
   expect(await page.locator('[id^="idea-"] s').textContent()).toBe('Test idea');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(E2ETimeouts.LONG);
   createdIdeaId = Number(page.url().split('/').pop()?.replace(/\?.*/, '') ?? 0);
 });
 
-test('should enforce idea editing constraints', async ({ page }) => {
+test('should enforce idea editing constraints', async ({ page, isMobile }) => {
   await page.goto(`/ideas/${createdIdeaId}`);
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
-  await more.click();
+  if (isMobile) {
+    await more.click();
+  } else {
+    await more.hover();
+  }
   await page.locator(`#idea-${createdIdeaId}-edit`).click();
 
   await page.locator('#create-idea-title').fill('');
@@ -77,11 +82,15 @@ test('should enforce idea editing constraints', async ({ page }) => {
   ).toBeVisible();
 });
 
-test('should be able to edit an idea', async ({ page }) => {
+test('should be able to edit an idea', async ({ page, isMobile }) => {
   await page.goto(`/ideas/${createdIdeaId}`);
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
-  await more.click();
+  if (isMobile) {
+    await more.click();
+  } else {
+    await more.hover();
+  }
   await page.locator(`#idea-${createdIdeaId}-edit`).click();
 
   await page.locator('#create-idea-title').fill('Edited Idea');
@@ -94,13 +103,17 @@ test('should be able to edit an idea', async ({ page }) => {
   expect(page.locator(`#idea-${createdIdeaId} .idea-edited`)).toBeVisible();
 });
 
-test('should be able to delete an idea', async ({ page }) => {
+test('should be able to delete an idea', async ({ page, isMobile }) => {
   await page.goto(`/ideas/${createdIdeaId}`);
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
-  await more.click();
+  if (isMobile) {
+    await more.click();
+  } else {
+    await more.hover();
+  }
   await page.locator(`#idea-${createdIdeaId}-delete`).click();
   await page.getByText('Delete this idea').click();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(E2ETimeouts.LONG);
   expect(page.url().includes(`ideas/${createdIdeaId}`)).toBeFalsy();
 });

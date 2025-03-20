@@ -1,4 +1,5 @@
 import { test as setup, expect, Page } from '@playwright/test';
+import { E2ETimeouts } from 'e2e/config/e2e.config';
 import path from 'path';
 
 const authFile = path.join(__dirname, '../../playwright/.auth/user.json');
@@ -21,7 +22,7 @@ async function submitLogin(page: Page) {
 
 setup('authenticate', async ({ page }) => {
   await page.goto('/');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(E2ETimeouts.LONG);
 
   const avatar = page.locator('#header-avatar');
   if (await avatar.isVisible()) {
@@ -31,12 +32,12 @@ setup('authenticate', async ({ page }) => {
 
   await page.locator('#header-signup').click();
   await submitSignup(page);
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(E2ETimeouts.LONG);
 
   if (await page.locator('app-signup-form')?.isVisible()) {
     await page.locator('#signup-login').click();
     await submitLogin(page);
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(E2ETimeouts.LONG);
   }
 
   expect(

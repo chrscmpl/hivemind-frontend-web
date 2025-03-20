@@ -30,6 +30,28 @@ To start a local development server, hosted on `http://localhost:4200/`, run:
 npm start
 ```
 
+To run E2E tests, while the web app is hosted on `http://localhost:3000/`, run one of the following commands:
+
+```bash
+# runs tests without displaying browser windows
+npm run e2e
+
+# displays browser windows while running tests
+npm run e2e:headed
+
+# same as e2e:headed but runs only one test at a time
+npm run e2e:headed:sequential
+
+# uses playwright's UI
+npm run e2e:ui
+```
+
+If needed, a report of the last execution of the tests can be viewed by running:
+
+```bash
+npm run e2e-report
+```
+
 \*note: The application will only be installable as a PWA on some browsers if built and served in production mode
 
 ## Technologies

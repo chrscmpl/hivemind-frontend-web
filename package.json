@@ -1,6 +1,6 @@
 {
   "name": "hivemind-frontend-web",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -23,6 +23,7 @@
     "e2e:ui": "playwright test --ui",
     "e2e-report": "playwright show-report playwright/report"
   },
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.2.1",

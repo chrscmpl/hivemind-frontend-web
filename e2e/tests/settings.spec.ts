@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { E2ETimeouts } from 'e2e/config/e2e.config';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -42,7 +43,7 @@ test('should be able to set theme variation', async ({ page }) => {
   await page.locator('#theme-variation-terminal').click();
   await page.locator('#theme-variation').click();
 
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(E2ETimeouts.LONG);
 
   expect(
     await page

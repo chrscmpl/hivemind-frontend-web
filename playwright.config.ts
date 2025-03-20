@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const origin = 'http://localhost:4200';
+const origin = 'http://localhost:3000';
 
 export default defineConfig({
   projects: [

@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { E2ETimeouts } from 'e2e/config/e2e.config';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(E2ETimeouts.LONG);
 
   const avatar = page.locator('#header-avatar');
   if (await avatar.isVisible()) {
