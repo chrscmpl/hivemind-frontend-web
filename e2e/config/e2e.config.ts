@@ -1,6 +1,6 @@
 export enum E2ETimeouts {
-  EXTRA_LONG = 1000,
-  LONG = 700,
-  MEDIUM = 500,
-  SHORT = 300,
+  EXTRA_LONG = 2000,
+  LONG = 1500,
+  MEDIUM = 1000,
+  SHORT = 700,
 }

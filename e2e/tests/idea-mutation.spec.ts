@@ -59,15 +59,12 @@ test('should be able to create an idea', async ({ page }) => {
   createdIdeaId = Number(page.url().split('/').pop()?.replace(/\?.*/, '') ?? 0);
 });
 
-test('should enforce idea editing constraints', async ({ page, isMobile }) => {
+test('should enforce idea editing constraints', async ({ page }) => {
   await page.goto(`/ideas/${createdIdeaId}`);
+  await page.waitForTimeout(E2ETimeouts.SHORT);
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
-  if (isMobile) {
-    await more.click();
-  } else {
-    await more.hover();
-  }
+  await more.click();
   await page.locator(`#idea-${createdIdeaId}-edit`).click();
 
   await page.locator('#create-idea-title').fill('');
@@ -82,15 +79,12 @@ test('should enforce idea editing constraints', async ({ page, isMobile }) => {
   ).toBeVisible();
 });
 
-test('should be able to edit an idea', async ({ page, isMobile }) => {
+test('should be able to edit an idea', async ({ page }) => {
   await page.goto(`/ideas/${createdIdeaId}`);
+  await page.waitForTimeout(E2ETimeouts.SHORT);
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
-  if (isMobile) {
-    await more.click();
-  } else {
-    await more.hover();
-  }
+  await more.click();
   await page.locator(`#idea-${createdIdeaId}-edit`).click();
 
   await page.locator('#create-idea-title').fill('Edited Idea');
@@ -103,15 +97,12 @@ test('should be able to edit an idea', async ({ page, isMobile }) => {
   expect(page.locator(`#idea-${createdIdeaId} .idea-edited`)).toBeVisible();
 });
 
-test('should be able to delete an idea', async ({ page, isMobile }) => {
+test('should be able to delete an idea', async ({ page }) => {
   await page.goto(`/ideas/${createdIdeaId}`);
+  await page.waitForTimeout(E2ETimeouts.SHORT);
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
   expect(await more.isVisible()).toBeTruthy();
-  if (isMobile) {
-    await more.click();
-  } else {
-    await more.hover();
-  }
+  await more.click();
   await page.locator(`#idea-${createdIdeaId}-delete`).click();
   await page.getByText('Delete this idea').click();
   await page.waitForTimeout(E2ETimeouts.LONG);

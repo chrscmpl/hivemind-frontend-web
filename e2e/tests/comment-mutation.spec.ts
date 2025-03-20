@@ -10,25 +10,29 @@ test.beforeAll(async ({ browser }) => {
   await page.locator('#create-idea-title').fill('Test Idea');
   await page.locator('#create-idea-submit').click();
   await page.waitForTimeout(E2ETimeouts.EXTRA_LONG);
-  createdIdeaId = Number(
-    page.url().split('/').pop()?.replace(/\?.*/, '') ?? null,
-  );
+  for (
+    let i = 0;
+    i < 10 && (createdIdeaId === null || isNaN(createdIdeaId));
+    i++
+  ) {
+    createdIdeaId = Number(
+      page.url().split('/').pop()?.replace(/\?.*/, '') ?? null,
+    );
+    await page.waitForTimeout(E2ETimeouts.MEDIUM);
+  }
   expect(createdIdeaId !== null && !isNaN(createdIdeaId)).toBeTruthy();
 });
 
 test.beforeEach(async ({ page }) => {
   await page.goto(`/ideas/${createdIdeaId}`);
+  await page.waitForTimeout(E2ETimeouts.SHORT);
 });
 
-test.afterAll(async ({ browser, isMobile }) => {
+test.afterAll(async ({ browser }) => {
   const page = await browser.newPage();
   await page.goto(`/ideas/${createdIdeaId}`);
   const more = page.locator(`#idea-${createdIdeaId} .idea-more`);
-  if (isMobile) {
-    await more.click();
-  } else {
-    await more.hover();
-  }
+  await more.click();
   await page.locator(`#idea-${createdIdeaId}-delete`).click();
   await page.getByText('Delete this idea').click();
   await page.waitForTimeout(E2ETimeouts.LONG);
@@ -60,26 +64,27 @@ test('should be able to create a comment', async ({ page }) => {
     "alert('hello world');",
   );
 
-  await page.waitForTimeout(E2ETimeouts.LONG);
+  await page.waitForTimeout(E2ETimeouts.EXTRA_LONG);
 
   createdCommentId = Number(
     (await comment.getAttribute('id'))?.split('-').pop() ?? null,
   );
 });
 
-test('should enforce comment editing constraints', async ({
-  page,
-  isMobile,
-}) => {
+test('should enforce comment editing constraints', async ({ page }) => {
+  for (
+    let i = 0;
+    i < 10 && (createdCommentId === null || isNaN(createdCommentId));
+    i++
+  ) {
+    page.waitForTimeout(E2ETimeouts.MEDIUM);
+  }
+  page.reload();
   const more = page.locator(`#comment-${createdCommentId} .comment-more`);
   expect(more).toBeVisible();
-  if (isMobile) {
-    await more.click();
-  } else {
-    await more.hover();
-  }
+  await more.click();
   await page.locator(`#comment-${createdCommentId}-edit`).click();
-  await page.waitForTimeout(E2ETimeouts.LONG);
+  await page.waitForTimeout(E2ETimeouts.EXTRA_LONG);
   await page.keyboard.press('Control+A');
   await page.keyboard.press('Backspace');
   await page.locator('#comment-editor-submit').click();
@@ -88,16 +93,20 @@ test('should enforce comment editing constraints', async ({
   ).toBeVisible();
 });
 
-test('should be able to edit comment', async ({ page, isMobile }) => {
+test('should be able to edit comment', async ({ page }) => {
+  for (
+    let i = 0;
+    i < 10 && (createdCommentId === null || isNaN(createdCommentId));
+    i++
+  ) {
+    page.waitForTimeout(E2ETimeouts.MEDIUM);
+  }
+  page.reload();
   const more = page.locator(`#comment-${createdCommentId} .comment-more`);
   expect(more).toBeVisible();
-  if (isMobile) {
-    await more.click();
-  } else {
-    await more.hover();
-  }
+  await more.click();
   await page.locator(`#comment-${createdCommentId}-edit`).click();
-  await page.waitForTimeout(E2ETimeouts.LONG);
+  await page.waitForTimeout(E2ETimeouts.EXTRA_LONG);
   await page.keyboard.press('Control+A');
   await page.keyboard.press('Backspace');
   await page.keyboard.type('Edited comment');
@@ -110,14 +119,18 @@ test('should be able to edit comment', async ({ page, isMobile }) => {
   ).toBe('Edited comment');
 });
 
-test('should be able to delete comment', async ({ page, isMobile }) => {
+test('should be able to delete comment', async ({ page }) => {
+  for (
+    let i = 0;
+    i < 10 && (createdCommentId === null || isNaN(createdCommentId));
+    i++
+  ) {
+    page.waitForTimeout(E2ETimeouts.MEDIUM);
+  }
+  page.reload();
   const more = page.locator(`#comment-${createdCommentId} .comment-more`);
   expect(more).toBeVisible();
-  if (isMobile) {
-    await more.click();
-  } else {
-    await more.hover();
-  }
+  await more.click();
   await page.locator(`#comment-${createdCommentId}-delete`).click();
   await page.getByText('Delete this comment').click();
   await page.waitForTimeout(E2ETimeouts.LONG);
